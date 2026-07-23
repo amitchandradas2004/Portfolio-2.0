@@ -1,3 +1,21 @@
 @import "tailwindcss";
 
 @variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-inter: var(--font-inter), sans-serif;
+  --font-sora: var(--font-sora), sans-serif;
+  --font-sans: var(--font-sora), sans-serif;
+  --font-title: var(--font-inter), sans-serif;
+  --font-heading: var(--font-inter), sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sora), sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-title, .font-heading {
+    font-family: var(--font-inter), sans-serif;
+  }
+}
