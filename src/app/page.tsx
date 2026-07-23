@@ -1,3 +1,10 @@
+
+
 export default function Home() {
-  return <div>This is my portfolio 2.0</div>;
+  return (
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      This is the banner seciton
+
+    </main>
+  );
 }
