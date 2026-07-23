@@ -15,17 +15,90 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: "Home", href: "/" },
   { name: "Projects", href: "/projects" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme, isMounted } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("home");
 
-  // Close mobile menu on window resize if larger than mobile screen
+  // Track active scroll section on homepage
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sectionIds = ["home", "about", "skills", "projects", "contact"];
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 220;
+      for (const id of sectionIds) {
+        const element = document.getElementById(id);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
+
+  // Smooth scroll handler reading --scroll-duration from globals.css
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (!href.includes("#")) return;
+
+    const targetId = href.split("#")[1];
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      e.preventDefault();
+
+      const cssDurationStr = getComputedStyle(document.documentElement)
+        .getPropertyValue("--scroll-duration")
+        .trim();
+      const duration = parseFloat(cssDurationStr) || 800;
+
+      const targetPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY - 90;
+      const startPosition = window.scrollY;
+      const distance = targetPosition - startPosition;
+      let startTime: number | null = null;
+
+      const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      const animation = (currentTime: number) => {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        const easedProgress = easeInOutCubic(progress);
+
+        window.scrollTo(0, startPosition + distance * easedProgress);
+
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        } else {
+          window.history.pushState(null, "", `#${targetId}`);
+        }
+      };
+
+      requestAnimationFrame(animation);
+    }
+  };
+
+  // Close mobile menu on window resize if larger than laptop screen
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false);
       }
     };
@@ -76,20 +149,25 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Center: Desktop Navigation */}
-          <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
+          {/* Center: Desktop Navigation (Shown on lg: 1024px+) */}
+          <div className="hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
             <ul className="flex items-center space-x-1 bg-slate-200/50 dark:bg-slate-800/50 p-1.5 rounded-full border border-slate-300/40 dark:border-slate-700/40 backdrop-blur-sm">
               {navItems.map((item) => {
-                const isActive = pathname === item.href;
+                const sectionId = item.href.replace("/#", "").replace("#", "");
+                const isActive =
+                  pathname === "/"
+                    ? activeSection === sectionId
+                    : pathname === item.href;
+
                 return (
                   <li key={item.href} className="relative">
                     <Link
                       href={item.href}
-                      className={`relative z-10 px-5 py-2 text-sm font-medium transition-colors duration-200 rounded-full block focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${
-                        isActive
-                          ? "text-slate-950 dark:text-white font-semibold"
-                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                      }`}
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      className={`relative z-10 px-4 lg:px-5 py-2 text-sm font-medium transition-colors duration-200 rounded-full block focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${isActive
+                        ? "text-slate-950 dark:text-white font-semibold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
                     >
                       {item.name}
                       {isActive && (
@@ -110,7 +188,7 @@ export default function Navbar() {
             </ul>
           </div>
 
-          {/* Right: Theme Toggle & Mobile Menu Trigger */}
+          {/* Right: Theme Toggle & Mobile/Tablet Menu Trigger */}
           <div className="flex items-center gap-2">
             {/* Theme Toggle Button */}
             <button
@@ -141,14 +219,14 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Mobile Hamburger Button */}
+            {/* Mobile/Tablet Hamburger Button (Shown up to lg) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-dropdown-menu"
               aria-label="Toggle navigation menu"
               type="button"
-              className="md:hidden p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-slate-100/50 dark:bg-slate-800/50 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 active:scale-95 cursor-pointer"
+              className="lg:hidden p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-slate-100/50 dark:bg-slate-800/50 hover:bg-slate-200/60 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 active:scale-95 cursor-pointer"
             >
               <motion.div
                 animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
@@ -165,7 +243,7 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Mobile Dropdown Panel */}
+        {/* Mobile/Tablet Dropdown Panel */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -183,21 +261,28 @@ export default function Navbar() {
                   : "rgba(0, 0, 0, 0.08)",
                 color: isDark ? "#F8FAFC" : "#0F172A",
               }}
-              className="md:hidden rounded-2xl p-3 border backdrop-blur-xl shadow-xl shadow-black/10 dark:shadow-black/40"
+              className="lg:hidden rounded-2xl p-3 border backdrop-blur-xl shadow-xl shadow-black/10 dark:shadow-black/40"
             >
               <ul className="flex flex-col space-y-1">
                 {navItems.map((item) => {
-                  const isActive = pathname === item.href;
+                  const sectionId = item.href.replace("/#", "").replace("#", "");
+                  const isActive =
+                    pathname === "/"
+                      ? activeSection === sectionId
+                      : pathname === item.href;
+
                   return (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${
-                          isActive
-                            ? "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-semibold"
-                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60"
-                        }`}
+                        onClick={(e) => {
+                          handleNavClick(e, item.href);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 ${isActive
+                          ? "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-semibold"
+                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                          }`}
                       >
                         <span>{item.name}</span>
                         {isActive && (

@@ -2,6 +2,20 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+:root {
+  /* Control your smooth scroll duration/speed here (e.g., 500ms, 800ms, 1200ms) */
+  --scroll-duration: 200ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section,
+[id] {
+  scroll-margin-top: 6rem;
+}
+
 @theme {
   --font-inter: var(--font-inter), sans-serif;
   --font-sora: var(--font-sora), sans-serif;
@@ -15,7 +29,14 @@
     font-family: var(--font-sora), sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6, .font-title, .font-heading {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-title,
+  .font-heading {
     font-family: var(--font-inter), sans-serif;
   }
 }

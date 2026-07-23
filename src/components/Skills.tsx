@@ -161,7 +161,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-25 transition-colors duration-300"
+      className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-25 transition-colors duration-300"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
 
@@ -281,7 +281,7 @@ export default function Skills() {
               </p>
             </div>
 
-            <div className="flex justify-center sm:grid sm:grid-cols-2 sm:justify-end gap-2.5 shrink-0">
+            <div className="flex justify-center grid grid-cols-1 sm:grid-cols-2 sm:justify-end gap-2.5 shrink-0 w-full">
               {learningItems.map((item, idx) => {
                 const ItemIcon = item.icon;
                 return (
