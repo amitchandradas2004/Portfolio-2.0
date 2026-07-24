@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import ProjectCard from "./ProjectCard";
+import ProjectsSkeleton from "./ProjectsSkeleton";
 import { Project } from "@/lib/projectsData";
 
 export interface ProjectsProps {
   projects: Project[];
   itemsPerPage?: number;
+  isLoading?: boolean;
 }
 
 const containerVariants: Variants = {
@@ -21,7 +23,10 @@ const containerVariants: Variants = {
   },
 };
 
-export default function Projects({ projects, itemsPerPage = 6 }: ProjectsProps) {
+export default function Projects({ projects, itemsPerPage = 6, isLoading }: ProjectsProps) {
+  if (isLoading) {
+    return <ProjectsSkeleton count={itemsPerPage} />;
+  }
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const totalPages = Math.ceil(projects.length / itemsPerPage) || 1;
