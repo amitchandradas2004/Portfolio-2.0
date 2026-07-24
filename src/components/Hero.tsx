@@ -14,7 +14,7 @@ export default function Hero() {
       id="home"
       className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] min-h-[calc(100vh-5rem)] flex items-center justify-center py-25 lg:py-28 transition-colors duration-300"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
 
           {/* LEFT SIDE (58% Width on Desktop) */}
@@ -72,15 +72,15 @@ export default function Hero() {
             >
               {/* Primary Button: Download Resume */}
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                <a
-                  href="/Amit's_Resume.pdf"
-                  download
+                <Link
+                  href="https://drive.google.com/file/d/1v0NksgwN3MWSNYXUDZW2p_bjTKLtbaQ6/view?usp=sharing"
+                  target="_blank"
                   className="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
                   aria-label="Download Resume"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download Resume</span>
-                </a>
+                </Link>
               </motion.div>
 
               {/* Secondary Button: Contact Me */}

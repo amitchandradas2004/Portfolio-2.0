@@ -113,6 +113,14 @@ export default function Navbar() {
 
   const isDark = theme === "dark";
 
+  const isNavItemActive = (itemHref: string) => {
+    if (itemHref.includes("#")) {
+      const targetId = itemHref.split("#")[1];
+      return pathname === "/" && activeSection === targetId;
+    }
+    return pathname === itemHref;
+  };
+
   return (
     <motion.header
       initial={{ y: -60, opacity: 0 }}
@@ -120,7 +128,7 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 sm:px-6 lg:px-8 pointer-events-none"
     >
-      <div className="max-w-6xl mx-auto pointer-events-auto">
+      <div className="container mx-auto pointer-events-auto">
         <nav
           aria-label="Main Navigation"
           style={{
@@ -153,11 +161,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
             <ul className="flex items-center space-x-1 bg-slate-200/50 dark:bg-slate-800/50 p-1.5 rounded-full border border-slate-300/40 dark:border-slate-700/40 backdrop-blur-sm">
               {navItems.map((item) => {
-                const sectionId = item.href.replace("/#", "").replace("#", "");
-                const isActive =
-                  pathname === "/"
-                    ? activeSection === sectionId
-                    : pathname === item.href;
+                const isActive = isNavItemActive(item.href);
 
                 return (
                   <li key={item.href} className="relative">
@@ -265,11 +269,7 @@ export default function Navbar() {
             >
               <ul className="flex flex-col space-y-1">
                 {navItems.map((item) => {
-                  const sectionId = item.href.replace("/#", "").replace("#", "");
-                  const isActive =
-                    pathname === "/"
-                      ? activeSection === sectionId
-                      : pathname === item.href;
+                  const isActive = isNavItemActive(item.href);
 
                   return (
                     <li key={item.href}>
