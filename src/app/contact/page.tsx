@@ -1,4 +1,3 @@
-import React from "react";
 import Contact from "@/components/Contact";
 import { Metadata } from "next";
 
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="relative overflow-hidden pt-20 min-h-screen bg-white dark:bg-[#020617]">
+    <main className="relative overflow-hidden pt-10 min-h-screen bg-white dark:bg-[#020617]">
       <Contact />
     </main>
   );
