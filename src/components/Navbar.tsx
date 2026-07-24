@@ -118,7 +118,8 @@ export default function Navbar() {
       const targetId = itemHref.split("#")[1];
       return pathname === "/" && activeSection === targetId;
     }
-    return pathname === itemHref;
+    if (itemHref === "/") return pathname === "/";
+    return pathname === itemHref || pathname.startsWith(`${itemHref}/`);
   };
 
   return (
