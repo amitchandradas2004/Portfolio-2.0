@@ -181,55 +181,25 @@ export const projectsData: Project[] = [
   },
   {
     id: "sportnest",
-
     slug: "sportnest",
-
     title: "SportNest",
-
     subtitle: "Sports Community & Event Management Platform",
-
     description:
       "A modern sports platform that helps users discover events, manage teams, track activities, and connect with the sports community.",
-
     longDescription:
       "SportNest is a full-stack sports management platform designed to bring athletes, teams, and organizers together. It provides an intuitive experience for discovering sports events, managing team activities, and creating a connected sports ecosystem with modern web technologies.",
-
     images: [
       "/projects/sportnest.png",
     ],
-
     badge: "Sports Platform",
-
     isFeatured: false,
-
     technologies: [
-      {
-        name: "Next.js",
-        iconKey: "nextjs",
-        iconColor: "text-black dark:text-white",
-      },
-      {
-        name: "Tailwind CSS",
-        iconKey: "tailwind",
-        iconColor: "text-cyan-400",
-      },
-      {
-        name: "Node.js",
-        iconKey: "nodejs",
-        iconColor: "text-green-500",
-      },
-      {
-        name: "Express.js",
-        iconKey: "express",
-        iconColor: "text-slate-700 dark:text-slate-300",
-      },
-      {
-        name: "MongoDB",
-        iconKey: "mongodb",
-        iconColor: "text-emerald-500",
-      },
+      { name: "Next.js", iconKey: "nextjs", iconColor: "text-black dark:text-white" },
+      { name: "Tailwind CSS", iconKey: "tailwind", iconColor: "text-cyan-400" },
+      { name: "Node.js", iconKey: "nodejs", iconColor: "text-green-500" },
+      { name: "Express.js", iconKey: "express", iconColor: "text-slate-700 dark:text-slate-300" },
+      { name: "MongoDB", iconKey: "mongodb", iconColor: "text-emerald-500" },
     ],
-
     features: [
       "User authentication and personalized sports profiles",
       "Sports event discovery and registration system",
@@ -237,22 +207,94 @@ export const projectsData: Project[] = [
       "Responsive dashboard for tracking sports activities",
       "REST API architecture for efficient data management",
     ],
-
     challenges: [
       "Designing a scalable database structure for users, teams, and sports events.",
       "Building reusable components and maintaining consistent UI across multiple pages.",
       "Implementing efficient API communication between frontend and backend.",
     ],
-
     futureImprovements: [
       "Real-time team chat and communication system using WebSockets.",
       "AI-powered sports recommendations based on user interests and activities.",
       "Live match tracking and advanced performance analytics.",
       "Mobile application support for Android and iOS users.",
     ],
-
     liveUrl: "https://sportnest-black.vercel.app",
-
     githubUrl: "https://github.com/amitchandradas2004/SportNest-Sports-Facility-Booking-Management-System",
+  },
+  {
+    id: "devpulse",
+    slug: "devpulse",
+    title: "DevPulse",
+    subtitle: "Developer Productivity & Analytics Platform",
+    description:
+      "A real-time telemetry and developer velocity dashboard measuring pull request cycles, code review bottlenecks, and team health metrics.",
+    longDescription:
+      "DevPulse offers engineering leaders actionable insights into developer workflows. Integrating with GitHub & GitLab webhooks, it visualizes PR throughput, automated test coverage trends, and sprint burndown rates with zero setup friction.",
+    images: [
+      "/projects/devpulse.png",
+      "/projects/devpulse.png",
+    ],
+    badge: "Analytics Tool",
+    isFeatured: false,
+    technologies: [
+      { name: "Next.js", iconKey: "nextjs", iconColor: "text-slate-900 dark:text-white" },
+      { name: "TypeScript", iconKey: "typescript", iconColor: "text-blue-500" },
+      { name: "Tailwind CSS", iconKey: "tailwind", iconColor: "text-sky-400" },
+      { name: "Node.js", iconKey: "nodejs", iconColor: "text-emerald-500" },
+    ],
+    features: [
+      "Automated PR cycle time & code review velocity analytics",
+      "Customizable engineering performance dashboards & team health reports",
+      "GitHub & GitLab OAuth Webhook integration for instant payload ingestion",
+      "Interactive dark-mode telemetry charts with multi-variable filtering",
+    ],
+    challenges: [
+      "Processing high-frequency Webhook bursts during major repository merge events without dropouts.",
+      "Designing aggregate math algorithms for dev velocity metrics that avoid skewed data outliers.",
+    ],
+    futureImprovements: [
+      "Adding Slack/Discord bot alerts for stale pull requests exceeding SLA thresholds.",
+      "AI-driven suggestion engine for optimal reviewer assignment based on code ownership.",
+    ],
+    liveUrl: "https://github.com/amitchandradas2004",
+    githubUrl: "https://github.com/amitchandradas2004",
+  },
+  {
+    id: "cloudcraft",
+    slug: "cloudcraft",
+    title: "CloudCraft",
+    subtitle: "Cloud Infrastructure & Container Monitoring",
+    description:
+      "A cloud infrastructure monitoring dashboard offering real-time server health tracking, log aggregation, and automated alert management.",
+    longDescription:
+      "CloudCraft simplifies DevOps management by aggregating server telemetry, docker container health, and endpoint ping monitors into a unified intuitive interface with instant Slack and Webhook notifications.",
+    images: [
+      "/projects/cloudcraft.png",
+      "/projects/cloudcraft.png",
+    ],
+    badge: "DevOps Platform",
+    isFeatured: false,
+    technologies: [
+      { name: "React", iconKey: "react", iconColor: "text-cyan-400" },
+      { name: "TypeScript", iconKey: "typescript", iconColor: "text-blue-500" },
+      { name: "Express.js", iconKey: "express", iconColor: "text-slate-700 dark:text-slate-300" },
+      { name: "MongoDB", iconKey: "mongodb", iconColor: "text-emerald-500" },
+    ],
+    features: [
+      "Real-time CPU, Memory, Disk, and Network IO telemetry streams",
+      "Automated alert rules & multi-channel notification dispatching",
+      "Docker container log streaming & health inspection views",
+      "High-availability REST API backend with WebSockets transport layer",
+    ],
+    challenges: [
+      "Efficiently streaming real-time log tailing data over WebSocket connections under heavy system load.",
+      "Designing time-series data aggregation for server metrics to keep storage lightweight.",
+    ],
+    futureImprovements: [
+      "Kubernetes cluster topology visualization & pod restart heatmaps.",
+      "Automated infrastructure anomaly detection using machine learning baselines.",
+    ],
+    liveUrl: "https://github.com/amitchandradas2004",
+    githubUrl: "https://github.com/amitchandradas2004",
   },
 ];
