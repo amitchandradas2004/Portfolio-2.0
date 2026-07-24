@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -43,6 +43,8 @@ export default function GithubContribution({
 }: GithubContributionProps) {
   const { theme, isMounted } = useTheme();
   const isDark = theme === "dark";
+
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const [daysData, setDaysData] = useState<ContributionDay[]>([]);
   const [totalContributions, setTotalContributions] = useState<number>(0);
@@ -105,19 +107,35 @@ export default function GithubContribution({
     event: React.MouseEvent,
     activity: { date: string; count: number }
   ) => {
-    const rect = event.currentTarget.getBoundingClientRect();
+    const blockRect = event.currentTarget.getBoundingClientRect();
     const dayData = contributionMap.get(activity.date) || {
       date: activity.date,
       count: activity.count,
       commits: activity.count > 0 ? activity.count : 0,
     };
 
+    if (!cardRef.current) return;
+    const cardRect = cardRef.current.getBoundingClientRect();
+
+    // Calculate position relative to container card
+    const rawX = blockRect.left + blockRect.width / 2 - cardRect.left;
+    const rawY = blockRect.top - cardRect.top - 12;
+
+    // Strict clamping within card container bounds
+    const tooltipWidth = 190;
+    const padding = 16;
+    const clampedX = Math.max(
+      tooltipWidth / 2 + padding,
+      Math.min(cardRect.width - tooltipWidth / 2 - padding, rawX)
+    );
+    const clampedY = Math.max(50, rawY);
+
     setHoveredDay({
       date: dayData.date,
       count: dayData.count,
       commits: dayData.commits ?? (dayData.count > 0 ? dayData.count : 0),
-      x: rect.left + rect.width / 2,
-      y: rect.top - 12,
+      x: clampedX,
+      y: clampedY,
     });
   };
 
@@ -173,11 +191,11 @@ export default function GithubContribution({
 
         {/* GLASSMORPHISM GRAPH CONTAINER CARD */}
         <motion.div
+          ref={cardRef}
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          whileHover={{ y: -4 }}
           className="relative container mx-auto rounded-3xl p-6 sm:p-8 md:p-10 backdrop-blur-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 transition-all duration-300"
         >
           {/* Card Top Info Bar */}
@@ -211,7 +229,7 @@ export default function GithubContribution({
           </div>
 
           {/* CALENDAR GRAPH / LOADING / ERROR STATES */}
-          <div className="w-full overflow-x-auto flex justify-center items-center py-4 min-h-[170px]">
+          <div className="w-full overflow-x-auto flex justify-center items-center py-4 px-4 sm:px-6 min-h-[170px]">
             {isLoading ? (
               <div className="flex items-center gap-3 text-sm font-semibold text-slate-500 dark:text-slate-400 py-8">
                 <Loader2 className="w-5 h-5 animate-spin text-sky-500" />
@@ -245,7 +263,7 @@ export default function GithubContribution({
                       handleMouseEnter(e, activity),
                     onMouseLeave: handleMouseLeave,
                     className: `${block.props.className || ""
-                      } transition-transform duration-150 cursor-pointer`,
+                      } transition-transform duration-150 cursor-pointer origin-center`,
                   })
                 }
                 style={{
@@ -255,41 +273,42 @@ export default function GithubContribution({
               />
             ) : null}
           </div>
+
+          {/* CUSTOM GLASSMORPHISM INTERACTIVE TOOLTIP (CONTAINED INSIDE CARD BOX) */}
+          <AnimatePresence>
+            {hoveredDay && (
+              <motion.div
+                key={hoveredDay.date}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ opacity: { duration: 0.1 }, scale: { duration: 0.1 } }}
+                style={{
+                  position: "absolute",
+                  left: `${hoveredDay.x}px`,
+                  top: `${hoveredDay.y}px`,
+                  transform: "translate(-50%, -100%)",
+                }}
+                className="z-50 pointer-events-none p-3.5 rounded-2xl backdrop-blur-xl bg-slate-900/95 dark:bg-slate-900/95 text-white border border-slate-700/80 shadow-2xl shadow-sky-500/20 min-w-[170px]"
+              >
+                <p className="text-xs font-bold text-slate-300 border-b border-slate-700/60 pb-1.5 mb-2">
+                  {formatDateString(hoveredDay.date)}
+                </p>
+                <div className="space-y-1.5 text-xs font-semibold">
+                  <p className="flex items-center gap-1.5 text-amber-400">
+                    <span>🔥</span>
+                    <span>{hoveredDay.count} Contributions</span>
+                  </p>
+                  <p className="flex items-center gap-1.5 text-sky-400">
+                    <span>💻</span>
+                    <span>{hoveredDay.commits ?? hoveredDay.count} Commits</span>
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </div>
-
-      {/* CUSTOM GLASSMORPHISM INTERACTIVE TOOLTIP */}
-      <AnimatePresence>
-        {hoveredDay && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 5 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 5 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            style={{
-              position: "fixed",
-              left: `${hoveredDay.x}px`,
-              top: `${hoveredDay.y}px`,
-              transform: "translate(-50%, -100%)",
-            }}
-            className="z-50 pointer-events-none p-3.5 rounded-2xl backdrop-blur-xl bg-slate-900/95 dark:bg-slate-900/95 text-white border border-slate-700/80 shadow-2xl shadow-sky-500/20 min-w-[170px]"
-          >
-            <p className="text-xs font-bold text-slate-300 border-b border-slate-700/60 pb-1.5 mb-2">
-              {formatDateString(hoveredDay.date)}
-            </p>
-            <div className="space-y-1.5 text-xs font-semibold">
-              <p className="flex items-center gap-1.5 text-amber-400">
-                <span>🔥</span>
-                <span>{hoveredDay.count} Contributions</span>
-              </p>
-              <p className="flex items-center gap-1.5 text-sky-400">
-                <span>💻</span>
-                <span>{hoveredDay.commits ?? hoveredDay.count} Commits</span>
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

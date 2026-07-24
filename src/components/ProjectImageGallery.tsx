@@ -16,85 +16,165 @@ interface ProjectImageGalleryProps {
   title: string;
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    scale: 0.97,
+    x: direction > 0 ? 40 : direction < 0 ? -40 : 0,
+  }),
+  center: {
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transition: {
+      duration: 0.35,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    scale: 0.97,
+    x: direction > 0 ? -40 : direction < 0 ? 40 : 0,
+    transition: {
+      duration: 0.25,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  }),
+};
+
 export default function ProjectImageGallery({
   images,
   title,
 }: ProjectImageGalleryProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState<number>(0);
 
   const galleryImages = images && images.length > 0 ? images : [];
 
+  const handleSelectImage = (index: number) => {
+    if (index === activeImageIndex) return;
+    setDirection(index > activeImageIndex ? 1 : -1);
+    setActiveImageIndex(index);
+  };
+
   const handleOpenLightbox = (index: number) => {
-    setSelectedIndex(index);
+    setLightboxIndex(index);
   };
 
   const handleCloseLightbox = useCallback(() => {
-    setSelectedIndex(null);
+    setLightboxIndex(null);
   }, []);
 
-  const handlePrev = useCallback(
+  const handlePrevLightbox = useCallback(
     (e?: React.MouseEvent) => {
       e?.stopPropagation();
-      if (selectedIndex === null) return;
-      setSelectedIndex((prev) =>
+      if (lightboxIndex === null) return;
+      setDirection(-1);
+      setLightboxIndex((prev) =>
         prev === null ? 0 : prev === 0 ? galleryImages.length - 1 : prev - 1
       );
     },
-    [selectedIndex, galleryImages.length]
+    [lightboxIndex, galleryImages.length]
   );
 
-  const handleNext = useCallback(
+  const handleNextLightbox = useCallback(
     (e?: React.MouseEvent) => {
       e?.stopPropagation();
-      if (selectedIndex === null) return;
-      setSelectedIndex((prev) =>
+      if (lightboxIndex === null) return;
+      setDirection(1);
+      setLightboxIndex((prev) =>
         prev === null ? 0 : prev === galleryImages.length - 1 ? 0 : prev + 1
       );
     },
-    [selectedIndex, galleryImages.length]
+    [lightboxIndex, galleryImages.length]
   );
 
   // Keyboard navigation for Lightbox
   useEffect(() => {
-    if (selectedIndex === null) return;
+    if (lightboxIndex === null) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         handleCloseLightbox();
       } else if (e.key === "ArrowLeft") {
-        handlePrev();
+        handlePrevLightbox();
       } else if (e.key === "ArrowRight") {
-        handleNext();
+        handleNextLightbox();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex, handleCloseLightbox, handlePrev, handleNext]);
+  }, [lightboxIndex, handleCloseLightbox, handlePrevLightbox, handleNextLightbox]);
 
   if (galleryImages.length === 0) return null;
 
   return (
     <div className="space-y-6">
-      {/* Cover / Featured Main Banner Image */}
-      <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden bg-slate-200 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl group cursor-pointer">
-        <Image
-          src={galleryImages[0]}
-          alt={`${title} Cover Screenshot`}
-          fill
-          priority
-          className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-500 ease-out"
-          onClick={() => handleOpenLightbox(0)}
-        />
+      {/* Cover / Main Banner Image with Framer Motion Smooth Transition */}
+      <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden bg-slate-200 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl group">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={activeImageIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src={galleryImages[activeImageIndex]}
+              alt={`${title} Screenshot ${activeImageIndex + 1}`}
+              fill
+              priority
+              className="object-cover object-top group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Hover Action Overlay: Enlarge */}
         <div
-          onClick={() => handleOpenLightbox(0)}
-          className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]"
+          onClick={() => handleOpenLightbox(activeImageIndex)}
+          className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px] cursor-pointer z-10"
         >
           <div className="px-5 py-2.5 rounded-2xl bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white font-semibold text-xs sm:text-sm flex items-center gap-2 shadow-xl border border-white/20">
             <Maximize2 className="w-4 h-4 text-sky-500" />
             <span>Enlarge Screenshot</span>
           </div>
         </div>
+
+        {/* Banner Navigation Arrows (shown if multiple images exist) */}
+        {galleryImages.length > 1 && (
+          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSelectImage(
+                  activeImageIndex === 0 ? galleryImages.length - 1 : activeImageIndex - 1
+                );
+              }}
+              aria-label="Previous Image"
+              className="p-2.5 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg pointer-events-auto cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSelectImage(
+                  activeImageIndex === galleryImages.length - 1 ? 0 : activeImageIndex + 1
+                );
+              }}
+              aria-label="Next Image"
+              className="p-2.5 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg pointer-events-auto cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Gallery Screenshots Grid / Thumbnails */}
@@ -106,41 +186,48 @@ export default function ProjectImageGallery({
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {galleryImages.map((imgSrc, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => handleOpenLightbox(idx)}
-                className={`relative aspect-[16/10] rounded-2xl overflow-hidden cursor-pointer border transition-all duration-200 shadow-md ${
-                  idx === 0
-                    ? "border-sky-500 ring-2 ring-sky-500/20"
-                    : "border-slate-200 dark:border-slate-800 hover:border-sky-500/50"
-                }`}
-              >
-                <Image
-                  src={imgSrc}
-                  alt={`${title} screenshot ${idx + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover object-top"
-                />
-                <div className="absolute inset-0 bg-slate-950/20 hover:bg-transparent transition-colors" />
+            {galleryImages.map((imgSrc, idx) => {
+              const isActive = activeImageIndex === idx;
+              return (
+                <motion.div
+                  key={idx}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => handleSelectImage(idx)}
+                  className={`relative aspect-[16/10] rounded-2xl overflow-hidden cursor-pointer border transition-all duration-200 shadow-md ${
+                    isActive
+                      ? "border-sky-500 ring-2 ring-sky-500/30 dark:ring-sky-400/30"
+                      : "border-slate-200 dark:border-slate-800 hover:border-sky-500/50"
+                  }`}
+                >
+                  <Image
+                    src={imgSrc}
+                    alt={`${title} screenshot ${idx + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover object-top"
+                  />
+                  <div
+                    className={`absolute inset-0 transition-colors ${
+                      isActive ? "bg-transparent" : "bg-slate-950/20 hover:bg-transparent"
+                    }`}
+                  />
 
-                {idx === 0 && (
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-500 text-white shadow-sm">
-                    Cover
-                  </span>
-                )}
-              </motion.div>
-            ))}
+                  {idx === 0 && (
+                    <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-500 text-white shadow-sm z-10">
+                      Cover
+                    </span>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       )}
 
-      {/* LIGHTBOX MODAL */}
+      {/* LIGHTBOX MODAL WITH SMOOTH TRANSITION */}
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {lightboxIndex !== null && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
             {/* Backdrop */}
             <motion.div
@@ -162,7 +249,7 @@ export default function ProjectImageGallery({
               {/* Top Controls Bar */}
               <div className="w-full flex items-center justify-between text-white mb-3 px-2">
                 <span className="text-xs sm:text-sm font-semibold tracking-wide bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
-                  {title} • {selectedIndex + 1} of {galleryImages.length}
+                  {title} • {lightboxIndex + 1} of {galleryImages.length}
                 </span>
 
                 <button
@@ -174,32 +261,43 @@ export default function ProjectImageGallery({
                 </button>
               </div>
 
-              {/* Main Expanded Image View */}
+              {/* Main Expanded Image View with Framer Motion Transitions */}
               <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
-                <Image
-                  key={selectedIndex}
-                  src={galleryImages[selectedIndex]}
-                  alt={`${title} expanded view ${selectedIndex + 1}`}
-                  fill
-                  priority
-                  className="object-contain"
-                />
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={lightboxIndex}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    className="absolute inset-0 w-full h-full flex items-center justify-center"
+                  >
+                    <Image
+                      src={galleryImages[lightboxIndex]}
+                      alt={`${title} expanded view ${lightboxIndex + 1}`}
+                      fill
+                      priority
+                      className="object-contain"
+                    />
+                  </motion.div>
+                </AnimatePresence>
 
                 {/* Left / Right Arrow Navigation */}
                 {galleryImages.length > 1 && (
                   <>
                     <button
-                      onClick={handlePrev}
+                      onClick={handlePrevLightbox}
                       aria-label="Previous Image"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg cursor-pointer"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg cursor-pointer z-20"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
 
                     <button
-                      onClick={handleNext}
+                      onClick={handleNextLightbox}
                       aria-label="Next Image"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg cursor-pointer"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg cursor-pointer z-20"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>

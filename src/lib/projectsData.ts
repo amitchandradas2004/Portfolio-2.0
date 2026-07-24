@@ -33,8 +33,11 @@ export const projectsData: Project[] = [
     longDescription:
       "ScholarBridge streamlines the entire scholarship search and application cycle. Built with modern full-stack architecture, it empowers students to match with tailored funding options while providing institution administrators with automated verification, application scoring, and live status updates.",
     images: [
-      "/projects/scholarbridge.png",
-      "/projects/scholarbridge.png",
+      "/projects/scholarbridge1.png",
+      "/projects/scholarbridge2.png",
+      "/projects/scholarbridge3.png",
+      "/projects/scholarbridge4.png",
+      "/projects/scholarbridge5.png",
     ],
     badge: "Full-Stack Portal",
     isFeatured: false,
@@ -72,8 +75,11 @@ export const projectsData: Project[] = [
     longDescription:
       "StartupForge accelerates SaaS deployment by providing a battle-tested foundation. Featuring seamless authentication via Better Auth, subscription tier billing via Stripe, and database management with MongoDB, founders can launch production-ready products in record time.",
     images: [
-      "/projects/startupforge.png",
-      "/projects/startupforge.png",
+      "/projects/startupforge1.png",
+      "/projects/startupforge2.png",
+      "/projects/startupforge3.png",
+      "/projects/startupforge4.png",
+      "/projects/startupforge5.png",
     ],
     badge: "SaaS Platform",
     isFeatured: true,
@@ -110,8 +116,11 @@ export const projectsData: Project[] = [
     longDescription:
       "HireLoop transforms talent acquisition by offering recruiters an intuitive Kanban-style candidate pipeline, automated resume parsed summaries, interview scheduling tools, and team candidate evaluation scorecards.",
     images: [
-      "/projects/hireloop.png",
-      "/projects/hireloop.png",
+      "/projects/hireloop1.png",
+      "/projects/hireloop2.png",
+      "/projects/hireloop3.png",
+      "/projects/hireloop4.png",
+      "/projects/hireloop5.png",
     ],
     badge: "Recruitment Tool",
     isFeatured: true,
@@ -148,8 +157,12 @@ export const projectsData: Project[] = [
     longDescription:
       "NextMatch reimagines property rental discovery by combining a polished full-stack marketplace with genuine AI reasoning. Users can search and filter verified listings, publish their own properties, and manage them through a personal dashboard — all secured with Better Auth and Google OAuth. What sets it apart is the AI layer: a conversational assistant that understands live listing data and answers grounded, context-aware questions with full conversation memory, alongside a smart recommendation engine that ranks properties against user preferences and continuously improves from thumbs up/down feedback.",
     images: [
-      "/projects/nextmatch.png",
-      "/projects/nextmatch.png",
+      "/projects/nextmatch1.png",
+      "/projects/nextmatch2.png",
+      "/projects/nextmatch3.png",
+      "/projects/nextmatch4.png",
+      "/projects/nextmatch5.png",
+      "/projects/nextmatch6.png",
     ],
     badge: "Full Stack AI Platform",
     isFeatured: true,
@@ -189,7 +202,11 @@ export const projectsData: Project[] = [
     longDescription:
       "SportNest is a full-stack sports management platform designed to bring athletes, teams, and organizers together. It provides an intuitive experience for discovering sports events, managing team activities, and creating a connected sports ecosystem with modern web technologies.",
     images: [
-      "/projects/sportnest.png",
+      "/projects/sportnest1.png",
+      "/projects/sportnest2.png",
+      "/projects/sportnest3.png",
+      "/projects/sportnest4.png",
+      "/projects/sportnest5.png",
     ],
     badge: "Sports Platform",
     isFeatured: false,
@@ -222,79 +239,53 @@ export const projectsData: Project[] = [
     githubUrl: "https://github.com/amitchandradas2004/SportNest-Sports-Facility-Booking-Management-System",
   },
   {
-    id: "devpulse",
-    slug: "devpulse",
-    title: "DevPulse",
-    subtitle: "Developer Productivity & Analytics Platform",
+    id: "bookverse",
+    slug: "bookverse",
+    title: "BookVerse",
+    subtitle: "Online Book Management & Discovery Platform",
     description:
-      "A real-time telemetry and developer velocity dashboard measuring pull request cycles, code review bottlenecks, and team health metrics.",
+      "A modern online bookstore platform where users can explore, manage, and discover books with seamless browsing and personalized experiences.",
     longDescription:
-      "DevPulse offers engineering leaders actionable insights into developer workflows. Integrating with GitHub & GitLab webhooks, it visualizes PR throughput, automated test coverage trends, and sprint burndown rates with zero setup friction.",
+      "BookVerse is a full-stack book management platform designed for book lovers and administrators. It provides a smooth experience for discovering books, managing collections, and organizing digital libraries with a responsive interface and efficient backend architecture.",
     images: [
-      "/projects/devpulse.png",
-      "/projects/devpulse.png",
+      "/projects/bookverse.png",
+      "/projects/bookverse1.png",
     ],
-    badge: "Analytics Tool",
+    badge: "Book Platform",
     isFeatured: false,
     technologies: [
-      { name: "Next.js", iconKey: "nextjs", iconColor: "text-slate-900 dark:text-white" },
-      { name: "TypeScript", iconKey: "typescript", iconColor: "text-blue-500" },
-      { name: "Tailwind CSS", iconKey: "tailwind", iconColor: "text-sky-400" },
-      { name: "Node.js", iconKey: "nodejs", iconColor: "text-emerald-500" },
+      {
+        name: "Next.js",
+        iconKey: "nextjs",
+        iconColor: "text-cyan-400"
+      },
+      {
+        name: "Node.js",
+        iconKey: "nodejs",
+        iconColor: "text-green-500"
+      },
+      {
+        name: "MongoDB",
+        iconKey: "mongodb",
+        iconColor: "text-emerald-500"
+      },
     ],
     features: [
-      "Automated PR cycle time & code review velocity analytics",
-      "Customizable engineering performance dashboards & team health reports",
-      "GitHub & GitLab OAuth Webhook integration for instant payload ingestion",
-      "Interactive dark-mode telemetry charts with multi-variable filtering",
+      "Advanced book browsing with category-based filtering and search functionality",
+      "User-friendly book management system with CRUD operations",
+      "Responsive interface optimized for desktop, tablet, and mobile devices",
+      "Secure REST API backend for managing books and user data",
     ],
     challenges: [
-      "Processing high-frequency Webhook bursts during major repository merge events without dropouts.",
-      "Designing aggregate math algorithms for dev velocity metrics that avoid skewed data outliers.",
+      "Designing an efficient database structure for managing large collections of books and related information.",
+      "Creating a smooth user experience while handling dynamic search, filtering, and real-time data updates.",
     ],
     futureImprovements: [
-      "Adding Slack/Discord bot alerts for stale pull requests exceeding SLA thresholds.",
-      "AI-driven suggestion engine for optimal reviewer assignment based on code ownership.",
+      "Adding online payment integration for purchasing books.",
+      "Implementing AI-powered book recommendations based on user preferences and reading history.",
+      "Adding user reviews, ratings, and personalized reading lists.",
     ],
-    liveUrl: "https://github.com/amitchandradas2004",
-    githubUrl: "https://github.com/amitchandradas2004",
-  },
-  {
-    id: "cloudcraft",
-    slug: "cloudcraft",
-    title: "CloudCraft",
-    subtitle: "Cloud Infrastructure & Container Monitoring",
-    description:
-      "A cloud infrastructure monitoring dashboard offering real-time server health tracking, log aggregation, and automated alert management.",
-    longDescription:
-      "CloudCraft simplifies DevOps management by aggregating server telemetry, docker container health, and endpoint ping monitors into a unified intuitive interface with instant Slack and Webhook notifications.",
-    images: [
-      "/projects/cloudcraft.png",
-      "/projects/cloudcraft.png",
-    ],
-    badge: "DevOps Platform",
-    isFeatured: false,
-    technologies: [
-      { name: "React", iconKey: "react", iconColor: "text-cyan-400" },
-      { name: "TypeScript", iconKey: "typescript", iconColor: "text-blue-500" },
-      { name: "Express.js", iconKey: "express", iconColor: "text-slate-700 dark:text-slate-300" },
-      { name: "MongoDB", iconKey: "mongodb", iconColor: "text-emerald-500" },
-    ],
-    features: [
-      "Real-time CPU, Memory, Disk, and Network IO telemetry streams",
-      "Automated alert rules & multi-channel notification dispatching",
-      "Docker container log streaming & health inspection views",
-      "High-availability REST API backend with WebSockets transport layer",
-    ],
-    challenges: [
-      "Efficiently streaming real-time log tailing data over WebSocket connections under heavy system load.",
-      "Designing time-series data aggregation for server metrics to keep storage lightweight.",
-    ],
-    futureImprovements: [
-      "Kubernetes cluster topology visualization & pod restart heatmaps.",
-      "Automated infrastructure anomaly detection using machine learning baselines.",
-    ],
-    liveUrl: "https://github.com/amitchandradas2004",
-    githubUrl: "https://github.com/amitchandradas2004",
-  },
+    liveUrl: "https://book-verse-online-book-borrowing-se.vercel.app",
+    githubUrl: "https://github.com/amitchandradas2004/BookVerse-Online-Book-Borrowing-Service",
+  }
 ];
