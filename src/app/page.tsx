@@ -4,6 +4,7 @@ import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import FeaturedProjects from "@/components/FeaturedProjects";
+import Contact from "@/components/Contact";
 import { getFeaturedProjects } from "@/lib/getFeaturedProjects";
 
 export default async function Home() {
@@ -17,6 +18,7 @@ export default async function Home() {
       <Experience />
       <FeaturedProjects projects={featuredProjects} />
       <Education />
+      <Contact />
     </main>
   );
 }
