@@ -24,6 +24,92 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
+    id: "eventflow",
+    slug: "eventflow",
+    title: "EventFlow",
+    subtitle: "Event Ticket Booking & Management Platform",
+    description:
+      "A full-stack event management platform connecting organizers and attendees with seamless event creation, ticket booking, and secure online payments.",
+    longDescription:
+      "EventFlow is a SaaS-style event ticket booking and management platform built with modern full-stack architecture. It enables organizers to create organizations, manage events, handle ticket sales, and track event performance, while attendees can discover events, purchase tickets securely, and manage their bookings. The platform includes role-based dashboards, Stripe payment integration, admin moderation workflows, and Gemini AI-powered assistance for a smarter user experience.",
+    images: [
+      "/projects/eventflow1.png",
+      "/projects/eventflow2.png",
+      "/projects/eventflow3.png",
+      "/projects/eventflow4.png",
+      "/projects/eventflow5.png",
+    ],
+    badge: "Full-Stack SaaS Platform",
+    isFeatured: true,
+    technologies: [
+      {
+        name: "Next.js",
+        iconKey: "nextjs",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+      {
+        name: "Node.js",
+        iconKey: "nodejs",
+        iconColor: "text-green-600",
+      },
+      {
+        name: "Express.js",
+        iconKey: "express",
+        iconColor: "text-slate-700 dark:text-slate-300",
+      },
+      {
+        name: "MongoDB",
+        iconKey: "mongodb",
+        iconColor: "text-emerald-500",
+      },
+      {
+        name: "Stripe",
+        iconKey: "stripe",
+        iconColor: "text-indigo-500",
+      },
+      {
+        name: "Better Auth",
+        iconKey: "betterauth",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+      {
+        name: "Gemini AI",
+        iconKey: "gemini",
+        iconColor: "text-blue-500",
+      },
+      {
+        name: "Tailwind CSS",
+        iconKey: "tailwind",
+        iconColor: "text-sky-400",
+      },
+    ],
+    features: [
+      "Role-based authentication and authorization system for Admin, Organizer, and Attendee users",
+      "Organization creation and management system for event organizers",
+      "Complete event lifecycle management including creation, updating, approval, and publishing workflows",
+      "Dynamic ticket pricing system with secure Stripe checkout integration",
+      "Attendee booking management with transaction history and payment tracking",
+      "Admin dashboard for user management, event moderation, platform analytics, and transaction monitoring",
+      "Gemini AI chatbot integration to provide intelligent assistance and improve user experience",
+    ],
+    challenges: [
+      "Designing a scalable role-based access control system with different permissions for Admin, Organizer, and Attendee roles.",
+      "Implementing dynamic Stripe payment flow where each event can have different ticket prices without relying on predefined Stripe price IDs.",
+      "Managing complex relationships between users, organizations, events, tickets, and transactions while maintaining data consistency.",
+      "Building dashboard systems with different functionalities based on user roles.",
+    ],
+    futureImprovements: [
+      "Adding Stripe-generated tickets that can be downloaded and verified at events.",
+      "Implementing real-time notifications for booking confirmations, event updates, and organizer announcements.",
+      "Adding advanced event recommendation system using AI based on user interests and booking history.",
+      "Integrating calendar synchronization with Google Calendar and other scheduling platforms.",
+    ],
+    liveUrl: "https://eventflow-tau-flame.vercel.app",
+    githubUrl:
+      "https://github.com/amitchandradas2004/EventFlow-Event-Ticket-Booking-Management-Platform",
+
+  },
+  {
     id: "scholarbridge",
     slug: "scholarbridge",
     title: "ScholarBridge",
@@ -123,7 +209,7 @@ export const projectsData: Project[] = [
       "/projects/hireloop5.png",
     ],
     badge: "Recruitment Tool",
-    isFeatured: true,
+    isFeatured: false,
     technologies: [
       { name: "React", iconKey: "react", iconColor: "text-cyan-400" },
       { name: "Node.js", iconKey: "nodejs", iconColor: "text-emerald-500" },
