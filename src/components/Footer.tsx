@@ -4,7 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowUp } from "lucide-react";
-import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { SiLeetcode } from "react-icons/si";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -23,7 +24,17 @@ const socialLinks = [
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/amitchandradas2004",
-    icon: <FaLinkedin className="w-5 h-5 text-sky-500" />,
+    icon: <FaLinkedin className="w-5 h-5 text-[#0A66C2]" />,
+  },
+  {
+    name: "LeetCode",
+    href: "https://leetcode.com/u/amitchandradas2004",
+    icon: <SiLeetcode className="w-5 h-5 text-[#FFA116]" />,
+  },
+  {
+    name: "Twitter / X",
+    href: "https://x.com/amitchandra2004",
+    icon: <FaXTwitter className="w-5 h-5 text-[#1DA1F2]" />,
   },
 ];
 

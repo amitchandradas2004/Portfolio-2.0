@@ -15,7 +15,8 @@ import {
   FileText,
   MessageSquare,
 } from "lucide-react";
-import { FaGithub, FaLinkedin } from "react-icons/fa6";
+import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
+import { SiLeetcode } from "react-icons/si";
 import { sendContactEmail } from "@/lib/email";
 
 export interface ContactInfo {
@@ -58,7 +59,17 @@ const socialLinks = [
   {
     name: "LinkedIn",
     url: "https://www.linkedin.com/in/amitchandradas2004",
-    icon: <FaLinkedin className="w-5 h-5 text-sky-500" />,
+    icon: <FaLinkedin className="w-5 h-5 text-[#0A66C2]" />,
+  },
+  {
+    name: "LeetCode",
+    url: "https://leetcode.com/u/amitchandradas2004",
+    icon: <SiLeetcode className="w-5 h-5 text-[#FFA116]" />,
+  },
+  {
+    name: "Twitter / X",
+    url: "https://x.com/AmitDas950",
+    icon: <FaXTwitter className="w-5 h-5 text-[#1DA1F2]" />,
   },
 ];
 
@@ -247,18 +258,18 @@ export default function Contact() {
             </div>
 
             {/* Social Links Box */}
-            <div className="p-6 rounded-2xl backdrop-blur-md bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-slate-900/5 dark:shadow-black/30">
+            <div className="p-5 sm:p-6 rounded-2xl backdrop-blur-md bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-lg shadow-slate-900/5 dark:shadow-black/30">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3">
                 Connect on Social Networks
               </h3>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 {socialLinks.map((social) => (
                   <a
                     key={social.name}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 hover:bg-slate-300/70 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-semibold text-xs transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+                    className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 hover:bg-slate-300/70 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-semibold text-xs transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer shrink-0"
                   >
                     {social.icon}
                     <span>{social.name}</span>

@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Download, Mail } from "lucide-react";
-import { FaGithub, FaLinkedinIn, FaReact, FaNodeJs } from "react-icons/fa6";
-import { SiNextdotjs, SiTypescript, SiMongodb } from "react-icons/si";
+import { FaGithub, FaLinkedinIn, FaXTwitter, FaReact, FaNodeJs } from "react-icons/fa6";
+import { SiNextdotjs, SiTypescript, SiMongodb, SiLeetcode } from "react-icons/si";
 
 export default function Hero() {
   return (
@@ -73,7 +73,7 @@ export default function Hero() {
               {/* Primary Button: Download Resume */}
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                 <Link
-                  href="https://drive.google.com/file/d/1v0NksgwN3MWSNYXUDZW2p_bjTKLtbaQ6/view?usp=sharing"
+                  href="https://drive.google.com/file/d/1wxzmggV7-3glpq2SAco55zl2QpGYeTPT/view?usp=sharing"
                   target="_blank"
                   className="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
                   aria-label="Download Resume"
@@ -109,7 +109,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub Profile"
-                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-700 dark:text-slate-300 hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:border-[#0284C7] dark:hover:border-[#38BDF8] transition-all duration-200 shadow-xs"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:border-slate-800 dark:hover:border-slate-200 transition-all duration-200 shadow-xs"
               >
                 <FaGithub className="w-5 h-5" />
               </motion.a>
@@ -121,7 +121,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn Profile"
-                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-700 dark:text-slate-300 hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:border-[#0284C7] dark:hover:border-[#38BDF8] transition-all duration-200 shadow-xs"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#0A66C2] hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2] transition-all duration-200 shadow-xs"
               >
                 <FaLinkedinIn className="w-5 h-5" />
               </motion.a>
@@ -129,9 +129,33 @@ export default function Hero() {
               <motion.a
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.95 }}
+                href="https://leetcode.com/u/amitchandradas2004"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LeetCode Profile"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#FFA116] hover:text-[#FFA116] hover:border-[#FFA116] dark:hover:border-[#FFA116] transition-all duration-200 shadow-xs"
+              >
+                <SiLeetcode className="w-5 h-5" />
+              </motion.a>
+
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                href="https://x.com/amitchandra2004"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter) Profile"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#1DA1F2] hover:text-[#1DA1F2] hover:border-[#1DA1F2] dark:hover:border-[#1DA1F2] transition-all duration-200 shadow-xs"
+              >
+                <FaXTwitter className="w-5 h-5" />
+              </motion.a>
+
+              <motion.a
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
                 href="mailto:[amitchandradas950@gmail.com]"
                 aria-label="Email Me"
-                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-700 dark:text-slate-300 hover:text-[#0284C7] dark:hover:text-[#38BDF8] hover:border-[#0284C7] dark:hover:border-[#38BDF8] transition-all duration-200 shadow-xs"
+                className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#EA4335] hover:text-[#EA4335] hover:border-[#EA4335] dark:hover:border-[#EA4335] transition-all duration-200 shadow-xs"
               >
                 <Mail className="w-5 h-5" />
               </motion.a>
