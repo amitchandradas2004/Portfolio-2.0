@@ -9,6 +9,8 @@ import {
   CheckCircle2,
   Sparkles,
   Code2,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 import { RenderTechIcon } from "./RenderTechIcon";
 
@@ -16,6 +18,7 @@ export interface ExperienceItem {
   id: string;
   role: string;
   company: string;
+  companyLink?: string;
   duration: string;
   description: string;
   responsibilities?: string[];
@@ -23,9 +26,68 @@ export interface ExperienceItem {
   technologies?: { name: string; iconKey?: string; iconColor?: string }[];
   isCurrent?: boolean;
   badge?: string;
+  offerLetter?: {
+    text: string;
+    link: string;
+  };
 }
 
 const experienceData: ExperienceItem[] = [
+  {
+    id: "codveda-fullstack-intern",
+    role: "Full Stack Development Intern",
+    company: "Codveda Technologies",
+    companyLink: "https://www.linkedin.com/company/codveda-technologies",
+    duration: "August 2nd 2026 - September 2nd 2026",
+    description:
+      "Working as a Full Stack Development Intern at Codveda Technologies, gaining hands-on experience in building modern web applications, developing REST APIs, integrating frontend interfaces, and implementing full-stack development practices.",
+    isCurrent: true,
+    badge: "Remote Internship",
+    offerLetter: {
+      text: "View Offer Letter",
+      link: "https://drive.google.com/file/d/1NlPDTt66nAFJ4wGGM6MnymgdsJWcoUAZ/view?usp=sharing",
+    },
+    responsibilities: [
+      "Developed backend REST APIs using Node.js and Express.js",
+      "Implemented CRUD operations and API routing following REST principles",
+      "Built responsive frontend interfaces using HTML, CSS, and JavaScript",
+      "Integrated frontend applications with backend APIs using Fetch API",
+      "Worked on database integration and full-stack application workflows",
+      "Tested APIs using tools like Postman and Thunder Client",
+    ],
+    technologies: [
+      {
+        name: "Node.js",
+        iconKey: "nodejs",
+        iconColor: "text-emerald-500",
+      },
+      {
+        name: "Express.js",
+        iconKey: "express",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+      {
+        name: "JavaScript",
+        iconKey: "javascript",
+        iconColor: "text-yellow-400",
+      },
+      {
+        name: "REST API",
+        iconKey: "api",
+        iconColor: "text-blue-500",
+      },
+      {
+        name: "MongoDB",
+        iconKey: "mongodb",
+        iconColor: "text-emerald-500",
+      },
+      {
+        name: "Git & GitHub",
+        iconKey: "github",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+    ],
+  },
   {
     id: "fullstack-dev",
     role: "Full Stack Developer",
@@ -55,6 +117,7 @@ const experienceData: ExperienceItem[] = [
     id: "web-dev-student",
     role: "Web Development Student",
     company: "Programming Hero",
+    companyLink: "https://www.programming-hero.com",
     duration: "2026",
     description:
       "Completed the Complete Web Development Course and gained practical experience building real-world applications.",
@@ -201,6 +264,18 @@ export default function Experience() {
                             <Calendar className="w-3.5 h-3.5 text-sky-500" />
                             <span>{item.duration}</span>
                           </span>
+                          {item.offerLetter && (
+                            <a
+                              href={item.offerLetter.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all duration-200 cursor-pointer shadow-xs"
+                            >
+                              <FileText className="w-3.5 h-3.5 text-emerald-500" />
+                              <span>{item.offerLetter.text}</span>
+                              <ExternalLink className="w-3 h-3 opacity-70" />
+                            </a>
+                          )}
                         </div>
 
                         {/* Role Title */}
@@ -210,8 +285,19 @@ export default function Experience() {
 
                         {/* Company / Organization Name */}
                         <div className="flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 mb-4 lg:justify-end">
-                          <Building2 className="w-4 h-4" />
-                          <span>{item.company}</span>
+                          <Building2 className="w-4 h-4 shrink-0" />
+                          {item.companyLink ? (
+                            <a
+                              href={item.companyLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:underline hover:text-sky-500 dark:hover:text-sky-300 transition-colors duration-200"
+                            >
+                              {item.company}
+                            </a>
+                          ) : (
+                            <span>{item.company}</span>
+                          )}
                         </div>
 
                         {/* Description */}
@@ -233,6 +319,26 @@ export default function Experience() {
                                 >
                                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                                   <span className="lg:text-right">{resp}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Skills Developed List */}
+                        {item.skillsDeveloped && (
+                          <div className="mb-5 text-left">
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5 lg:text-right">
+                              Skills Developed & Practical Labs
+                            </h4>
+                            <ul className="space-y-2">
+                              {item.skillsDeveloped.map((skill, i) => (
+                                <li
+                                  key={i}
+                                  className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 lg:flex-row-reverse"
+                                >
+                                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                                  <span className="lg:text-right">{skill}</span>
                                 </li>
                               ))}
                             </ul>
@@ -279,6 +385,18 @@ export default function Experience() {
                             <Calendar className="w-3.5 h-3.5 text-sky-500" />
                             <span>{item.duration}</span>
                           </span>
+                          {item.offerLetter && (
+                            <a
+                              href={item.offerLetter.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all duration-200 cursor-pointer shadow-xs"
+                            >
+                              <FileText className="w-3.5 h-3.5 text-emerald-500" />
+                              <span>{item.offerLetter.text}</span>
+                              <ExternalLink className="w-3 h-3 opacity-70" />
+                            </a>
+                          )}
                         </div>
 
                         {/* Role Title */}
@@ -288,14 +406,45 @@ export default function Experience() {
 
                         {/* Company / Organization Name */}
                         <div className="flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 mb-4">
-                          <Building2 className="w-4 h-4" />
-                          <span>{item.company}</span>
+                          <Building2 className="w-4 h-4 shrink-0" />
+                          {item.companyLink ? (
+                            <a
+                              href={item.companyLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:underline hover:text-sky-500 dark:hover:text-sky-300 transition-colors duration-200"
+                            >
+                              {item.company}
+                            </a>
+                          ) : (
+                            <span>{item.company}</span>
+                          )}
                         </div>
 
                         {/* Description */}
                         <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
                           {item.description}
                         </p>
+
+                        {/* Responsibilities List */}
+                        {item.responsibilities && (
+                          <div className="mb-5">
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">
+                              Key Responsibilities & Highlights
+                            </h4>
+                            <ul className="space-y-2">
+                              {item.responsibilities.map((resp, i) => (
+                                <li
+                                  key={i}
+                                  className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300"
+                                >
+                                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                                  <span>{resp}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
 
                         {/* Skills Developed List */}
                         {item.skillsDeveloped && (
