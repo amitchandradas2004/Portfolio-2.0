@@ -34,6 +34,76 @@ export interface ExperienceItem {
 
 const experienceData: ExperienceItem[] = [
   {
+    id: "oasis-infobyte-web-development-intern",
+    role: "Web Development and Designing Intern",
+    company: "Oasis Infobyte",
+    companyLink: "https://www.linkedin.com/company/oasis-infobyte/",
+    duration: "August 5th 2026 - September 5th 2026",
+
+    description:
+      "Working as a Web Development and Designing Intern at Oasis Infobyte, gaining practical experience through hands-on projects involving frontend development, responsive web design, and modern web development practices.",
+
+    isCurrent: true,
+    badge: "Remote Internship",
+
+    offerLetter: {
+      text: "View Offer Letter",
+      link: "https://drive.google.com/file/d/1vf4Qr7meno7PrFVxjMwOtzSNKPUb7QNg/view?usp=sharing",
+    },
+
+    responsibilities: [
+      "Developed responsive and user-friendly web interfaces using modern frontend technologies",
+      "Implemented web development concepts through practical project-based tasks",
+      "Applied HTML, CSS, JavaScript, and responsive design principles to build functional websites",
+      "Improved UI/UX implementation skills by focusing on clean and intuitive designs",
+      "Maintained organized code structure and followed best practices for web development",
+      "Documented project work and maintained GitHub repositories with proper README files",
+    ],
+
+    technologies: [
+      {
+        name: "HTML5",
+        iconKey: "html",
+        iconColor: "text-orange-500",
+      },
+      {
+        name: "CSS3",
+        iconKey: "css",
+        iconColor: "text-blue-500",
+      },
+      {
+        name: "Tailwind CSS",
+        iconKey: "tailwind",
+        iconColor: "text-sky-400",
+      },
+      {
+        name: "JavaScript(ES6+)",
+        iconKey: "javascript",
+        iconColor: "text-yellow-400",
+      },
+      {
+        name: "React.js",
+        iconKey: "react",
+        iconColor: "text-cyan-400",
+      },
+      {
+        name: "Next.js",
+        iconKey: "nextjs",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+      {
+        name: "Responsive Web Design",
+        iconKey: "responsive",
+        iconColor: "text-purple-500",
+      },
+      {
+        name: "Git & GitHub",
+        iconKey: "github",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+    ],
+  },
+  {
     id: "codveda-fullstack-intern",
     role: "Full Stack Development Intern",
     company: "Codveda Technologies",
@@ -67,7 +137,7 @@ const experienceData: ExperienceItem[] = [
         iconColor: "text-slate-900 dark:text-white",
       },
       {
-        name: "JavaScript",
+        name: "JavaScript(ES6+)",
         iconKey: "javascript",
         iconColor: "text-yellow-400",
       },
@@ -106,7 +176,11 @@ const experienceData: ExperienceItem[] = [
     ],
     technologies: [
       { name: "Next.js", iconKey: "nextjs", iconColor: "text-slate-900 dark:text-white" },
-      { name: "React", iconKey: "react", iconColor: "text-cyan-400" },
+      { name: "React", iconKey: "react", iconColor: "text-cyan-400" }, {
+        name: "JavaScript(ES6+)",
+        iconKey: "javascript",
+        iconColor: "text-yellow-400",
+      },
       { name: "TypeScript", iconKey: "typescript", iconColor: "text-blue-500" },
       { name: "Node.js", iconKey: "nodejs", iconColor: "text-emerald-500" },
       { name: "MongoDB", iconKey: "mongodb", iconColor: "text-emerald-500" },
@@ -130,8 +204,16 @@ const experienceData: ExperienceItem[] = [
       "Production deployment to Vercel, Netlify, & Cloud platforms",
     ],
     technologies: [
-      { name: "React", iconKey: "react", iconColor: "text-cyan-400" },
+      { name: "HTML5", iconKey: "html5", iconColor: "text-red-500" },
+      { name: "CSS3", iconKey: "css3", iconColor: "text-blue-500" },
+      { name: "React.js", iconKey: "react", iconColor: "text-cyan-400" },
+      { name: "Next.js", iconKey: "nextjs", iconColor: "text-slate-900 dark:text-white" },
       { name: "Node.js", iconKey: "nodejs", iconColor: "text-emerald-500" },
+      {
+        name: "JavaScript(ES6+)",
+        iconKey: "javascript",
+        iconColor: "text-yellow-400",
+      },
       { name: "Express.js", iconKey: "express", iconColor: "text-slate-700 dark:text-slate-300" },
       { name: "MongoDB", iconKey: "mongodb", iconColor: "text-emerald-500" },
     ],
@@ -351,11 +433,11 @@ export default function Experience() {
                             {item.technologies.map((tech) => (
                               <span
                                 key={tech.name}
-                                className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-200/60 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700/60 flex items-center gap-1.5"
+                                className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-200/70 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 border border-slate-300/70 dark:border-slate-700/70 hover:border-sky-500/40 dark:hover:border-sky-400/40 hover:scale-105 transition-all duration-200 flex items-center gap-1.5 shadow-2xs cursor-default"
                               >
                                 <RenderTechIcon
                                   iconKey={tech.iconKey}
-                                  className={`w-3.5 h-3.5 ${tech.iconColor || ""}`}
+                                  className={`w-3.5 h-3.5 shrink-0 ${tech.iconColor || ""}`}
                                 />
                                 <span>{tech.name}</span>
                               </span>
@@ -472,11 +554,11 @@ export default function Experience() {
                             {item.technologies.map((tech) => (
                               <span
                                 key={tech.name}
-                                className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-200/60 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-300/60 dark:border-slate-700/60 flex items-center gap-1.5"
+                                className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-200/70 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 border border-slate-300/70 dark:border-slate-700/70 hover:border-sky-500/40 dark:hover:border-sky-400/40 hover:scale-105 transition-all duration-200 flex items-center gap-1.5 shadow-2xs cursor-default"
                               >
                                 <RenderTechIcon
                                   iconKey={tech.iconKey}
-                                  className={`w-3.5 h-3.5 ${tech.iconColor || ""}`}
+                                  className={`w-3.5 h-3.5 shrink-0 ${tech.iconColor || ""}`}
                                 />
                                 <span>{tech.name}</span>
                               </span>
