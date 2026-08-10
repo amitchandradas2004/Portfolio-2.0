@@ -60,10 +60,37 @@ export default function GithubContribution({
     y: number;
   } | null>(null);
 
+  // Color themes for contribution calendar blocks (Green default & Blue option)
+  const [colorTheme, setColorTheme] = useState<"green" | "blue">("green");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("github_contribution_theme");
+    if (savedTheme === "green" || savedTheme === "blue") {
+      setColorTheme(savedTheme);
+    } else {
+      setColorTheme("green");
+    }
+  }, []);
+
+  const handleThemeChange = (themeName: "green" | "blue") => {
+    setColorTheme(themeName);
+    try {
+      localStorage.setItem("github_contribution_theme", themeName);
+    } catch {
+      // Ignore storage errors
+    }
+  };
+
   // Tailored color themes for light & dark mode to match portfolio design system
-  const calendarTheme = {
-    light: ["#F1F5F9", "#BAE6FD", "#38BDF8", "#0284C7", "#0369A1"],
-    dark: ["#0F172A", "#0C4A6E", "#0284C7", "#38BDF8", "#7DD3FC"],
+  const calendarThemes = {
+    green: {
+      light: ["#F1F5F9", "#9BE9A8", "#40C463", "#30A14E", "#216E39"],
+      dark: ["#0F172A", "#0E4429", "#006D32", "#26A641", "#39D353"],
+    },
+    blue: {
+      light: ["#F1F5F9", "#BAE6FD", "#38BDF8", "#0284C7", "#0369A1"],
+      dark: ["#0F172A", "#0C4A6E", "#0284C7", "#38BDF8", "#7DD3FC"],
+    },
   };
 
   // Map for fast O(1) date lookup
@@ -202,7 +229,7 @@ export default function GithubContribution({
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200/80 dark:border-slate-800/80">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 border border-slate-300/60 dark:border-slate-700/60">
-                <GitCommit className="w-5 h-5 text-sky-500" />
+                <GitCommit className={`w-5 h-5 ${colorTheme === "green" ? "text-emerald-500" : "text-sky-500"}`} />
               </div>
               <div>
                 <h3 className="text-base font-bold text-slate-900 dark:text-white">
@@ -216,23 +243,63 @@ export default function GithubContribution({
               </div>
             </div>
 
-            {/* Link to GitHub Profile */}
-            <a
-              href={`https://github.com/${username}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-200/60 dark:bg-slate-800/80 hover:bg-slate-300/70 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700/60 transition-all cursor-pointer group"
-            >
-              <span>View GitHub Profile</span>
-              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+            {/* Action Buttons: Theme Selector (Green/Blue) BEFORE GitHub Button */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 border border-slate-300/60 dark:border-slate-700/60 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => handleThemeChange("green")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                    colorTheme === "green"
+                      ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 font-bold"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                  aria-label="Switch contribution blocks color to Green"
+                >
+                  <span
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      colorTheme === "green" ? "bg-white" : "bg-emerald-500"
+                    }`}
+                  />
+                  <span>Green</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleThemeChange("blue")}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                    colorTheme === "blue"
+                      ? "bg-sky-500 text-white shadow-md shadow-sky-500/20 font-bold"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                  aria-label="Switch contribution blocks color to Blue"
+                >
+                  <span
+                    className={`w-2.5 h-2.5 rounded-full ${
+                      colorTheme === "blue" ? "bg-white" : "bg-sky-500"
+                    }`}
+                  />
+                  <span>Blue</span>
+                </button>
+              </div>
+
+              {/* Link to GitHub Profile */}
+              <a
+                href={`https://github.com/${username}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-200/60 dark:bg-slate-800/80 hover:bg-slate-300/70 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700/60 transition-all cursor-pointer group"
+              >
+                <span>View GitHub Profile</span>
+                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            </div>
           </div>
 
           {/* CALENDAR GRAPH / LOADING / ERROR STATES */}
           <div className="w-full overflow-x-auto flex justify-center items-center py-4 px-4 sm:px-6 min-h-[170px]">
             {isLoading ? (
               <div className="flex items-center gap-3 text-sm font-semibold text-slate-500 dark:text-slate-400 py-8">
-                <Loader2 className="w-5 h-5 animate-spin text-sky-500" />
+                <Loader2 className={`w-5 h-5 animate-spin ${colorTheme === "green" ? "text-emerald-500" : "text-sky-500"}`} />
                 <span>Loading GitHub activity...</span>
               </div>
             ) : hasError ? (
@@ -256,7 +323,7 @@ export default function GithubContribution({
                 blockMargin={4}
                 fontSize={14}
                 colorScheme={isDark ? "dark" : "light"}
-                theme={calendarTheme}
+                theme={calendarThemes[colorTheme]}
                 renderBlock={(block, activity) =>
                   React.cloneElement(block, {
                     onMouseEnter: (e: React.MouseEvent) =>
