@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -11,7 +12,11 @@ import {
   ArrowRight,
   Sparkles,
   ArrowLeft,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export interface LoginFormData {
   email: string;
@@ -19,20 +24,46 @@ export interface LoginFormData {
 }
 
 export default function LoginPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login submitted:", formData);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    setLoading(true);
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) {
+        setErrorMsg(error.message || "Failed to sign in. Please check your credentials.");
+      } else if (data) {
+        setSuccessMsg("Logged in successfully! Redirecting...");
+        setTimeout(() => {
+          router.push("/");
+        }, 1200);
+      }
+    } catch (err: any) {
+      setErrorMsg(err?.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,7 +72,7 @@ export default function LoginPage() {
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-gradient-to-tr from-sky-500/15 via-blue-500/10 to-purple-500/15 blur-[140px] rounded-full pointer-events-none -z-10" />
 
       {/* Back to Home Link */}
-      <div className="absolute top-6 left-6 sm:top-25 sm:left-8 z-20">
+      <div className="absolute top-30 sm:top-25 left-6 sm:left-8 z-20">
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 backdrop-blur-md transition-all group"
@@ -71,6 +102,21 @@ export default function LoginPage() {
               Sign in to manage your portfolio settings
             </p>
           </div>
+
+          {/* Alert Banners */}
+          {errorMsg && (
+            <div className="mb-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center gap-2.5">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {successMsg && (
+            <div className="mb-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium flex items-center gap-2.5">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{successMsg}</span>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -120,6 +166,7 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -132,10 +179,20 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full mt-2 py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold shadow-lg shadow-sky-500/25 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              disabled={loading}
+              className="w-full mt-2 py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-bold shadow-lg shadow-sky-500/25 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Sign In</span>
-              <ArrowRight className="w-4 h-4" />
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Signing In...</span>
+                </>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
 
