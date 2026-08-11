@@ -249,34 +249,30 @@ export default function GithubContribution({
                 <button
                   type="button"
                   onClick={() => handleThemeChange("green")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                    colorTheme === "green"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${colorTheme === "green"
                       ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 font-bold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
+                    }`}
                   aria-label="Switch contribution blocks color to Green"
                 >
                   <span
-                    className={`w-2.5 h-2.5 rounded-full ${
-                      colorTheme === "green" ? "bg-white" : "bg-emerald-500"
-                    }`}
+                    className={`w-2.5 h-2.5 rounded-full ${colorTheme === "green" ? "bg-white" : "bg-emerald-500"
+                      }`}
                   />
                   <span>Green</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleThemeChange("blue")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                    colorTheme === "blue"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${colorTheme === "blue"
                       ? "bg-sky-500 text-white shadow-md shadow-sky-500/20 font-bold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
+                    }`}
                   aria-label="Switch contribution blocks color to Blue"
                 >
                   <span
-                    className={`w-2.5 h-2.5 rounded-full ${
-                      colorTheme === "blue" ? "bg-white" : "bg-sky-500"
-                    }`}
+                    className={`w-2.5 h-2.5 rounded-full ${colorTheme === "blue" ? "bg-white" : "bg-sky-500"
+                      }`}
                   />
                   <span>Blue</span>
                 </button>
