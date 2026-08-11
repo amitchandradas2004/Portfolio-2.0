@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   User,
@@ -12,7 +13,11 @@ import {
   ArrowRight,
   Sparkles,
   ArrowLeft,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export interface RegisterFormData {
   name: string;
@@ -22,6 +27,7 @@ export interface RegisterFormData {
 }
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState<RegisterFormData>({
     name: "",
     email: "",
@@ -29,15 +35,41 @@ export default function RegisterPage() {
     role: "normal",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("hello", formData);
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    setLoading(true);
+
+    try {
+      const { data, error } = await authClient.signUp.email({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        role: formData.role || "normal",
+      });
+      if (error) {
+        setErrorMsg(error.message || "Failed to create account. Please try again.");
+      } else if (data) {
+        setSuccessMsg("Account created successfully! Redirecting to login...");
+        setTimeout(() => {
+          router.push("/login");
+        }, 3000);
+      }
+    } catch (err: any) {
+      setErrorMsg(err?.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,7 +79,7 @@ export default function RegisterPage() {
       <div className="absolute bottom-10 right-10 w-72 h-72 bg-sky-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
 
       {/* Back to Home Link */}
-      <div className="absolute top-6 left-6 sm:top-25 sm:left-8 z-20">
+      <div className="absolute top-30 sm:top-25 left-6 sm:left-8 z-20">
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 backdrop-blur-md transition-all group"
@@ -80,6 +112,21 @@ export default function RegisterPage() {
               Register to access your portfolio dashboard
             </p>
           </div>
+
+          {/* Alert Banners */}
+          {errorMsg && (
+            <div className="mb-4 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center gap-2.5">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {successMsg && (
+            <div className="mb-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium flex items-center gap-2.5">
+              <CheckCircle2 className="w-4 h-4 shrink-0" />
+              <span>{successMsg}</span>
+            </div>
+          )}
 
           {/* Registration Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -173,10 +220,20 @@ export default function RegisterPage() {
             {/* SUBMIT BUTTON */}
             <button
               type="submit"
-              className="w-full mt-2 py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold shadow-lg shadow-sky-500/25 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              disabled={loading}
+              className="w-full mt-2 py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-bold shadow-lg shadow-sky-500/25 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Create Account</span>
-              <ArrowRight className="w-4 h-4" />
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Creating Account...</span>
+                </>
+              ) : (
+                <>
+                  <span>Create Account</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
 
