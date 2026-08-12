@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowUp } from "lucide-react";
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
@@ -39,9 +40,13 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (pathname?.startsWith("/dashboard")) return null;
 
   return (
     <footer className="relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] pt-12 pb-8 border-t border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">

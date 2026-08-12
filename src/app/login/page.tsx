@@ -56,7 +56,7 @@ export default function LoginPage() {
       } else if (data) {
         setSuccessMsg("Logged in successfully! Redirecting...");
         setTimeout(() => {
-          router.push("/");
+          router.push("/dashboard");
         }, 1200);
       }
     } catch (err: any) {

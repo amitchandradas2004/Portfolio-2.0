@@ -6,23 +6,30 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, Menu, X, Sparkles } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
+import { useSession } from "@/lib/auth-client";
 
 interface NavItem {
   name: string;
   href: string;
 }
 
-const navItems: NavItem[] = [
-  { name: "Home", href: "/" },
-  { name: "Projects", href: "/projects" },
-  { name: "Contact", href: "/contact" },
-];
-
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme, isMounted } = useTheme();
+  const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
+
+  const isAuthenticated = !!session?.user;
+
+  const navItems: NavItem[] = [
+    { name: "Home", href: "/" },
+    { name: "Projects", href: "/projects" },
+    { name: "Contact", href: "/contact" },
+    isAuthenticated
+      ? { name: "Dashboard", href: "/dashboard" }
+      : { name: "Login", href: "/login" },
+  ];
 
   // Track active scroll section on homepage
   useEffect(() => {
@@ -112,6 +119,8 @@ export default function Navbar() {
   }, [pathname]);
 
   const isDark = theme === "dark";
+
+  if (pathname?.startsWith("/dashboard")) return null;
 
   const isNavItemActive = (itemHref: string) => {
     if (itemHref.includes("#")) {
