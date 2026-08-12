@@ -24,6 +24,7 @@ import {
   ChevronRight,
   Shield,
   ExternalLink,
+  Home,
 } from "lucide-react";
 import { useSession, authClient } from "@/lib/auth-client";
 import { useTheme } from "@/components/ThemeProvider";
@@ -117,8 +118,8 @@ export default function DashboardLayout({
       {/* Background Ambient Glow */}
       <div className="fixed top-1/4 left-1/3 w-[600px] h-[600px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-indigo-500/10 blur-[150px] rounded-full pointer-events-none -z-10" />
 
-      {/* Desktop / Medium Sidebar (md:flex, visible on md (768px+) and lg (1024px+)) */}
-      <aside className="hidden md:flex flex-col w-64 lg:w-72 shrink-0 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl sticky top-0 h-screen z-30 transition-all">
+      {/* Desktop Sidebar (hidden below lg, visible on lg (1024px+)) */}
+      <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl sticky top-0 h-screen z-30 transition-all">
         {/* Brand Header */}
         <div className="h-16 px-6 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80">
           <Link
@@ -174,15 +175,15 @@ export default function DashboardLayout({
                 key={item.href}
                 href={item.href}
                 className={`relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all group ${isActive
-                    ? "text-sky-600 dark:text-sky-400 bg-sky-500/10 font-semibold"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
+                  ? "text-sky-600 dark:text-sky-400 bg-sky-500/10 font-semibold"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50"
                   }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={`w-4 h-4 transition-colors ${isActive
-                        ? "text-sky-500 dark:text-sky-400"
-                        : "text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"
+                      ? "text-sky-500 dark:text-sky-400"
+                      : "text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"
                       }`}
                   />
                   <span>{item.name}</span>
@@ -203,8 +204,16 @@ export default function DashboardLayout({
           })}
         </div>
 
-        {/* Bottom Logout Action */}
-        <div className="p-3 border-t border-slate-200/80 dark:border-slate-800/80">
+        {/* Bottom Sidebar Actions */}
+        <div className="p-3 border-t border-slate-200/80 dark:border-slate-800/80 space-y-1">
+          <Link
+            href="/"
+            className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-all"
+          >
+            <Home className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+
           <button
             onClick={() => setShowLogoutModal(true)}
             className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all cursor-pointer"
@@ -220,11 +229,11 @@ export default function DashboardLayout({
         {/* Top Navigation Header */}
         <header className="h-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl sticky top-0 z-20 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            {/* Mobile Hamburger Menu Button (< md) */}
+            {/* Hamburger Menu Button (Shown on small & medium devices below lg) */}
             <button
               onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
               type="button"
-              className="md:hidden p-2 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-100/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200"
+              className="lg:hidden p-2 rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-slate-100/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200"
               aria-label="Toggle navigation drawer"
             >
               <Menu className="w-5 h-5" />
@@ -277,10 +286,10 @@ export default function DashboardLayout({
         </main>
       </div>
 
-      {/* Mobile Drawer (Shown below md) */}
+      {/* Mobile/Tablet Drawer (Shown on small & medium devices below lg) */}
       <AnimatePresence>
         {mobileSidebarOpen && (
-          <div className="fixed inset-0 z-50 md:hidden">
+          <div className="fixed inset-0 z-50 lg:hidden">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -324,8 +333,8 @@ export default function DashboardLayout({
                       href={item.href}
                       onClick={() => setMobileSidebarOpen(false)}
                       className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActive
-                          ? "bg-sky-500/10 text-sky-600 dark:text-sky-400 font-semibold"
-                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                        ? "bg-sky-500/10 text-sky-600 dark:text-sky-400 font-semibold"
+                        : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
                     >
                       <div className="flex items-center gap-3">
@@ -338,7 +347,16 @@ export default function DashboardLayout({
                 })}
               </div>
 
-              <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+              <div className="p-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                <Link
+                  href="/"
+                  onClick={() => setMobileSidebarOpen(false)}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"
+                >
+                  <Home className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </Link>
+
                 <button
                   onClick={() => {
                     setMobileSidebarOpen(false);
