@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, password, role = "normal" } = body;
+    const { name, email, password, role = "demo" } = body;
 
     // Validation
     if (!name || typeof name !== "string" || name.trim().length === 0) {
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         user: {
           name: name.trim(),
           email: email.trim().toLowerCase(),
-          role: role || "normal",
+          role: role || "demo",
           createdAt: new Date().toISOString(),
         },
       },

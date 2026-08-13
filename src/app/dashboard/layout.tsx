@@ -25,9 +25,12 @@ import {
   Shield,
   ExternalLink,
   Home,
+  Eye,
 } from "lucide-react";
 import { useSession, authClient } from "@/lib/auth-client";
 import { useTheme } from "@/components/ThemeProvider";
+import { useUserRole } from "@/hooks/useUserRole";
+import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
 
 interface SidebarItem {
   name: string;
@@ -56,6 +59,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
+  const { role, isAdmin, isReadOnly } = useUserRole();
   const { theme, toggleTheme, isMounted } = useTheme();
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -144,13 +148,24 @@ export default function DashboardLayout({
 
         {/* User Card */}
         <div className="p-4 mx-3 my-3 rounded-2xl bg-slate-100/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-md">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-md shrink-0">
             {user.name ? user.name.charAt(0).toUpperCase() : "U"}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold truncate text-slate-900 dark:text-white">
-              {user.name || "Admin"}
-            </p>
+            <div className="flex items-center gap-1.5 justify-between">
+              <p className="text-xs font-bold truncate text-slate-900 dark:text-white">
+                {user.name || "User"}
+              </p>
+              {isReadOnly ? (
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-black uppercase bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 shrink-0">
+                  Demo
+                </span>
+              ) : (
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 shrink-0">
+                  Admin
+                </span>
+              )}
+            </div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
               {user.email}
             </p>
@@ -251,6 +266,20 @@ export default function DashboardLayout({
 
           {/* Right Header Actions */}
           <div className="flex items-center gap-2">
+            {/* Role Header Badge */}
+            {isReadOnly ? (
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-700 dark:text-amber-300 text-xs font-bold shadow-sm">
+                <Eye className="w-3.5 h-3.5 text-amber-500" />
+                <span className="hidden sm:inline">Demo Visitor</span>
+                <span className="sm:hidden">Demo</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs font-bold shadow-sm">
+                <Shield className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="hidden sm:inline">Admin</span>
+              </div>
+            )}
+
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
@@ -282,6 +311,7 @@ export default function DashboardLayout({
 
         {/* Page Body Viewport */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+          {isReadOnly && <ReadOnlyBanner />}
           {children}
         </main>
       </div>
