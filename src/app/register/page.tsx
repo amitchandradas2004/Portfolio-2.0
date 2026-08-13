@@ -16,6 +16,7 @@ import {
   Loader2,
   CheckCircle2,
   AlertCircle,
+  Compass,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
@@ -234,6 +235,16 @@ export default function RegisterPage() {
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
+            </button>
+
+            {/* DEMO LOGIN BUTTON */}
+            <button
+              type="button"
+              onClick={() => router.push("/login?demo=true")}
+              className="w-full py-2.5 px-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-sm font-semibold border border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Compass className="w-4 h-4 text-sky-500" />
+              <span>Demo Login</span>
             </button>
           </form>
 

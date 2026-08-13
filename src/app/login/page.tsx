@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -15,6 +15,7 @@ import {
   Loader2,
   CheckCircle2,
   AlertCircle,
+  Compass,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
@@ -33,6 +34,26 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [demoTourClicked, setDemoTourClicked] = useState(false);
+
+  const handleDemoTour = () => {
+    setFormData({
+      email: "demouser@gmail.com",
+      password: "DemoUser2026",
+    });
+    setErrorMsg(null);
+    setSuccessMsg("Demo credentials loaded successfully!");
+    setDemoTourClicked(true);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("demo") === "true") {
+        handleDemoTour();
+      }
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -193,6 +214,16 @@ export default function LoginPage() {
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDemoTour}
+              disabled={demoTourClicked || loading}
+              className="w-full py-2.5 px-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700/80 disabled:opacity-50 disabled:cursor-not-allowed text-slate-700 dark:text-slate-200 text-sm font-semibold border border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Compass className="w-4 h-4 text-sky-500" />
+              <span>{demoTourClicked ? "Demo Credentials Loaded" : "Demo Login"}</span>
             </button>
           </form>
 
