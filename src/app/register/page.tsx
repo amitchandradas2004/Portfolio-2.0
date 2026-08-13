@@ -80,14 +80,18 @@ export default function RegisterPage() {
       <div className="absolute bottom-10 right-10 w-72 h-72 bg-sky-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
 
       {/* Back to Home Link */}
-      <div className="absolute hidden md:block top-25 left-12 z-20">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 backdrop-blur-md transition-all group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Back to Home</span>
-        </Link>
+      <div className="absolute top-25 left-0 right-0 z-20 hidden lg:block pointer-events-none">
+        <div className="container mx-auto px-8 sm:px-10 lg:px-8">
+          <div className="inline-block pointer-events-auto">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 backdrop-blur-md transition-all group"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <span>Back to Home</span>
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Main Container Card */}
