@@ -68,7 +68,7 @@ const socialLinks = [
   },
   {
     name: "Twitter / X",
-    url: "https://x.com/AmitDas950",
+    url: "https://x.com/amitchandra2004",
     icon: <FaXTwitter className="w-5 h-5 text-[#1DA1F2]" />,
   },
 ];
