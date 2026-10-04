@@ -163,7 +163,7 @@ export default function Skills() {
       id="skills"
       className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-25 transition-colors duration-300"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
 
         {/* SECTION HEADING */}
         <div className="text-center max-w-5xl mx-auto mb-14 lg:mb-18">
@@ -265,7 +265,7 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="relative rounded-2xl bg-gradient-to-r from-sky-500/10 via-purple-500/10 to-blue-500/10 backdrop-blur-xl border border-sky-500/20 dark:border-sky-400/20 p-6 sm:p-8 container mx-auto text-center shadow-lg"
+          className="relative rounded-2xl bg-gradient-to-r from-sky-500/10 via-purple-500/10 to-blue-500/10 backdrop-blur-xl border border-sky-500/20 dark:border-sky-400/20 p-6 sm:p-8 lg:p-10 text-center shadow-lg w-full"
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
 

@@ -58,7 +58,7 @@ export default async function ProjectDetailsPage({ params }: PageProps) {
       {/* Ambient background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[140px] rounded-full pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         {/* Back to Projects Button */}
         <div className="mb-8">
           <Link
