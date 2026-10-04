@@ -178,7 +178,7 @@ export default function GithubContribution({
       {/* Background Decorative Ambient Glows */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         {/* SECTION HEADER */}
         <div className="text-center max-w-3xl mx-auto mb-14 lg:mb-16">
           <motion.div
@@ -223,7 +223,7 @@ export default function GithubContribution({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative container mx-auto rounded-3xl p-6 sm:p-8 md:p-10 backdrop-blur-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 transition-all duration-300"
+          className="relative w-full rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 backdrop-blur-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 transition-all duration-300"
         >
           {/* Card Top Info Bar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200/80 dark:border-slate-800/80">

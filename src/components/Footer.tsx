@@ -53,7 +53,7 @@ export default function Footer() {
       {/* Ambient background glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full">
         {/* Main Glassmorphism Card */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
