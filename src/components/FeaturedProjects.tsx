@@ -30,7 +30,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
       {/* Background Decorative Ambient Glows */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         {/* SECTION HEADER */}
         <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
           <motion.div
@@ -74,7 +74,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10"
         >
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />

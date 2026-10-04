@@ -14,7 +14,7 @@ export default function Hero() {
       id="home"
       className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] min-h-[calc(100vh-5rem)] flex items-center justify-center py-25 lg:py-28 transition-colors duration-300"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
 
           {/* LEFT SIDE (58% Width on Desktop) */}
@@ -57,7 +57,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="max-w-xl text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 font-normal"
+              className="max-w-xl lg:max-w-2xl text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 font-normal"
             >
               I build scalable and modern web applications using React, Next.js, Node.js, and MongoDB.
               <br className="hidden sm:inline" /> I love creating clean user experiences and solving real-world problems through technology.
@@ -173,7 +173,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative group w-full max-w-xs sm:max-w-sm"
+              className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-[420px] xl:max-w-[450px]"
             >
               {/* Soft Background Glow Behind Image */}
               <div className="absolute -inset-4 bg-gradient-to-tr from-sky-500/30 via-blue-500/20 to-purple-500/30 rounded-3xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
