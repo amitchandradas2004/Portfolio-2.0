@@ -34,131 +34,6 @@ export interface ExperienceItem {
 
 const experienceData: ExperienceItem[] = [
   {
-    id: "oasis-infobyte-web-development-intern",
-    role: "Web Development and Designing Intern",
-    company: "Oasis Infobyte",
-    companyLink: "https://www.linkedin.com/company/oasis-infobyte/",
-    duration: "August 5th 2026 - September 5th 2026",
-
-    description:
-      "Working as a Web Development and Designing Intern at Oasis Infobyte, gaining practical experience through hands-on projects involving frontend development, responsive web design, and modern web development practices.",
-
-    isCurrent: true,
-    badge: "Remote Internship",
-
-    offerLetter: {
-      text: "View Offer Letter",
-      link: "https://drive.google.com/file/d/1vf4Qr7meno7PrFVxjMwOtzSNKPUb7QNg/view?usp=sharing",
-    },
-
-    responsibilities: [
-      "Developed responsive and user-friendly web interfaces using modern frontend technologies",
-      "Implemented web development concepts through practical project-based tasks",
-      "Applied HTML, CSS, JavaScript, and responsive design principles to build functional websites",
-      "Improved UI/UX implementation skills by focusing on clean and intuitive designs",
-      "Maintained organized code structure and followed best practices for web development",
-      "Documented project work and maintained GitHub repositories with proper README files",
-    ],
-
-    technologies: [
-      {
-        name: "HTML5",
-        iconKey: "html",
-        iconColor: "text-orange-500",
-      },
-      {
-        name: "CSS3",
-        iconKey: "css",
-        iconColor: "text-blue-500",
-      },
-      {
-        name: "Tailwind CSS",
-        iconKey: "tailwind",
-        iconColor: "text-sky-400",
-      },
-      {
-        name: "JavaScript(ES6+)",
-        iconKey: "javascript",
-        iconColor: "text-yellow-400",
-      },
-      {
-        name: "React.js",
-        iconKey: "react",
-        iconColor: "text-cyan-400",
-      },
-      {
-        name: "Next.js",
-        iconKey: "nextjs",
-        iconColor: "text-slate-900 dark:text-white",
-      },
-      {
-        name: "Responsive Web Design",
-        iconKey: "responsive",
-        iconColor: "text-purple-500",
-      },
-      {
-        name: "Git & GitHub",
-        iconKey: "github",
-        iconColor: "text-slate-900 dark:text-white",
-      },
-    ],
-  },
-  {
-    id: "codveda-fullstack-intern",
-    role: "Full Stack Development Intern",
-    company: "Codveda Technologies",
-    companyLink: "https://www.linkedin.com/company/codveda-technologies",
-    duration: "August 2nd 2026 - September 2nd 2026",
-    description:
-      "Working as a Full Stack Development Intern at Codveda Technologies, gaining hands-on experience in building modern web applications, developing REST APIs, integrating frontend interfaces, and implementing full-stack development practices.",
-    isCurrent: true,
-    badge: "Remote Internship",
-    offerLetter: {
-      text: "View Offer Letter",
-      link: "https://drive.google.com/file/d/1NlPDTt66nAFJ4wGGM6MnymgdsJWcoUAZ/view?usp=sharing",
-    },
-    responsibilities: [
-      "Developed backend REST APIs using Node.js and Express.js",
-      "Implemented CRUD operations and API routing following REST principles",
-      "Built responsive frontend interfaces using HTML, CSS, and JavaScript",
-      "Integrated frontend applications with backend APIs using Fetch API",
-      "Worked on database integration and full-stack application workflows",
-      "Tested APIs using tools like Postman and Thunder Client",
-    ],
-    technologies: [
-      {
-        name: "Node.js",
-        iconKey: "nodejs",
-        iconColor: "text-emerald-500",
-      },
-      {
-        name: "Express.js",
-        iconKey: "express",
-        iconColor: "text-slate-900 dark:text-white",
-      },
-      {
-        name: "JavaScript(ES6+)",
-        iconKey: "javascript",
-        iconColor: "text-yellow-400",
-      },
-      {
-        name: "REST API",
-        iconKey: "api",
-        iconColor: "text-blue-500",
-      },
-      {
-        name: "MongoDB",
-        iconKey: "mongodb",
-        iconColor: "text-emerald-500",
-      },
-      {
-        name: "Git & GitHub",
-        iconKey: "github",
-        iconColor: "text-slate-900 dark:text-white",
-      },
-    ],
-  },
-  {
     id: "fullstack-dev",
     role: "Full Stack Developer",
     company: "Personal Projects",
@@ -192,7 +67,7 @@ const experienceData: ExperienceItem[] = [
     role: "Web Development Student",
     company: "Programming Hero",
     companyLink: "https://www.programming-hero.com",
-    duration: "2026",
+    duration: "2026 -Present",
     description:
       "Completed the Complete Web Development Course and gained practical experience building real-world applications.",
     isCurrent: false,
