@@ -98,9 +98,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <div className="px-6 pb-6 pt-0">
         <Link
           href={`/projects/${project.slug}`}
-          className="w-full py-2.5 px-4 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-100 bg-slate-200/70 dark:bg-slate-800/70 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white border border-slate-300/70 dark:border-slate-700/70 hover:border-sky-500 dark:hover:border-sky-500 flex items-center justify-center gap-2 transition-all duration-200 shadow-sm active:scale-[0.98] cursor-pointer"
+          className="group/btn w-full py-2.5 px-5 rounded-xl font-semibold text-sm text-sky-600 dark:text-sky-400 bg-sky-500/10 dark:bg-sky-500/10 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white border border-sky-500/20 dark:border-sky-500/30 hover:border-sky-500 dark:hover:border-sky-500 shadow-xs hover:shadow-lg hover:shadow-sky-500/25 flex items-center justify-center gap-2 transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer"
         >
-          <Eye className="w-4 h-4" />
+          <Eye className="w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-6" />
           <span>View Details</span>
         </Link>
       </div>
