@@ -18,11 +18,105 @@ export interface Project {
   futureImprovements?: string[];
   liveUrl?: string;
   githubUrl?: string;
+  serverGithubUrl?: string;
+  individualDocsUrl?: string;
   badge?: string;
   isFeatured?: boolean;
 }
 
 export const projectsData: Project[] = [
+  {
+    id: "edunexus",
+    slug: "edunexus",
+    title: "EduNexus",
+    subtitle: "One School. One Platform. Smarter Management.",
+    description:
+      "A full-stack School Management System centralizing academic & administrative workflows across Admin, Teacher, and Student roles into a connected digital workspace.",
+    longDescription:
+      "EduNexus was developed to address a common problem in educational institutions: school information and daily operations can become fragmented across paper records, disconnected workflows, and manual processes. The platform provides a unified, role-based environment where administrators can manage school operations, teachers can handle academic activities, and students can access their own academic information. Its core modules cover attendance, examinations and results, assignments, fees, notices, performance analytics, and user management, creating a centralized workflow instead of relying on separate systems.\n\nAs a Full-Stack Developer on Team ByteCode-Breakers, my contribution focused on building and integrating key parts of the platform across both frontend and backend. My primary work included the Teacher Dashboard and Admin Dashboard, Student Fee Management, Profile Management, and shared application infrastructure. On the Teacher side, the platform supports class and section management, student discovery, notices, and examination/result workflows. The underlying architecture uses Next.js 15, React 19, and TypeScript on the frontend with an Express.js REST API, Prisma ORM, Better Auth, and MongoDB on the backend.",
+    images: [
+      "/projects/edunexus1.png",
+      "/projects/edunexus2.png",
+      "/projects/edunexus3.png",
+      "/projects/edunexus4.png",
+      "/projects/edunexus5.png",
+      "/projects/edunexus6.png",
+    ],
+    badge: "Team ByteCode-Breakers",
+    isFeatured: true,
+    liveUrl: "https://school-management-system-psi-ten.vercel.app/",
+    githubUrl: "https://github.com/JubairAhammedJubu/school-management-system",
+    serverGithubUrl: "https://github.com/JubairAhammedJubu/EduNexus-Server",
+    individualDocsUrl:
+      "https://docs.google.com/document/d/13DvCfCrQMh0xGxlxkJc-doLm6Fj6sku7vjfip9MywSk/edit?usp=sharing",
+    technologies: [
+      {
+        name: "Next.js 15",
+        iconKey: "nextjs",
+        iconColor: "text-slate-900 dark:text-white",
+      },
+      {
+        name: "React 19",
+        iconKey: "react",
+        iconColor: "text-cyan-400",
+      },
+      {
+        name: "TypeScript",
+        iconKey: "typescript",
+        iconColor: "text-blue-500",
+      },
+      {
+        name: "Node.js",
+        iconKey: "nodejs",
+        iconColor: "text-emerald-500",
+      },
+      {
+        name: "Express.js",
+        iconKey: "express",
+        iconColor: "text-slate-700 dark:text-slate-300",
+      },
+      {
+        name: "Prisma ORM",
+        iconKey: "prisma",
+        iconColor: "text-sky-500 dark:text-sky-400",
+      },
+      {
+        name: "MongoDB",
+        iconKey: "mongodb",
+        iconColor: "text-emerald-600 dark:text-emerald-400",
+      },
+      {
+        name: "Tailwind CSS",
+        iconKey: "tailwindcss",
+        iconColor: "text-sky-400",
+      },
+      {
+        name: "Framer Motion",
+        iconKey: "framer",
+        iconColor: "text-purple-500",
+      },
+    ],
+    features: [
+      "Role-Based Dashboards: Dedicated Admin, Teacher, and Student experiences tailored to each user type's responsibilities.",
+      "Teacher Academic Portal: Scoped class & section management, student rosters, notice publishing, and exam/result workflows.",
+      "Admin Management Dashboard: Administrative operations for user approvals, school setup, notices, and system-level management.",
+      "Student Fee Management: Centralized tracking of fee categories, due dates, billing statuses (Paid, Pending, Overdue), and transaction receipts.",
+      "Attendance, Exam & Result Workflows: Marks entry, performance tracking, and attendance history logs.",
+      "Academic Performance Analytics: Insights on attendance and performance trends to identify students requiring academic support.",
+    ],
+    challenges: [
+      "Multi-Role Application Architecture: Maintaining isolated workflows for Admin, Teacher, and Student users within a shared platform, scoping interactions to assigned classes and sections.",
+      "Complex Academic Data Relationships: Modeling interconnected schemas (classes, subjects, results, fees, rosters) using Prisma ORM and MongoDB.",
+      "Atomic Profile & Registration Handling: Consolidating extended multi-field profile data into atomic registration payloads rather than fragmented records.",
+      "Full-Stack End-to-End Reliability: Continuous validation between Next.js Server Actions, Express REST APIs, and database queries with zero compilation errors.",
+    ],
+    futureImprovements: [
+      "Advanced Class Performance Analytics with visual pass/fail and subject score distribution charts.",
+      "Automated Report Cards with PDF generation for student transcripts and term reports.",
+      "Attendance & Grade Correlation analytics to proactively support struggling students.",
+      "Expanded Ecosystem: Parent portal accounts, online fee payment integration, SMS/email alerts, and mobile apps.",
+    ],
+  },
   {
     id: "eventflow",
     slug: "eventflow",
@@ -168,7 +262,7 @@ export const projectsData: Project[] = [
       "/projects/startupforge5.png",
     ],
     badge: "SaaS Platform",
-    isFeatured: true,
+    isFeatured: false,
     technologies: [
       { name: "Next.js", iconKey: "nextjs", iconColor: "text-slate-900 dark:text-white" },
       { name: "Better Auth", iconKey: "betterauth", iconColor: "text-indigo-400" },
