@@ -44,6 +44,8 @@ export function RenderTechIcon({ iconKey, className }: RenderTechIconProps) {
   if (key.includes("javascript") || key === "js") return <FaJs className={className} />;
   if (key.includes("github")) return <FaGithub className={className} />;
   if (key.includes("git")) return <FaGitAlt className={className} />;
+  if (key.includes("prisma")) return <Globe className={className} />;
+  if (key.includes("framer") || key.includes("motion")) return <Sparkles className={className} />;
   if (key.includes("responsive")) return <Layout className={className} />;
   if (key.includes("api")) return <Globe className={className} />;
 
