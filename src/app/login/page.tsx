@@ -16,8 +16,11 @@ import {
   CheckCircle2,
   AlertCircle,
   Compass,
+  UserCheck,
+  LogOut,
+  LayoutDashboard,
 } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
+import { useSession, authClient } from "@/lib/auth-client";
 
 export interface LoginFormData {
   email: string;
@@ -26,6 +29,8 @@ export interface LoginFormData {
 
 export default function LoginPage() {
   const router = useRouter();
+  const { data: session, isPending } = useSession();
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
@@ -35,6 +40,16 @@ export default function LoginPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [demoTourClicked, setDemoTourClicked] = useState(false);
+
+  // Redirect authenticated user to dashboard
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      const timer = setTimeout(() => {
+        router.replace("/dashboard");
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isPending, session, router]);
 
   const handleDemoTour = () => {
     setFormData({
@@ -86,6 +101,93 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
+
+  if (isPending) {
+    return (
+      <div className="min-h-screen relative flex items-center justify-center bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            Checking session...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (session?.user) {
+    const user = session.user;
+    return (
+      <div className="min-h-screen relative flex items-center justify-center py-25 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[500px] sm:h-[700px] bg-gradient-to-tr from-sky-500/15 via-blue-500/10 to-purple-500/15 blur-[140px] rounded-full pointer-events-none -z-10" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-md relative z-10"
+        >
+          <div className="rounded-3xl p-6 sm:p-8 backdrop-blur-xl bg-white/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 shadow-2xl text-center space-y-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-sky-500/10 text-sky-500 border border-sky-500/20 mx-auto">
+              <UserCheck className="w-8 h-8" />
+            </div>
+
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Already Signed In</span>
+              </span>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+                Welcome Back, {user.name || "User"}!
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                You are currently signed in as <strong className="text-slate-800 dark:text-slate-200">{user.email}</strong>.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+              <Loader2 className="w-4 h-4 animate-spin text-sky-500" />
+              <span>Redirecting to your dashboard...</span>
+            </div>
+
+            <div className="flex flex-col gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => router.push("/dashboard")}
+                className="w-full py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-sm font-bold shadow-lg shadow-sky-500/25 active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <LayoutDashboard className="w-4 h-4" />
+                <span>Go to Dashboard Now</span>
+              </button>
+
+              <button
+                type="button"
+                disabled={isSigningOut}
+                onClick={async () => {
+                  try {
+                    setIsSigningOut(true);
+                    await authClient.signOut();
+                  } catch (e) {
+                    console.error("Sign out error:", e);
+                  } finally {
+                    setIsSigningOut(false);
+                  }
+                }}
+                className="w-full py-2.5 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-sm font-semibold border border-rose-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                {isSigningOut ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <LogOut className="w-4 h-4" />
+                )}
+                <span>Sign Out to Switch Account</span>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen relative flex items-center justify-center py-25 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300">
