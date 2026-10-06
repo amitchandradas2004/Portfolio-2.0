@@ -73,7 +73,7 @@ export default function Hero() {
               {/* Primary Button: Download Resume */}
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                 <Link
-                  href="https://docs.google.com/document/d/1FE9hqM1CjNIDJ5yqDwBU5hB8ZZ25Md-qGzGtqu6OuHg/edit?usp=sharing"
+                  href="https://drive.google.com/file/d/1HHT7oDBDbTNMTAMEi9xEOqNkb_iP8vGP/view?usp=sharing"
                   target="_blank"
                   className="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
                   aria-label="Download Resume"
