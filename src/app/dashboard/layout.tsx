@@ -168,16 +168,17 @@ export default function DashboardLayout({
   const CurrentIcon = currentItem.icon;
 
   return (
-    <div className="min-h-screen flex bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-300 overflow-x-hidden">
+    <div className="min-h-screen flex bg-slate-50 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-300 relative">
       {/* Background Ambient Glowing Orbs */}
       <div className="fixed top-1/4 left-1/3 w-[650px] h-[650px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[160px] rounded-full pointer-events-none -z-10" />
       <div className="fixed bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-br from-indigo-500/10 via-sky-500/5 to-emerald-500/10 blur-[140px] rounded-full pointer-events-none -z-10" />
 
       {/* Desktop Sidebar */}
       <motion.aside
-        animate={{ width: isCollapsed ? 84 : 288 }}
+        initial={false}
+        animate={{ width: isCollapsed ? 80 : 280 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="hidden lg:flex flex-col shrink-0 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl sticky top-0 h-screen z-30 select-none"
+        className="hidden lg:flex flex-col shrink-0 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl sticky top-0 h-screen z-30 select-none shadow-sm"
       >
         {/* Brand Header */}
         <div className={`h-16 px-4 flex items-center border-b border-slate-200/80 dark:border-slate-800/80 ${
@@ -347,7 +348,7 @@ export default function DashboardLayout({
 
                     {/* Floating Side Tooltip when Collapsed */}
                     {isCollapsed && (
-                      <div className="fixed left-[92px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
+                      <div className="fixed left-[90px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
                         {item.name}
                       </div>
                     )}
@@ -369,7 +370,7 @@ export default function DashboardLayout({
             <Home className="w-4 h-4 text-slate-400 shrink-0" />
             {!isCollapsed && <span className="whitespace-nowrap">Back to Home</span>}
             {isCollapsed && (
-              <div className="fixed left-[92px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
+              <div className="fixed left-[90px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
                 Back to Home
               </div>
             )}
@@ -384,7 +385,7 @@ export default function DashboardLayout({
             <LogOut className="w-4 h-4 shrink-0" />
             {!isCollapsed && <span className="whitespace-nowrap">Logout</span>}
             {isCollapsed && (
-              <div className="fixed left-[92px] px-3.5 py-2 rounded-xl bg-rose-950 text-rose-100 dark:bg-rose-900 dark:text-rose-100 text-xs font-extrabold shadow-2xl border border-rose-800 dark:border-rose-700/80 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
+              <div className="fixed left-[90px] px-3.5 py-2 rounded-xl bg-rose-950 text-rose-100 dark:bg-rose-900 dark:text-rose-100 text-xs font-extrabold shadow-2xl border border-rose-800 dark:border-rose-700/80 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
                 Logout
               </div>
             )}
@@ -482,7 +483,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page Body Viewport with Framer Motion Page Transition */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 w-full max-w-7xl mx-auto">
           {isReadOnly && <ReadOnlyBanner />}
           <AnimatePresence mode="wait">
             <motion.div
