@@ -7,13 +7,17 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import GithubContribution from "@/components/GithubContribution";
 import Contact from "@/components/Contact";
 import { getFeaturedProjects } from "@/lib/getFeaturedProjects";
+import { getHeroData } from "@/lib/getHeroData";
 
 export default async function Home() {
-  const featuredProjects = await getFeaturedProjects();
+  const [heroData, featuredProjects] = await Promise.all([
+    getHeroData(),
+    getFeaturedProjects(),
+  ]);
 
   return (
     <main>
-      <Hero />
+      <Hero heroData={heroData} />
       <About />
       <Skills />
       <Experience />
