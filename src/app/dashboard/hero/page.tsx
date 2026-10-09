@@ -92,7 +92,7 @@ export default function HeroDashboardPage() {
   const [activeTab, setActiveTab] = useState<"info" | "links" | "image" | "preview">("info");
 
   // Effective state determining if inputs are locked
-  const isInputDisabled = isReadOnly || !isEditing;
+  const isInputDisabled = !isEditing;
   
   const [statusMessage, setStatusMessage] = useState<{
     type: "success" | "error" | "info";
@@ -252,11 +252,19 @@ export default function HeroDashboardPage() {
         throw new Error(data.error || "Failed to update Hero section.");
       }
 
-      setLastSavedData(formData);
+      const savedHero = data.hero ? { ...defaultHeroData, ...data.hero } : formData;
+      setFormData(savedHero);
+      setLastSavedData(savedHero);
+
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("portfolio-hero-updated", { detail: savedHero })
+        );
+      }
 
       setStatusMessage({
         type: "success",
-        text: "Hero section updated successfully! Your main website is now live with these changes.",
+        text: "Hero section updated successfully in database! Your main website is now live with these changes.",
       });
     } catch (err: any) {
       setStatusMessage({
