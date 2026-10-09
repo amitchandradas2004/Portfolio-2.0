@@ -4,7 +4,7 @@ import { getDb } from "./db";
 export * from "./hero-types";
 
 export async function getHeroData(): Promise<HeroData> {
-  // 1. Direct MongoDB fetch (Server Component environment)
+  // 1. Direct MongoDB fetch
   try {
     const db = await getDb();
     if (db) {
@@ -18,7 +18,7 @@ export async function getHeroData(): Promise<HeroData> {
       }
     }
   } catch (dbErr) {
-    // DB not connected or environment variable missing during build
+    console.error("Error fetching hero from MongoDB:", dbErr);
   }
 
   // 2. Fallback to Express backend if configured
@@ -26,7 +26,7 @@ export async function getHeroData(): Promise<HeroData> {
   if (backendUrl && !backendUrl.includes("localhost")) {
     try {
       const res = await fetch(`${backendUrl}/api/hero`, {
-        next: { revalidate: 60 },
+        cache: "no-store",
       });
       if (res.ok) {
         const data = await res.json();
@@ -42,4 +42,3 @@ export async function getHeroData(): Promise<HeroData> {
 
   return defaultHeroData;
 }
-
