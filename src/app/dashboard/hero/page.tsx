@@ -47,14 +47,14 @@ function FieldHeaderCompare({
   const isDifferent = savedValue !== undefined && currentValue !== undefined && savedValue !== currentValue;
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+    <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 mb-1.5">
       <div className="flex items-center gap-2 flex-wrap">
         <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
           {label}
         </span>
         {savedValue !== undefined && (
           <span
-            className={`inline-flex items-center gap-1 text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-all ${
+            className={`inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-all ${
               isDifferent
                 ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400"
                 : "bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400"
@@ -62,12 +62,12 @@ function FieldHeaderCompare({
             title={`Last saved in database: ${savedValue || "(empty)"}`}
           >
             <Clock className="w-3 h-3 shrink-0" />
-            <span className="font-semibold">{isDifferent ? "Saved:" : "Last Saved:"}</span>
-            <span className="max-w-[140px] sm:max-w-[200px] truncate italic">
+            <span className="font-semibold hidden xs:inline">{isDifferent ? "Saved:" : "Last Saved:"}</span>
+            <span className="max-w-[90px] xs:max-w-[140px] sm:max-w-[200px] truncate italic">
               &quot;{savedValue || "Empty"}&quot;
             </span>
             {isDifferent && (
-              <span className="ml-1 text-[9px] font-extrabold uppercase tracking-tight bg-amber-500/20 text-amber-700 dark:text-amber-300 px-1 rounded">
+              <span className="ml-0.5 text-[9px] font-extrabold uppercase tracking-tight bg-amber-500/20 text-amber-700 dark:text-amber-300 px-1 rounded">
                 Edited
               </span>
             )}
@@ -296,35 +296,35 @@ export default function HeroDashboardPage() {
   return (
     <div className="space-y-6 pb-12">
       {/* Top Header Card */}
-      <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-purple-500/15 border border-sky-500/20 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-6">
+      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-purple-500/15 border border-sky-500/20 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6">
         <div className="space-y-3 relative z-10">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 shrink-0" />
               <span>Dynamic Section Management</span>
             </div>
 
             {isAdmin && isEditing && (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-bold uppercase tracking-wider">
-                <Edit3 className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                <Edit3 className="w-3.5 h-3.5 shrink-0" />
                 <span>Editing Mode Active</span>
               </div>
             )}
 
             {hasChanges ? (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider animate-pulse">
-                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
                 <span>Unsaved Changes</span>
               </div>
             ) : (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                <CheckCircle2 className="w-3.5 h-3.5" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                 <span>All Saved</span>
               </div>
             )}
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-xl xs:text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
             Hero Section Settings
           </h1>
 
@@ -335,12 +335,12 @@ export default function HeroDashboardPage() {
 
         {/* Structured Action Bar */}
         <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 relative z-10">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             {isAdmin && (
               <button
                 type="button"
                 onClick={() => setIsEditing((prev) => !prev)}
-                className={`px-4.5 py-2.5 rounded-xl border text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
+                className={`w-full sm:w-auto px-4 py-2.5 rounded-xl border text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
                   isEditing
                     ? "bg-amber-500/15 border-amber-500/40 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 ring-2 ring-amber-500/20"
                     : "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent hover:opacity-90 shadow-md shadow-sky-500/20"
@@ -348,12 +348,12 @@ export default function HeroDashboardPage() {
               >
                 {isEditing ? (
                   <>
-                    <Lock className="w-4 h-4" />
+                    <Lock className="w-4 h-4 shrink-0" />
                     <span>Lock Form</span>
                   </>
                 ) : (
                   <>
-                    <Edit3 className="w-4 h-4" />
+                    <Edit3 className="w-4 h-4 shrink-0" />
                     <span>Edit Hero Section</span>
                   </>
                 )}
@@ -364,7 +364,7 @@ export default function HeroDashboardPage() {
               type="submit"
               onClick={handleSubmit}
               disabled={isInputDisabled || saving || !hasChanges}
-              className={`px-6 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all ${
+              className={`w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all ${
                 hasChanges && !isInputDisabled && !saving
                   ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white shadow-lg shadow-sky-500/25 cursor-pointer"
                   : "bg-slate-200 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border border-slate-300/40 dark:border-slate-700/40 cursor-not-allowed opacity-60"
@@ -372,25 +372,25 @@ export default function HeroDashboardPage() {
             >
               {saving ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin shrink-0" />
                   <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Save className="w-4 h-4" />
+                  <Save className="w-4 h-4 shrink-0" />
                   <span>{hasChanges ? "Save Changes" : "No Changes to Save"}</span>
                 </>
               )}
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             <Link
               href="/#home"
               target="_blank"
-              className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
             >
-              <ExternalLink className="w-4 h-4 text-sky-500" />
+              <ExternalLink className="w-4 h-4 text-sky-500 shrink-0" />
               <span>View Live Banner</span>
             </Link>
 
@@ -398,9 +398,9 @@ export default function HeroDashboardPage() {
               type="button"
               onClick={handleReset}
               disabled={isInputDisabled || saving}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs"
             >
-              <RotateCcw className="w-4 h-4 text-slate-400" />
+              <RotateCcw className="w-4 h-4 text-slate-400 shrink-0" />
               <span>Reset Defaults</span>
             </button>
           </div>
@@ -412,7 +412,7 @@ export default function HeroDashboardPage() {
         <motion.div
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-semibold text-sky-700 dark:text-sky-300 shadow-sm"
+          className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-semibold text-sky-700 dark:text-sky-300 shadow-sm"
         >
           <div className="flex items-center gap-2.5">
             <Lock className="w-4 h-4 text-sky-500 shrink-0" />
@@ -441,7 +441,7 @@ export default function HeroDashboardPage() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={`p-4 rounded-2xl border flex items-center justify-between gap-3 text-sm font-semibold shadow-md ${
+            className={`p-4 rounded-xl border flex items-center justify-between gap-3 text-sm font-semibold shadow-md ${
               statusMessage.type === "success"
                 ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300"
                 : statusMessage.type === "error"
@@ -468,54 +468,60 @@ export default function HeroDashboardPage() {
       </AnimatePresence>
 
       {/* Tab Navigation */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 w-fit overflow-x-auto">
-        <button
-          onClick={() => setActiveTab("info")}
-          className={`px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
-            activeTab === "info"
-              ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <User className="w-4 h-4" />
-          <span>Basic Bio Info</span>
-        </button>
+      <div className="relative w-full max-w-full">
+        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 overflow-x-auto overflow-y-hidden touch-pan-x scroll-smooth no-scrollbar w-full">
+          <button
+            type="button"
+            onClick={() => setActiveTab("info")}
+            className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              activeTab === "info"
+                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <User className="w-4 h-4 shrink-0" />
+            <span>Basic Bio Info</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab("links")}
-          className={`px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
-            activeTab === "links"
-              ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <FileText className="w-4 h-4" />
-          <span>Resume & Social Links</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("links")}
+            className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              activeTab === "links"
+                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <FileText className="w-4 h-4 shrink-0" />
+            <span>Resume & Social Links</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab("image")}
-          className={`px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
-            activeTab === "image"
-              ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <ImageIcon className="w-4 h-4" />
-          <span>Image & Floating Badges</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("image")}
+            className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              activeTab === "image"
+                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <ImageIcon className="w-4 h-4 shrink-0" />
+            <span>Image & Floating Badges</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab("preview")}
-          className={`px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer ${
-            activeTab === "preview"
-              ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-          }`}
-        >
-          <Eye className="w-4 h-4" />
-          <span>Interactive Live Preview</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("preview")}
+            className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              activeTab === "preview"
+                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <Eye className="w-4 h-4 shrink-0" />
+            <span>Interactive Live Preview</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Form Body */}
@@ -525,7 +531,7 @@ export default function HeroDashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 sm:p-8 rounded-3xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+            className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
           >
             <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
               <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
@@ -648,7 +654,7 @@ export default function HeroDashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 sm:p-8 rounded-3xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+            className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
           >
             <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
               <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20">
@@ -818,7 +824,7 @@ export default function HeroDashboardPage() {
             className="space-y-6"
           >
             {/* Image Section Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
+            <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
               <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
                 <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                   <ImageIcon className="w-5 h-5" />
@@ -835,7 +841,7 @@ export default function HeroDashboardPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                 {/* Image Preview Box */}
-                <div className="flex flex-col items-center justify-center p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 relative group">
+                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 relative group">
                   <div className="relative w-40 aspect-[4/5] rounded-xl overflow-hidden shadow-lg border border-slate-300 dark:border-slate-700">
                     <Image
                       src={formatImageUrl(formData.imageUrl)}
@@ -915,14 +921,14 @@ export default function HeroDashboardPage() {
             </div>
 
             {/* Tech Badges Section Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
+            <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
+              <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                  <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 border border-amber-500/20 shrink-0">
                     <Layers className="w-5 h-5" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                    <h2 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
                       Floating Tech Badges
                     </h2>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -935,7 +941,7 @@ export default function HeroDashboardPage() {
                   type="button"
                   onClick={handleAddBadge}
                   disabled={isInputDisabled}
-                  className="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                  className="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 shrink-0 self-end xs:self-auto"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Badge</span>
@@ -946,7 +952,7 @@ export default function HeroDashboardPage() {
                 {formData.techBadges.map((badge, idx) => (
                   <div
                     key={idx}
-                    className="flex flex-col sm:flex-row items-center gap-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80"
+                    className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80"
                   >
                     <div className="flex items-center gap-2 w-full sm:w-1/3">
                       <input
@@ -954,7 +960,7 @@ export default function HeroDashboardPage() {
                         checked={badge.enabled !== false}
                         onChange={(e) => handleBadgeChange(idx, "enabled", e.target.checked)}
                         disabled={isInputDisabled}
-                        className="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 cursor-pointer"
+                        className="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 cursor-pointer shrink-0"
                       />
                       <input
                         type="text"
@@ -966,22 +972,22 @@ export default function HeroDashboardPage() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 w-full sm:w-1/2">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 w-full sm:w-1/2">
                       <input
                         type="text"
                         value={badge.iconKey}
                         onChange={(e) => handleBadgeChange(idx, "iconKey", e.target.value)}
-                        placeholder="Icon (react, next, ts, node, mongo)"
+                        placeholder="Icon (react, next, ts, node)"
                         disabled={isInputDisabled}
-                        className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
                       />
                       <input
                         type="text"
                         value={badge.colorClass}
                         onChange={(e) => handleBadgeChange(idx, "colorClass", e.target.value)}
-                        placeholder="Color class (text-cyan-400)"
+                        placeholder="Color (text-cyan-400)"
                         disabled={isInputDisabled}
-                        className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
                       />
                     </div>
 
@@ -989,7 +995,7 @@ export default function HeroDashboardPage() {
                       type="button"
                       onClick={() => handleRemoveBadge(idx)}
                       disabled={isInputDisabled}
-                      className="p-2 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer disabled:opacity-50 self-end sm:self-center"
+                      className="p-2 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer disabled:opacity-50 self-end sm:self-center shrink-0"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -1007,9 +1013,9 @@ export default function HeroDashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
-            <div className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-between">
+            <div className="p-3 sm:p-4 rounded-xl bg-sky-500/10 border border-sky-500/20 flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2">
               <div className="flex items-center gap-2 text-xs font-bold text-sky-600 dark:text-sky-400">
-                <Eye className="w-4 h-4" />
+                <Eye className="w-4 h-4 shrink-0" />
                 <span>Real-Time Preview (Includes unsaved form changes)</span>
               </div>
               <span className="text-[11px] text-slate-500 font-medium">
@@ -1017,8 +1023,8 @@ export default function HeroDashboardPage() {
               </span>
             </div>
 
-            <div className="rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-[#020617]">
-              <Hero heroData={formData} />
+            <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-[#020617] w-full">
+              <Hero heroData={formData} isPreview />
             </div>
           </motion.div>
         )}
@@ -1043,10 +1049,10 @@ export default function HeroDashboardPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 15 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-md p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/40 space-y-6 z-10"
+              className="relative w-full max-w-md p-6 sm:p-7 rounded-xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/40 space-y-6 z-10"
             >
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 shrink-0">
+                <div className="p-3 rounded-xl bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 shrink-0">
                   <RotateCcw className="w-6 h-6" />
                 </div>
                 <div className="space-y-1">
@@ -1059,7 +1065,7 @@ export default function HeroDashboardPage() {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-rose-500/10 dark:bg-rose-500/15 border border-rose-500/25 text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
+              <div className="p-3.5 rounded-xl bg-rose-500/10 dark:bg-rose-500/15 border border-rose-500/25 text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
                 <span className="font-bold text-rose-600 dark:text-rose-400">Important Note:</span> This will reset your editor inputs and live preview. Your live website won't change until you click <strong className="text-slate-900 dark:text-white font-bold">Save Changes</strong>.
               </div>
 

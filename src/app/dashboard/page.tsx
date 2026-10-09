@@ -95,15 +95,15 @@ export default function DashboardPage() {
       {/* Welcome Banner */}
       <motion.div
         variants={itemVariants}
-        className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-indigo-500/15 border border-sky-500/25 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5"
+        className="rounded-xl p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-indigo-500/15 border border-sky-500/25 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6"
       >
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Admin Dashboard Overview</span>
             </div>
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+            <h1 className="text-xl xs:text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
               Welcome back, {user?.name || "Portfolio Manager"}!
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
@@ -111,7 +111,7 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md shrink-0 flex flex-col gap-3 min-w-[240px] shadow-lg">
+          <div className="p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md shrink-0 flex flex-col gap-3 min-w-[240px] w-full sm:w-auto shadow-lg">
             <div className="flex items-center justify-between gap-3 text-xs font-semibold">
               <span className="text-slate-500 dark:text-slate-400">Current Session</span>
               {isReadOnly ? (
@@ -162,7 +162,7 @@ export default function DashboardPage() {
               >
                 <Link
                   href={shortcut.href}
-                  className="group block p-5 rounded-2xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 hover:border-sky-500/40 dark:hover:border-sky-500/40 backdrop-blur-xl shadow-lg shadow-slate-900/5 dark:shadow-black/20 transition-all h-full"
+                  className="group block p-5 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 hover:border-sky-500/40 dark:hover:border-sky-500/40 backdrop-blur-xl shadow-lg shadow-slate-900/5 dark:shadow-black/20 transition-all h-full"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className={`p-3 rounded-xl bg-gradient-to-br border ${shortcut.color}`}>
