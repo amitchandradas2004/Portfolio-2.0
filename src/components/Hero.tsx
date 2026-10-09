@@ -11,6 +11,7 @@ import { HeroData, defaultHeroData, formatImageUrl } from "@/lib/hero-types";
 
 interface HeroProps {
   heroData?: HeroData;
+  isPreview?: boolean;
 }
 
 const renderBadgeIcon = (iconKey: string, colorClass: string) => {
@@ -24,7 +25,7 @@ const renderBadgeIcon = (iconKey: string, colorClass: string) => {
   return <Code className={`w-3.5 h-3.5 ${colorClass}`} />;
 };
 
-export default function Hero({ heroData: initialData }: HeroProps) {
+export default function Hero({ heroData: initialData, isPreview = false }: HeroProps) {
   const [heroState, setHeroState] = React.useState<HeroData>({
     ...defaultHeroData,
     ...initialData,
@@ -89,10 +90,14 @@ export default function Hero({ heroData: initialData }: HeroProps) {
   return (
     <section
       id="home"
-      className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] min-h-[calc(100vh-5rem)] flex items-center justify-center py-25 lg:py-28 transition-colors duration-300"
+      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-300 ${
+        isPreview
+          ? "py-8 sm:py-12 lg:py-16 min-h-0"
+          : "min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 pb-12 sm:py-20 lg:py-28"
+      }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
 
           {/* LEFT SIDE (58% Width on Desktop) */}
           <div className="w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -102,7 +107,7 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-xs sm:text-sm md:text-xl font-semibold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-3"
+              className="text-xs sm:text-sm md:text-xl font-semibold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-2.5 sm:mb-3"
             >
               {data.greeting}
             </motion.p>
@@ -112,7 +117,7 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-none"
+              className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-tight sm:leading-none break-words w-full"
             >
               {data.name}
             </motion.h1>
@@ -122,7 +127,7 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-6"
+              className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 sm:mb-6"
             >
               <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 {data.designation}
@@ -134,7 +139,7 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="max-w-xl lg:max-w-2xl text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 font-normal whitespace-pre-line line-clamp-5 sm:line-clamp-none"
+              className="max-w-xl lg:max-w-2xl text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6 sm:mb-8 font-normal whitespace-pre-line line-clamp-5 sm:line-clamp-none"
             >
               {formattedDescription}
             </motion.p>
@@ -144,29 +149,29 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto"
             >
               {/* Primary Button: Download Resume */}
               {data.resumeUrl && (
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-full sm:w-auto">
                   <Link
                     href={data.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer text-sm sm:text-base"
                     aria-label="Download Resume"
                   >
-                    <Download className="w-4 h-4" />
+                    <Download className="w-4 h-4 shrink-0" />
                     <span>Download Resume</span>
                   </Link>
                 </motion.div>
               )}
 
               {/* Secondary Button: Contact Me */}
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-full sm:w-auto">
                 <Link
                   href="#contact"
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold border border-slate-300 dark:border-slate-700/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md text-[#0F172A] dark:text-[#F8FAFC] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 shadow-xs cursor-pointer"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-semibold border border-slate-300 dark:border-slate-700/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md text-[#0F172A] dark:text-[#F8FAFC] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 shadow-xs cursor-pointer text-sm sm:text-base"
                   aria-label="Contact Me"
                 >
                   <span>Contact Me</span>
@@ -179,7 +184,7 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex items-center justify-center lg:justify-start gap-3.5 flex-wrap"
+              className="flex items-center justify-center lg:justify-start gap-2.5 sm:gap-3.5 flex-wrap"
             >
               {data.githubUrl && (
                 <motion.a
@@ -189,9 +194,9 @@ export default function Hero({ heroData: initialData }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub Profile"
-                  className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:border-slate-800 dark:hover:border-slate-200 transition-all duration-200 shadow-xs"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:border-slate-800 dark:hover:border-slate-200 transition-all duration-200 shadow-xs"
                 >
-                  <FaGithub className="w-5 h-5" />
+                  <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.a>
               )}
 
@@ -203,9 +208,9 @@ export default function Hero({ heroData: initialData }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn Profile"
-                  className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#0A66C2] hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2] transition-all duration-200 shadow-xs"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#0A66C2] hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2] transition-all duration-200 shadow-xs"
                 >
-                  <FaLinkedinIn className="w-5 h-5" />
+                  <FaLinkedinIn className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.a>
               )}
 
@@ -217,9 +222,9 @@ export default function Hero({ heroData: initialData }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LeetCode Profile"
-                  className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#FFA116] hover:text-[#FFA116] hover:border-[#FFA116] dark:hover:border-[#FFA116] transition-all duration-200 shadow-xs"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#FFA116] hover:text-[#FFA116] hover:border-[#FFA116] dark:hover:border-[#FFA116] transition-all duration-200 shadow-xs"
                 >
-                  <SiLeetcode className="w-5 h-5" />
+                  <SiLeetcode className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.a>
               )}
 
@@ -231,9 +236,9 @@ export default function Hero({ heroData: initialData }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="X (Twitter) Profile"
-                  className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#1DA1F2] hover:text-[#1DA1F2] hover:border-[#1DA1F2] dark:hover:border-[#1DA1F2] transition-all duration-200 shadow-xs"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#1DA1F2] hover:text-[#1DA1F2] hover:border-[#1DA1F2] dark:hover:border-[#1DA1F2] transition-all duration-200 shadow-xs"
                 >
-                  <FaXTwitter className="w-5 h-5" />
+                  <FaXTwitter className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.a>
               )}
 
@@ -243,9 +248,9 @@ export default function Hero({ heroData: initialData }: HeroProps) {
                   whileTap={{ scale: 0.95 }}
                   href={`mailto:${data.email.replace(/[\[\]]/g, '')}`}
                   aria-label="Email Me"
-                  className="w-11 h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#EA4335] hover:text-[#EA4335] hover:border-[#EA4335] dark:hover:border-[#EA4335] transition-all duration-200 shadow-xs"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#EA4335] hover:text-[#EA4335] hover:border-[#EA4335] dark:hover:border-[#EA4335] transition-all duration-200 shadow-xs"
                 >
-                  <Mail className="w-5 h-5" />
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.a>
               )}
             </motion.div>
@@ -257,17 +262,17 @@ export default function Hero({ heroData: initialData }: HeroProps) {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="w-full lg:w-[42%] flex items-center justify-center relative"
+            className="w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0"
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-[420px] xl:max-w-[450px]"
+              className="relative group w-full max-w-[260px] xs:max-w-[300px] sm:max-w-sm md:max-w-md lg:max-w-[420px] xl:max-w-[450px]"
             >
               {/* Soft Background Glow Behind Image */}
-              <div className="absolute -inset-4 bg-gradient-to-tr from-sky-500/30 via-blue-500/20 to-purple-500/30 rounded-3xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+              <div className="absolute -inset-4 bg-gradient-to-tr from-sky-500/30 via-blue-500/20 to-purple-500/30 rounded-xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
-              {/* FLOATING TECH BADGES AROUND PROFILE IMAGE */}
+              {/* FLOATING TECH BADGES AROUND PROFILE IMAGE (Desktop/Tablet >= sm) */}
               {enabledBadges.map((badge, idx) => {
                 const positions = [
                   "-top-4 -right-4",
@@ -295,8 +300,8 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               })}
 
               {/* Glassmorphism Card Wrapper around Profile Image */}
-              <div className="relative p-3 sm:p-4 rounded-3xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-2xl shadow-sky-500/20 overflow-hidden">
-                <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+              <div className="relative p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-2xl shadow-sky-500/20 overflow-hidden">
+                <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <Image
                     src={imgSrc || "/Amit_Image_3.png"}
                     alt={`${data.name} - Full-Stack Developer Profile Portrait`}
@@ -313,6 +318,22 @@ export default function Hero({ heroData: initialData }: HeroProps) {
               </div>
 
             </motion.div>
+
+            {/* FLOATING TECH BADGES FOR MOBILE (< sm) */}
+            {enabledBadges.length > 0 && (
+              <div className="flex sm:hidden flex-wrap items-center justify-center gap-2 mt-4 z-20 w-full px-2">
+                {enabledBadges.map((badge, idx) => (
+                  <div
+                    key={badge.name + idx}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-white/10 shadow-md text-xs font-semibold text-slate-800 dark:text-slate-200"
+                  >
+                    {renderBadgeIcon(badge.iconKey || badge.name, badge.colorClass || "text-sky-400")}
+                    <span>{badge.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
           </motion.div>
 
         </div>
@@ -320,3 +341,4 @@ export default function Hero({ heroData: initialData }: HeroProps) {
     </section>
   );
 }
+

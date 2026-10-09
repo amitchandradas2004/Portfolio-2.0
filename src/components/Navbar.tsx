@@ -156,12 +156,12 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="group flex items-center gap-2 text-lg sm:text-xl font-bold tracking-tight transition-transform duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded-lg p-1"
+              className="group flex items-center gap-1.5 sm:gap-2 tracking-tight transition-transform duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-cyan-500/50 rounded-lg p-0.5 sm:p-1"
             >
-              <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/20 group-hover:rotate-6 transition-transform duration-300">
-                <Sparkles className="w-4 h-4" />
+              <div className="relative flex items-center justify-center w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/20 group-hover:rotate-6 transition-transform duration-300 shrink-0">
+                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
-              <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent group-hover:from-cyan-500 group-hover:to-blue-600 dark:group-hover:from-cyan-400 dark:group-hover:to-blue-400 transition-all duration-300">
+              <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent group-hover:from-cyan-500 group-hover:to-blue-600 dark:group-hover:from-cyan-400 dark:group-hover:to-blue-400 transition-all duration-300 text-sm xs:text-base sm:text-lg lg:text-xl font-extrabold whitespace-nowrap">
                 Amit Chandra Das
               </span>
             </Link>
