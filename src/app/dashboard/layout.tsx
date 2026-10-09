@@ -599,7 +599,7 @@ export default function DashboardLayout({
       {/* Global Dashboard Logout Confirmation Modal */}
       <AnimatePresence>
         {showLogoutModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -613,18 +613,18 @@ export default function DashboardLayout({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-md rounded-3xl p-6 sm:p-7 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xl z-10 space-y-5"
+              className="relative w-full max-w-[320px] xs:max-w-sm sm:max-w-md rounded-xl p-4 sm:p-7 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xl z-10 space-y-3 sm:space-y-5"
             >
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3.5">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-500 border border-rose-500/20 shrink-0">
-                    <LogOut className="w-6 h-6" />
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2.5 sm:gap-3.5">
+                  <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-rose-500/10 text-rose-500 border border-rose-500/20 shrink-0">
+                    <LogOut className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                    <h2 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white">
                       Confirm Log Out
                     </h2>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                       Are you sure you want to sign out?
                     </p>
                   </div>
@@ -633,22 +633,22 @@ export default function DashboardLayout({
                   type="button"
                   disabled={isLoggingOut}
                   onClick={() => setShowLogoutModal(false)}
-                  className="p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                  className="p-1 sm:p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer shrink-0"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
 
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 Logging out will end your current session. You will need to log back in to access your portfolio management settings.
               </p>
 
-              <div className="flex items-center justify-end gap-3 pt-2">
+              <div className="flex items-center justify-end gap-2 sm:gap-3 pt-1 sm:pt-2">
                 <button
                   type="button"
                   disabled={isLoggingOut}
                   onClick={() => setShowLogoutModal(false)}
-                  className="px-4.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+                  className="px-3.5 sm:px-4.5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
                 >
                   Cancel
                 </button>
@@ -656,16 +656,16 @@ export default function DashboardLayout({
                   type="button"
                   disabled={isLoggingOut}
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold shadow-lg shadow-rose-500/25 active:scale-95 transition-all cursor-pointer disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-rose-500/25 active:scale-95 transition-all cursor-pointer disabled:opacity-60"
                 >
                   {isLoggingOut ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
                       <span>Logging out...</span>
                     </>
                   ) : (
                     <>
-                      <LogOut className="w-4 h-4" />
+                      <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       <span>Log Out</span>
                     </>
                   )}
