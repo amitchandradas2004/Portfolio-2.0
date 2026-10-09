@@ -25,11 +25,51 @@ const renderBadgeIcon = (iconKey: string, colorClass: string) => {
 };
 
 export default function Hero({ heroData: initialData }: HeroProps) {
-  const data = {
+  const [heroState, setHeroState] = React.useState<HeroData>({
     ...defaultHeroData,
     ...initialData,
-  };
+  });
 
+  React.useEffect(() => {
+    if (initialData) {
+      setHeroState({
+        ...defaultHeroData,
+        ...initialData,
+      });
+    }
+  }, [initialData]);
+
+  React.useEffect(() => {
+    const handleUpdate = async (e?: Event) => {
+      try {
+        const customDetail = (e as CustomEvent)?.detail;
+        if (customDetail) {
+          setHeroState({
+            ...defaultHeroData,
+            ...customDetail,
+          });
+          return;
+        }
+        const res = await fetch("/api/hero", { cache: "no-store" });
+        if (res.ok) {
+          const freshData = await res.json();
+          setHeroState({
+            ...defaultHeroData,
+            ...freshData,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to re-fetch hero data:", err);
+      }
+    };
+
+    window.addEventListener("portfolio-hero-updated", handleUpdate);
+    return () => {
+      window.removeEventListener("portfolio-hero-updated", handleUpdate);
+    };
+  }, []);
+
+  const data = heroState;
   const activeImageUrl = formatImageUrl(data.imageUrl);
   const [imgSrc, setImgSrc] = React.useState(activeImageUrl);
 

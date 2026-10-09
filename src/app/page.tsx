@@ -9,6 +9,9 @@ import Contact from "@/components/Contact";
 import { getFeaturedProjects } from "@/lib/getFeaturedProjects";
 import { getHeroData } from "@/lib/getHeroData";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Home() {
   const [heroData, featuredProjects] = await Promise.all([
     getHeroData(),
