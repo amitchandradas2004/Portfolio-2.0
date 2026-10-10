@@ -26,6 +26,8 @@ import {
   Clock,
   Edit3,
   Lock,
+  MapPin,
+  Briefcase,
 } from "lucide-react";
 import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
@@ -132,11 +134,19 @@ export default function HeroDashboardPage() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value, type } = e.target;
+    if (type === "checkbox") {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleBadgeChange = (index: number, field: keyof TechBadge, value: any) => {
@@ -548,6 +558,78 @@ export default function HeroDashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Availability Status Text & Toggle */}
+              <div className="space-y-2 md:col-span-2 p-4 rounded-xl bg-slate-100/60 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="w-4 h-4 text-emerald-500" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                      Work Availability Status & Badge
+                    </span>
+                  </div>
+
+                  <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      name="isAvailable"
+                      checked={formData.isAvailable !== false}
+                      onChange={handleChange}
+                      disabled={isInputDisabled}
+                      className="sr-only peer"
+                    />
+                    <div className="relative w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:after:border-slate-600 peer-checked:bg-emerald-500" />
+                    <span className="text-xs font-extrabold text-slate-700 dark:text-slate-200">
+                      {formData.isAvailable !== false ? "🟢 Status: Active Available" : "⚪ Status: Inactive / Busy"}
+                    </span>
+                  </label>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <FieldHeaderCompare
+                      label="Availability Text"
+                      savedValue={lastSavedData.availabilityStatus}
+                      currentValue={formData.availabilityStatus}
+                    />
+                    <input
+                      type="text"
+                      name="availabilityStatus"
+                      value={formData.availabilityStatus || ""}
+                      onChange={handleChange}
+                      placeholder="e.g. Available for Freelance & Full-Time Roles"
+                      disabled={isInputDisabled}
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    />
+                    <p className="text-[11px] text-slate-400">
+                      Headline shown in the green pulsing badge.
+                    </p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <FieldHeaderCompare
+                      label="Location & Remote Preference"
+                      savedValue={lastSavedData.locationText}
+                      currentValue={formData.locationText}
+                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="locationText"
+                        value={formData.locationText || ""}
+                        onChange={handleChange}
+                        placeholder="e.g. Dhaka, Bangladesh • Remote Worldwide"
+                        disabled={isInputDisabled}
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                      />
+                      <MapPin className="w-4 h-4 text-sky-500 absolute left-3 top-3" />
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      Displayed next to your availability status.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Greeting Text */}
               <div className="space-y-2">
                 <FieldHeaderCompare
