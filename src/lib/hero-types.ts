@@ -11,6 +11,9 @@ export interface HeroData {
   name: string;
   designation: string;
   description: string;
+  availabilityStatus?: string;
+  isAvailable?: boolean;
+  locationText?: string;
   resumeUrl: string;
   imageUrl: string;
   githubUrl: string;
@@ -28,6 +31,9 @@ export const defaultHeroData: HeroData = {
   designation: "Full-Stack Developer",
   description:
     "I build scalable and modern web applications using React, Next.js, Node.js, and MongoDB. I love creating clean user experiences and solving real-world problems through technology.",
+  availabilityStatus: "Available for Freelance & Full-Time Roles",
+  isAvailable: true,
+  locationText: "Dhaka, Bangladesh • Remote Worldwide",
   resumeUrl:
     "https://drive.google.com/file/d/1HHT7oDBDbTNMTAMEi9xEOqNkb_iP8vGP/view?usp=sharing",
   imageUrl: "/Amit_Image_3.png",
