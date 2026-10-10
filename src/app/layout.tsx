@@ -34,7 +34,7 @@ export default function RootLayout({
       className={`${inter.variable} ${sora.variable} h-full antialiased dark`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-slate-100 transition-colors duration-300">
         <ThemeProvider>
           <ScrollProgress />
           <Navbar />
