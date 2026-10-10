@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Download, Mail, Code, Terminal, Database, Cpu } from "lucide-react";
+import { Download, Mail, Code, Terminal, Database, Cpu, MapPin } from "lucide-react";
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaReact, FaNodeJs } from "react-icons/fa6";
 import { SiNextdotjs, SiTypescript, SiMongodb, SiLeetcode, SiTailwindcss } from "react-icons/si";
 import { HeroData, defaultHeroData, formatImageUrl } from "@/lib/hero-types";
@@ -313,7 +313,42 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700 select-none"
                   />
                   {/* Glass Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
+
+                  {/* Floating Glassmorphism Availability & Location Card Overlay */}
+                  {(data.availabilityStatus || data.locationText) && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="absolute bottom-2.5 sm:bottom-3 left-2.5 sm:left-3 right-2.5 sm:right-3 z-30 p-2.5 sm:p-3 rounded-xl bg-slate-950/75 dark:bg-slate-900/85 backdrop-blur-xl border border-white/20 shadow-2xl space-y-1"
+                    >
+                      {data.availabilityStatus && (
+                        <div className="flex items-center gap-2">
+                          <span className="relative flex h-2.5 w-2.5 shrink-0">
+                            {data.isAvailable !== false && (
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                            )}
+                            <span
+                              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                                data.isAvailable !== false ? "bg-emerald-500" : "bg-slate-400"
+                              }`}
+                            />
+                          </span>
+                          <span className="text-xs font-bold text-white tracking-wide truncate">
+                            {data.availabilityStatus}
+                          </span>
+                        </div>
+                      )}
+
+                      {data.locationText && (
+                        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-300">
+                          <MapPin className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                          <span className="truncate">{data.locationText}</span>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
                 </div>
               </div>
 
