@@ -179,80 +179,87 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               </motion.div>
             </motion.div>
 
-            {/* 6. Social Links */}
+            {/* 6. Social Links with Tooltips */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="flex items-center justify-center lg:justify-start gap-2.5 sm:gap-3.5 flex-wrap"
             >
-              {data.githubUrl && (
-                <motion.a
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={data.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub Profile"
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:border-slate-800 dark:hover:border-slate-200 transition-all duration-200 shadow-xs"
-                >
-                  <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.a>
-              )}
+              {[
+                {
+                  name: "GitHub",
+                  url: data.githubUrl,
+                  ariaLabel: "GitHub Profile",
+                  icon: <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  colorClass:
+                    "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:border-slate-800 dark:hover:border-slate-200",
+                  external: true,
+                },
+                {
+                  name: "LinkedIn",
+                  url: data.linkedinUrl,
+                  ariaLabel: "LinkedIn Profile",
+                  icon: <FaLinkedinIn className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  colorClass:
+                    "text-[#0A66C2] hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2]",
+                  external: true,
+                },
+                {
+                  name: "LeetCode",
+                  url: data.leetcodeUrl,
+                  ariaLabel: "LeetCode Profile",
+                  icon: <SiLeetcode className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  colorClass:
+                    "text-[#FFA116] hover:text-[#FFA116] hover:border-[#FFA116] dark:hover:border-[#FFA116]",
+                  external: true,
+                },
+                {
+                  name: "Twitter / X",
+                  url: data.twitterUrl,
+                  ariaLabel: "Twitter / X Profile",
+                  icon: <FaXTwitter className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  colorClass:
+                    "text-[#1DA1F2] hover:text-[#1DA1F2] hover:border-[#1DA1F2] dark:hover:border-[#1DA1F2]",
+                  external: true,
+                },
+                {
+                  name: "Gmail",
+                  url: data.email ? `mailto:${data.email.replace(/[\[\]]/g, "")}` : "",
+                  ariaLabel: "Email Me via Gmail",
+                  icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  colorClass:
+                    "text-[#EA4335] hover:text-[#EA4335] hover:border-[#EA4335] dark:hover:border-[#EA4335]",
+                  external: false,
+                },
+              ]
+                .filter((item) => Boolean(item.url))
+                .map((item) => (
+                  <div key={item.name} className="relative group flex flex-col items-center">
+                    <motion.a
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      href={item.url}
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noopener noreferrer" : undefined}
+                      aria-label={item.ariaLabel}
+                      className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md ${item.colorClass} transition-all duration-200 shadow-xs cursor-pointer`}
+                    >
+                      {item.icon}
+                    </motion.a>
 
-              {data.linkedinUrl && (
-                <motion.a
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={data.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn Profile"
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#0A66C2] hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2] transition-all duration-200 shadow-xs"
-                >
-                  <FaLinkedinIn className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.a>
-              )}
-
-              {data.leetcodeUrl && (
-                <motion.a
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={data.leetcodeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LeetCode Profile"
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#FFA116] hover:text-[#FFA116] hover:border-[#FFA116] dark:hover:border-[#FFA116] transition-all duration-200 shadow-xs"
-                >
-                  <SiLeetcode className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.a>
-              )}
-
-              {data.twitterUrl && (
-                <motion.a
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={data.twitterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X (Twitter) Profile"
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#1DA1F2] hover:text-[#1DA1F2] hover:border-[#1DA1F2] dark:hover:border-[#1DA1F2] transition-all duration-200 shadow-xs"
-                >
-                  <FaXTwitter className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.a>
-              )}
-
-              {data.email && (
-                <motion.a
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={`mailto:${data.email.replace(/[\[\]]/g, '')}`}
-                  aria-label="Email Me"
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-[#EA4335] hover:text-[#EA4335] hover:border-[#EA4335] dark:hover:border-[#EA4335] transition-all duration-200 shadow-xs"
-                >
-                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.a>
-              )}
+                    {/* Tooltip positioned under the icon */}
+                    <div
+                      role="tooltip"
+                      className="absolute top-full mt-2.5 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none opacity-0 scale-95 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:translate-y-0 transition-all duration-200 ease-out z-30"
+                    >
+                      <div className="w-2 h-2 rotate-45 bg-slate-900 dark:bg-slate-800 border-t border-l border-slate-700/80 dark:border-slate-600/80 -mb-1 z-10" />
+                      <div className="px-2.5 py-1 rounded-md bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-md text-white text-[11px] sm:text-xs font-semibold tracking-wide whitespace-nowrap shadow-xl border border-slate-700/80 dark:border-slate-600/80">
+                        {item.name}
+                      </div>
+                    </div>
+                  </div>
+                ))}
             </motion.div>
 
           </div>
