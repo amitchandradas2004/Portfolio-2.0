@@ -8,13 +8,15 @@ import GithubContribution from "@/components/GithubContribution";
 import Contact from "@/components/Contact";
 import { getFeaturedProjects } from "@/lib/getFeaturedProjects";
 import { getHeroData } from "@/lib/getHeroData";
+import { getSkillsData } from "@/lib/getSkillsData";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function Home() {
-  const [heroData, featuredProjects] = await Promise.all([
+  const [heroData, skillsData, featuredProjects] = await Promise.all([
     getHeroData(),
+    getSkillsData(),
     getFeaturedProjects(),
   ]);
 
@@ -22,7 +24,7 @@ export default async function Home() {
     <main>
       <Hero heroData={heroData} />
       <About />
-      <Skills />
+      <Skills initialSkills={skillsData} />
       <Experience />
       <FeaturedProjects projects={featuredProjects} />
       <Education />
