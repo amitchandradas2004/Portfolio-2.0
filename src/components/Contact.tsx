@@ -31,8 +31,8 @@ const contactInfoList: ContactInfo[] = [
   {
     id: "email",
     title: "Email Me",
-    value: "amitchandradas950@gmail.com",
-    link: "mailto:amitchandradas950@gmail.com",
+    value: "acdamit2004@gmail.com",
+    link: "mailto:acdamit2004@gmail.com",
     icon: <Mail className="w-5 h-5 text-sky-500" />,
   },
   {
@@ -318,6 +318,16 @@ export default function Contact() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                {/* Web3Forms Honeypot Spam Protection */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  className="hidden"
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                   {/* Name Input */}
                   <div>
