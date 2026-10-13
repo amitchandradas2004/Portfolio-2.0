@@ -1,51 +1,50 @@
-import emailjs from "@emailjs/browser";
-
 export interface EmailParams {
   from_name: string;
   from_email: string;
-  subject: string;
+  subject?: string;
   message: string;
 }
 
+export interface Web3FormsResponse {
+  success: boolean;
+  message: string;
+  data?: unknown;
+}
+
+const DEFAULT_ACCESS_KEY = "57d3fb23-1d4f-4b96-bc1a-e9040662d0fe";
+
 /**
- * Sends a contact form message via EmailJS.
+ * Sends a contact form message via Web3Forms API.
  */
-export async function sendContactEmail(params: EmailParams): Promise<void> {
-  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+export async function sendContactEmail(params: EmailParams): Promise<Web3FormsResponse> {
+  let accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY?.trim();
 
-  if (!serviceId || serviceId === "your_service_id") {
-    throw new Error(
-      "EmailJS Service ID is missing. Please set NEXT_PUBLIC_EMAILJS_SERVICE_ID in .env.local"
-    );
+  // Fall back to the configured key if environment variable is missing or placeholder
+  if (!accessKey || accessKey === "your_web3forms_access_key") {
+    accessKey = DEFAULT_ACCESS_KEY;
   }
 
-  if (!templateId || templateId === "your_template_id") {
-    throw new Error(
-      "EmailJS Template ID is missing. Please set NEXT_PUBLIC_EMAILJS_TEMPLATE_ID in .env.local"
-    );
-  }
-
-  if (!publicKey || publicKey === "your_public_key") {
-    throw new Error(
-      "EmailJS Public Key is missing. Please set NEXT_PUBLIC_EMAILJS_PUBLIC_KEY in .env.local"
-    );
-  }
-
-  const response = await emailjs.send(
-    serviceId,
-    templateId,
-    {
-      from_name: params.from_name,
-      from_email: params.from_email,
-      subject: params.subject,
-      message: params.message,
+  const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
     },
-    publicKey
-  );
+    body: JSON.stringify({
+      access_key: accessKey,
+      name: params.from_name,
+      email: params.from_email,
+      subject: params.subject || "Portfolio Contact Inquiry",
+      message: params.message,
+      from_name: `${params.from_name} via Portfolio`,
+    }),
+  });
 
-  if (response.status !== 200) {
-    throw new Error(`Failed to send email. Status code: ${response.status}`);
+  const data: Web3FormsResponse = await response.json();
+
+  if (!response.ok || !data.success) {
+    throw new Error(data.message || "Failed to send message. Please try again.");
   }
+
+  return data;
 }
