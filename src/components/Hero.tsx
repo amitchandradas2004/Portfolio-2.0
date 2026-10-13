@@ -8,6 +8,7 @@ import { Download, Mail, Code, Terminal, Database, Cpu, MapPin } from "lucide-re
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaReact, FaNodeJs } from "react-icons/fa6";
 import { SiNextdotjs, SiTypescript, SiMongodb, SiLeetcode, SiTailwindcss } from "react-icons/si";
 import { HeroData, defaultHeroData, formatImageUrl } from "@/lib/hero-types";
+import TextAnimation from "@/components/uilayouts/scroll-text";
 
 interface HeroProps {
   heroData?: HeroData;
@@ -103,46 +104,47 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
           <div className="w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left">
 
             {/* 1. Greeting Text */}
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-xs sm:text-sm md:text-xl font-semibold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-2.5 sm:mb-3"
-            >
-              {data.greeting}
-            </motion.p>
+            <TextAnimation
+              as="p"
+              text={data.greeting}
+              direction="down"
+              distance={24}
+              delay={0}
+              classname="text-xs sm:text-sm md:text-xl font-semibold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-2.5 sm:mb-3"
+            />
 
             {/* 2. Developer Name - Strongest Visual Element */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-tight sm:leading-none break-words w-full"
-            >
-              {data.name}
-            </motion.h1>
+            <TextAnimation
+              as="h1"
+              text={data.name}
+              direction="down"
+              distance={24}
+              delay={0.1}
+              classname="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-tight sm:leading-none break-words w-full"
+            />
 
             {/* 3. Professional Designation - Gradient Text */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 sm:mb-6"
+            <TextAnimation
+              as="h2"
+              direction="down"
+              distance={24}
+              delay={0.2}
+              classname="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 sm:mb-6"
             >
               <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 {data.designation}
               </span>
-            </motion.h2>
+            </TextAnimation>
 
             {/* 4. Short Introduction */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="max-w-xl lg:max-w-2xl text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6 sm:mb-8 font-normal whitespace-pre-line line-clamp-5 sm:line-clamp-none"
-            >
-              {formattedDescription}
-            </motion.p>
+            <TextAnimation
+              as="p"
+              text={formattedDescription}
+              direction="down"
+              distance={24}
+              delay={0.3}
+              classname="max-w-xl lg:max-w-2xl text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6 sm:mb-8 font-normal whitespace-pre-line line-clamp-5 sm:line-clamp-none"
+            />
 
             {/* 5. Action Buttons */}
             <motion.div
