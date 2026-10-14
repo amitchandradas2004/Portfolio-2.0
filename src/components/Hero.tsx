@@ -9,6 +9,8 @@ import { FaGithub, FaLinkedinIn, FaXTwitter, FaReact, FaNodeJs } from "react-ico
 import { SiNextdotjs, SiTypescript, SiMongodb, SiLeetcode, SiTailwindcss } from "react-icons/si";
 import { HeroData, defaultHeroData, formatImageUrl } from "@/lib/hero-types";
 import TextAnimation from "@/components/uilayouts/scroll-text";
+import ButtonCrossArrow from "@/components/ButtonCrossArrow";
+import ButtonCreativeRight from "@/components/ButtonCreativeRight";
 
 interface HeroProps {
   heroData?: HeroData;
@@ -91,11 +93,10 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
   return (
     <section
       id="home"
-      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-300 ${
-        isPreview
-          ? "py-8 sm:py-12 lg:py-16 min-h-0"
-          : "min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 pb-12 sm:py-20 lg:py-28"
-      }`}
+      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-300 ${isPreview
+        ? "py-8 sm:py-12 lg:py-16 min-h-0"
+        : "min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 pb-12 sm:py-20 lg:py-28"
+        }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
@@ -151,33 +152,27 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto"
+              className="flex flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto"
             >
               {/* Primary Button: Download Resume */}
               {data.resumeUrl && (
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-full sm:w-auto">
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-auto shrink-0">
                   <Link
                     href={data.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer text-sm sm:text-base"
+                    className="h-10 sm:h-auto px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2 sm:gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer text-xs sm:text-base whitespace-nowrap"
                     aria-label="Download Resume"
                   >
-                    <Download className="w-4 h-4 shrink-0" />
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                     <span>Download Resume</span>
                   </Link>
                 </motion.div>
               )}
 
               {/* Secondary Button: Contact Me */}
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-full sm:w-auto">
-                <Link
-                  href="#contact"
-                  className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-semibold border border-slate-300 dark:border-slate-700/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md text-[#0F172A] dark:text-[#F8FAFC] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 shadow-xs cursor-pointer text-sm sm:text-base"
-                  aria-label="Contact Me"
-                >
-                  <span>Contact Me</span>
-                </Link>
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-auto shrink-0 flex justify-center sm:block">
+                <ButtonCrossArrow href="#contact" text="Contact me" />
               </motion.div>
             </motion.div>
 
@@ -339,9 +334,8 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                             )}
                             <span
-                              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-                                data.isAvailable !== false ? "bg-emerald-500" : "bg-slate-400"
-                              }`}
+                              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${data.isAvailable !== false ? "bg-emerald-500" : "bg-slate-400"
+                                }`}
                             />
                           </span>
                           <span className="text-xs font-bold text-white tracking-wide truncate">
