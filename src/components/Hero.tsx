@@ -95,14 +95,20 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
       id="home"
       className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-300 ${isPreview
         ? "py-8 sm:py-12 lg:py-16 min-h-0"
-        : "min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 pb-12 sm:py-20 lg:py-28"
+        : "min-h-screen lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:py-20 lg:py-28"
         }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
 
           {/* LEFT SIDE (58% Width on Desktop) */}
-          <div className="w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div
+            className={`w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left ${
+              !isPreview
+                ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 justify-center py-6 sm:py-8 lg:py-0"
+                : ""
+            }`}
+          >
 
             {/* 1. Greeting Text */}
             <TextAnimation
@@ -152,27 +158,33 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto max-w-md sm:max-w-none"
             >
               {/* Primary Button: Download Resume */}
               {data.resumeUrl && (
-                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-auto shrink-0">
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
                   <Link
                     href={data.resumeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="h-10 sm:h-auto px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2 sm:gap-2.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer text-xs sm:text-base whitespace-nowrap"
+                    className="group h-12 w-full sm:w-auto pl-5 pr-1.5 sm:pl-6 sm:pr-2 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:via-blue-500 hover:to-indigo-500 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 border border-white/20 flex items-center justify-between sm:justify-center gap-3.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer text-sm sm:text-base whitespace-nowrap select-none"
                     aria-label="Download Resume"
                   >
-                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                     <span>Download Resume</span>
+                    <div className="w-8 h-8 sm:h-9 sm:w-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/25 transition-all duration-200 group-hover:scale-105">
+                      <Download className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-y-0.5" />
+                    </div>
                   </Link>
                 </motion.div>
               )}
 
               {/* Secondary Button: Contact Me */}
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="w-auto shrink-0 flex justify-center sm:block">
-                <ButtonCrossArrow href="#contact" text="Contact me" />
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                <ButtonCrossArrow
+                  href="#contact"
+                  text="Contact me"
+                  className="h-12 w-full sm:w-[170px]"
+                />
               </motion.div>
             </motion.div>
 
@@ -266,7 +278,11 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0"
+            className={`w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0 ${
+              !isPreview
+                ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 py-8 sm:py-12 lg:py-0"
+                : ""
+            }`}
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}
