@@ -160,19 +160,37 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="space-y-4 text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed font-normal mb-8"
             >
+
+              {/* 1. Introduction */}
               <p>
-                Hello! I&apos;m <strong className="text-slate-900 dark:text-white font-semibold">Amit Chandra Das</strong>, a full-stack developer passionate about building scalable, high-performance web applications with modern design aesthetics. I bridge the gap between complex engineering and intuitive user experiences.
+                Hello! I&apos;m{" "}
+                <strong className="text-slate-900 dark:text-white font-semibold">
+                  Amit Chandra Das
+                </strong>
+                , a full-stack developer passionate about building modern, scalable, and
+                user-friendly web applications. I work with React, Next.js, TypeScript,
+                Node.js, and MongoDB to create seamless digital experiences with clean,
+                responsive interfaces and reliable backend systems.
               </p>
 
               {/* 2. Programming Journey */}
               <p>
-                My programming journey started with curiosity about how interactive applications operate behind the screen. Over time, that curiosity evolved into a dedicated career path where I master modern JavaScript frameworks, design robust RESTful APIs, and construct efficient database architecture.
+                My journey into web development began with curiosity about how interactive
+                applications work behind the scenes. Since then, I&apos;ve built real-world
+                projects, developed RESTful APIs, implemented authentication and
+                authorization, integrated payment systems, and worked with databases to
+                deliver functional, full-stack solutions.
               </p>
 
               {/* 3. Current Interests & Personality */}
               <p>
-                When I&apos;m not writing code, I enjoy exploring emerging web technologies, refining UI micro-interactions, and contributing to developer communities. I take pride in writing clean, maintainable code and solving complex technical challenges with elegant solutions.
+                Beyond coding, I enjoy exploring modern web technologies, refining UI
+                interactions, collaborating with other developers, and solving real-world
+                problems through software. I value clean, maintainable code, continuous
+                learning, and building intuitive user experiences while growing as a
+                developer through hands-on projects and collaboration.
               </p>
+
             </motion.div>
 
             {/* Trait Highlight Cards */}
