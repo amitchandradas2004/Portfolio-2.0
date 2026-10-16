@@ -17,6 +17,16 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:500
  */
 async function checkAdminAuth(request: Request): Promise<{ authorized: boolean; reason?: string }> {
   try {
+    // 1. Check explicit demo client header
+    const roleHeader = request.headers.get("x-user-role");
+    if (roleHeader === "demo") {
+      return {
+        authorized: false,
+        reason: "Demo Visitor Mode: Editing, adding, or deleting skills is restricted to admin.",
+      };
+    }
+
+    // 2. Check active user session
     const reqHeaders = await headers();
     const session = await auth.api.getSession({
       headers: reqHeaders,
@@ -33,60 +43,31 @@ async function checkAdminAuth(request: Request): Promise<{ authorized: boolean; 
       return { authorized: true };
     }
 
-    // Check optional client role header
-    const roleHeader = request.headers.get("x-user-role");
-    if (roleHeader === "demo") {
-      return { authorized: false, reason: "Demo Visitor Mode: Editing skills is disabled." };
-    }
-
-    // In local development, permit if no explicit demo header
+    // 3. In local development without demo role header, permit admin operations
     if (process.env.NODE_ENV === "development") {
       return { authorized: true };
     }
 
     return { authorized: false, reason: "Unauthorized: Please log in as an administrator." };
   } catch (error) {
+    if (process.env.NODE_ENV === "development") {
+      return { authorized: true };
+    }
     console.error("Auth check error in /api/skills:", error);
     return { authorized: false, reason: "Authentication verification failed." };
   }
 }
 
-// 1. GET /api/skills - Prioritize Dedicated Express Backend Server
+// 1. GET /api/skills - Prioritize Direct MongoDB Database
 export async function GET() {
-  // 1. Fetch from Dedicated Express Backend Server
-  try {
-    const res = await fetch(`${BACKEND_URL}/api/skills`, {
-      cache: "no-store",
-    });
-    if (res.ok) {
-      const data = await res.json();
-      const mainDoc = Array.isArray(data.data)
-        ? data.data.find((d: any) => Array.isArray(d.categories)) || data.data[0]
-        : data;
-      if (mainDoc && (mainDoc.categories || mainDoc.title)) {
-        return NextResponse.json(
-          {
-            ...defaultSkillsData,
-            ...mainDoc,
-            _id: mainDoc._id?.toString(),
-          },
-          {
-            headers: {
-              "Cache-Control": "no-store, max-age=0, must-revalidate",
-            },
-          }
-        );
-      }
-    }
-  } catch (backendErr) {
-    console.warn("Express backend GET /api/skills warning:", backendErr);
-  }
-
-  // 2. Fallback to Direct MongoDB if backend server unreachable
+  // 1. Fetch live data directly from MongoDB database
   try {
     const db = await getDb();
     if (db) {
-      let skillsDoc = await db.collection("skills").findOne({});
+      let skillsDoc = await db.collection("skills").findOne({ categories: { $exists: true } });
+      if (!skillsDoc) {
+        skillsDoc = await db.collection("skills").findOne({});
+      }
 
       if (!skillsDoc) {
         const { _id, ...cleanData } = defaultSkillsData;
@@ -115,6 +96,35 @@ export async function GET() {
     }
   } catch (dbErr) {
     console.error("Direct MongoDB GET /api/skills error:", dbErr);
+  }
+
+  // 2. Fallback to Dedicated Express Backend Server if configured
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/skills`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const mainDoc = Array.isArray(data.data)
+        ? data.data.find((d: any) => Array.isArray(d.categories)) || data.data[0]
+        : data;
+      if (mainDoc && (mainDoc.categories || mainDoc.title)) {
+        return NextResponse.json(
+          {
+            ...defaultSkillsData,
+            ...mainDoc,
+            _id: mainDoc._id?.toString(),
+          },
+          {
+            headers: {
+              "Cache-Control": "no-store, max-age=0, must-revalidate",
+            },
+          }
+        );
+      }
+    }
+  } catch (backendErr) {
+    console.warn("Express backend GET /api/skills warning:", backendErr);
   }
 
   return NextResponse.json(defaultSkillsData, {
