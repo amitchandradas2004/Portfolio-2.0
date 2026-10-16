@@ -4,9 +4,29 @@ import { getDb } from "./db";
 export * from "./skills-types";
 
 export async function getSkillsData(): Promise<SkillsData> {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+  // 1. Direct MongoDB fetch first
+  try {
+    const db = await getDb();
+    if (db) {
+      let skillsDoc = await db.collection("skills").findOne({ categories: { $exists: true } });
+      if (!skillsDoc) {
+        skillsDoc = await db.collection("skills").findOne({});
+      }
+      if (skillsDoc) {
+        const { _id, ...rest } = skillsDoc as any;
+        return {
+          ...defaultSkillsData,
+          ...rest,
+          _id: _id?.toString(),
+        };
+      }
+    }
+  } catch (dbErr) {
+    console.error("Error fetching skills from Database:", dbErr);
+  }
 
-  // 1. Fetch from Dedicated Express Backend Server
+  // 2. Fallback to Dedicated Express Backend Server
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
   try {
     const res = await fetch(`${backendUrl}/api/skills`, {
       cache: "no-store",
@@ -28,22 +48,6 @@ export async function getSkillsData(): Promise<SkillsData> {
     console.warn("Backend server GET /api/skills fallback warning:", backendErr);
   }
 
-  // 2. Direct MongoDB fallback
-  try {
-    const db = await getDb();
-    if (db) {
-      const skillsDoc = await db.collection("skills").findOne({});
-      if (skillsDoc) {
-        return {
-          ...defaultSkillsData,
-          ...skillsDoc,
-          _id: skillsDoc._id?.toString(),
-        } as SkillsData;
-      }
-    }
-  } catch (dbErr) {
-    console.error("Error fetching skills from MongoDB:", dbErr);
-  }
-
   return defaultSkillsData;
 }
+

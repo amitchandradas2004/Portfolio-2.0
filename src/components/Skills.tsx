@@ -205,7 +205,7 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
                           key={skill.id}
                           whileHover={{ scale: 1.05, y: -2 }}
                           whileTap={{ scale: 0.97 }}
-                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800/80 text-slate-800 dark:text-slate-200 text-xs font-semibold shadow-2xs transition-all duration-200 hover:border-sky-400/50 hover:bg-white dark:hover:bg-slate-850 cursor-default"
+                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800/80 text-slate-800 dark:text-slate-200 text-xs font-semibold shadow-2xs transition-all duration-200 hover:border-sky-400/50 hover:bg-white dark:hover:bg-slate-800 dark:hover:text-white cursor-default"
                         >
                           <div className={`shrink-0 ${skill.iconColor || "text-sky-400"}`}>
                             {renderSkillIcon(skill.iconKey, "w-4 h-4")}
@@ -253,7 +253,7 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
                   <motion.div
                     key={item.id}
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-sky-500/30 transition-colors"
+                    className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-sky-500/30 hover:bg-slate-50 dark:hover:bg-slate-900 dark:hover:text-white transition-colors"
                   >
                     <div className={item.color || "text-purple-400"}>
                       {renderSkillIcon(item.iconKey, "w-4 h-4")}
