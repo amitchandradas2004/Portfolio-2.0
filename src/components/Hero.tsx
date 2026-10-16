@@ -10,8 +10,7 @@ import { SiNextdotjs, SiTypescript, SiMongodb, SiLeetcode, SiTailwindcss } from 
 import { HeroData, defaultHeroData, formatImageUrl } from "@/lib/hero-types";
 import TextAnimation from "@/components/uilayouts/scroll-text";
 import ButtonCrossArrow from "@/components/ButtonCrossArrow";
-import ButtonCreativeRight from "@/components/ButtonCreativeRight";
-
+<meta name="google-site-verification" content="B-eQlTN3Ns-fBeClNtBrEVERQOl9jJsKs0aIE_bIleE" />
 interface HeroProps {
   heroData?: HeroData;
   isPreview?: boolean;
@@ -103,11 +102,10 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
 
           {/* LEFT SIDE (58% Width on Desktop) */}
           <div
-            className={`w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left ${
-              !isPreview
-                ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 justify-center py-6 sm:py-8 lg:py-0"
-                : ""
-            }`}
+            className={`w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left ${!isPreview
+              ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 justify-center py-6 sm:py-8 lg:py-0"
+              : ""
+              }`}
           >
 
             {/* 1. Greeting Text */}
@@ -278,11 +276,10 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className={`w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0 ${
-              !isPreview
-                ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 py-8 sm:py-12 lg:py-0"
-                : ""
-            }`}
+            className={`w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0 ${!isPreview
+              ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 py-8 sm:py-12 lg:py-0"
+              : ""
+              }`}
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}
