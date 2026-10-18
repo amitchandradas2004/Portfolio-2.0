@@ -105,9 +105,8 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
   return (
     <section
       id="skills"
-      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] ${
-        isPreview ? "py-8" : "py-25"
-      } transition-colors duration-300`}
+      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] ${isPreview ? "py-8" : "py-25"
+        } transition-colors duration-300`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         {/* SECTION HEADING */}
@@ -130,9 +129,9 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
           >
-            {title}{" "}
+            {title}{" "} &
             <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              {highlightedTitle}
+              &nbsp;{highlightedTitle}
             </span>
           </motion.h2>
 
@@ -169,9 +168,8 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
               >
                 {/* Subtle Ambient Hover Glow */}
                 <div
-                  className={`absolute -inset-full bg-gradient-to-br ${
-                    cat.glowColor || "from-sky-500/20 via-blue-500/10 to-transparent"
-                  } opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl -z-10`}
+                  className={`absolute -inset-full bg-gradient-to-br ${cat.glowColor || "from-sky-500/20 via-blue-500/10 to-transparent"
+                    } opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl -z-10`}
                 />
 
                 <div>
@@ -179,9 +177,8 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
                   <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200/70 dark:border-slate-800">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`p-2.5 rounded-xl ${
-                          cat.badgeBg || "bg-sky-500/10 border-sky-500/20 text-sky-600 dark:text-sky-400"
-                        } border shrink-0 transition-transform duration-300 group-hover:scale-110`}
+                        className={`p-2.5 rounded-xl ${cat.badgeBg || "bg-sky-500/10 border-sky-500/20 text-sky-600 dark:text-sky-400"
+                          } border shrink-0 transition-transform duration-300 group-hover:scale-110`}
                       >
                         <div className={cat.iconColor || "text-sky-500"}>
                           {renderCategoryIcon(cat.iconKey, "w-5 h-5")}

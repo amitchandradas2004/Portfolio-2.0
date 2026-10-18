@@ -103,47 +103,121 @@ The project leverages Next.js App Router conventions to separate server and clie
 Below is the directory tree of the Next.js project:
 
 ```
-src/
-├── app/                        # Next.js App Router routes & layouts
-│   ├── api/                    # API endpoints
-│   ├── contact/                # Contact page route (/contact)
-│   │   └── page.tsx
-│   ├── projects/               # Projects routes (/projects)
-│   │   ├── [slug]/             # Dynamic project details route (/projects/:slug)
+portfolio-2.0/
+├── components/                 # UI layout primitives
+│   └── uilayouts/              # Text animation layout component (scroll-text)
+├── public/                     # Static media & assets
+│   ├── projects/               # Showcase project preview images
+│   ├── screenshots/            # Readme preview screenshots
+│   └── uploads/                # Dynamic uploaded assets
+├── src/
+│   ├── app/                    # Next.js App Router routes, layouts & API handlers
+│   │   ├── api/                # Backend API route handlers
+│   │   │   ├── auth/           # Better-Auth authentication endpoints
+│   │   │   │   ├── [...all]/   # Better-Auth catch-all handler
+│   │   │   │   └── register/   # Registration API route
+│   │   │   ├── github-stats/   # GitHub activity statistics API
+│   │   │   ├── hero/           # Hero section content API
+│   │   │   ├── skills/         # Skills dataset management API
+│   │   │   └── upload/         # File/image upload handler (Cloudinary)
+│   │   ├── contact/            # Contact page route (/contact)
 │   │   │   └── page.tsx
-│   │   ├── loading.tsx         # Route loading boundary
-│   │   └── page.tsx            # Projects listing page
-│   ├── favicon.ico             # App favicon
-│   ├── globals.css             # Global Tailwind styles & CSS utilities
-│   ├── layout.tsx              # Root app layout (providers & metadata)
-│   ├── loading.tsx             # Global loading UI
-│   ├── not-found.tsx           # Custom 404 page
-│   └── page.tsx                # Homepage / landing page
-├── components/                 # Reusable UI & section components
-│   ├── About.tsx               # About section
-│   ├── Contact.tsx             # Contact section & EmailJS form
-│   ├── Education.tsx           # Academic education section
-│   ├── Experience.tsx          # Work experience section
-│   ├── FeaturedProjects.tsx    # Homepage featured projects display
-│   ├── Footer.tsx              # Footer component
-│   ├── GithubContribution.tsx  # GitHub activity calendar component
-│   ├── Hero.tsx                # Hero section
-│   ├── Navbar.tsx              # Navigation header bar
-│   ├── ProjectCard.tsx         # Project card component
-│   ├── ProjectCardSkeleton.tsx # Card skeleton component
-│   ├── ProjectImageGallery.tsx # Image carousel/gallery component
-│   ├── Projects.tsx            # Projects listing layout
-│   ├── ProjectsSkeleton.tsx    # Grid skeleton loader component
-│   ├── RenderTechIcon.tsx      # Dynamic technology icon resolver
-│   ├── ScrollProgress.tsx      # Scroll progress bar
-│   ├── Skills.tsx              # Skills grid component
-│   └── ThemeProvider.tsx       # Theme provider wrapper component
-└── lib/                        # Business logic & static datasets
-    ├── email.ts                # EmailJS integration utilities
-    ├── getFeaturedProjects.ts  # Featured project retriever
-    ├── getProjectBySlug.ts     # Project by slug retriever
-    ├── getProjects.ts          # All projects retriever
-    └── projectsData.ts         # Central project data store
+│   │   ├── dashboard/          # Administrative CMS dashboard (/dashboard)
+│   │   │   ├── about/          # Dashboard About editor
+│   │   │   ├── contact/        # Dashboard Contact messages manager
+│   │   │   ├── education/      # Dashboard Education manager
+│   │   │   ├── experiences/    # Dashboard Experience manager
+│   │   │   ├── footer/         # Dashboard Footer editor
+│   │   │   ├── github/         # Dashboard GitHub stats configuration
+│   │   │   ├── hero/           # Dashboard Hero section editor
+│   │   │   ├── projects/       # Dashboard Projects manager
+│   │   │   ├── skills/         # Dashboard Skills manager
+│   │   │   ├── layout.tsx      # Protected dashboard shell & sidebar layout
+│   │   │   ├── loading.tsx     # Dashboard loading state
+│   │   │   └── page.tsx        # Dashboard metrics overview
+│   │   ├── login/              # Admin login page (/login)
+│   │   │   └── page.tsx
+│   │   ├── projects/           # Projects catalog & details (/projects)
+│   │   │   ├── [slug]/         # Dynamic project detail view (/projects/:slug)
+│   │   │   │   ├── loading.tsx # Dynamic route loading skeleton
+│   │   │   │   └── page.tsx    # Project detail presentation
+│   │   │   ├── loading.tsx     # Projects list loading state
+│   │   │   └── page.tsx        # Projects catalog page
+│   │   ├── register/           # User / admin registration (/register)
+│   │   │   └── page.tsx
+│   │   ├── unauthorized/       # Unauthorized access feedback page (/unauthorized)
+│   │   │   └── page.tsx
+│   │   ├── error.tsx           # Route segment error boundary
+│   │   ├── favicon.ico         # App favicon
+│   │   ├── global-error.tsx    # Global application error handler
+│   │   ├── globals.css         # Global Tailwind styles & CSS utilities
+│   │   ├── layout.tsx          # Root layout (theme provider & navbar)
+│   │   ├── loading.tsx         # Global loading UI
+│   │   ├── not-found.tsx       # Custom 404 page
+│   │   ├── page.tsx            # Main portfolio landing page
+│   │   └── unauthorized.tsx    # Global unauthorized state view
+│   ├── components/             # Reusable UI & section components
+│   │   ├── dashboard/          # Dashboard components & tabs
+│   │   │   ├── skills/         # Modular skills management views & modals
+│   │   │   │   ├── modals/     # Modals for skills/categories CRUD
+│   │   │   │   ├── SkillsCategoriesTab.tsx
+│   │   │   │   ├── SkillsHeader.tsx
+│   │   │   │   ├── SkillsLearningTab.tsx
+│   │   │   │   ├── SkillsNavTabs.tsx
+│   │   │   │   ├── SkillsOverviewTab.tsx
+│   │   │   │   ├── SkillsPreviewTab.tsx
+│   │   │   │   ├── SkillsSettingsTab.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── DashboardSkeleton.tsx
+│   │   │   ├── NiceSelect.tsx
+│   │   │   ├── ReadOnlyBanner.tsx
+│   │   │   ├── SkillsDashboardClient.tsx
+│   │   │   └── SkillsDashboardSkeleton.tsx
+│   │   ├── ui/                 # Design system & shared UI primitives
+│   │   │   └── liquid-glass.tsx # Liquid glass / glassmorphic container
+│   │   ├── About.tsx           # About section
+│   │   ├── ButtonCreativeRight.tsx # Animated creative CTA button
+│   │   ├── ButtonCrossArrow.tsx    # Animated cross-arrow link button
+│   │   ├── Contact.tsx         # Contact section & EmailJS form
+│   │   ├── Education.tsx       # Academic education timeline
+│   │   ├── Experience.tsx      # Work experience timeline
+│   │   ├── FeaturedProjects.tsx # Homepage featured projects display
+│   │   ├── Footer.tsx          # Footer component
+│   │   ├── GithubContribution.tsx # GitHub activity calendar component
+│   │   ├── Hero.tsx            # Hero section
+│   │   ├── Navbar.tsx          # Navigation header bar
+│   │   ├── ProjectCard.tsx     # Project card component
+│   │   ├── ProjectCardSkeleton.tsx # Card skeleton component
+│   │   ├── ProjectDetailsClient.tsx # Client-side project detail interactions
+│   │   ├── ProjectDetailsSkeleton.tsx # Project detail skeleton loader
+│   │   ├── ProjectImageGallery.tsx # Image carousel/gallery component
+│   │   ├── Projects.tsx        # Projects listing layout
+│   │   ├── ProjectsSkeleton.tsx # Grid skeleton loader component
+│   │   ├── RenderTechIcon.tsx  # Dynamic technology icon resolver
+│   │   ├── ScrollProgress.tsx  # Scroll progress bar
+│   │   ├── Skills.tsx          # Skills grid component
+│   │   ├── SkillsSkeleton.tsx  # Skills skeleton loader component
+│   │   ├── ThemeProvider.tsx   # Theme provider wrapper component
+│   │   └── UnauthorizedView.tsx # Access restricted feedback component
+│   ├── hooks/                  # Custom React hooks
+│   │   ├── useMediaQuery.ts    # Responsive media query listener hook
+│   │   └── useUserRole.ts      # User role & session retrieval hook
+│   ├── lib/                    # Business logic, database, auth & utilities
+│   │   ├── auth-client.ts      # Better-Auth client configuration
+│   │   ├── auth.ts             # Better-Auth server configuration & MongoDB adapter
+│   │   ├── db.ts               # MongoDB connection client
+│   │   ├── email.ts            # EmailJS integration utilities
+│   │   ├── getFeaturedProjects.ts # Featured project retriever
+│   │   ├── getHeroData.ts      # Hero section data fetcher
+│   │   ├── getProjectBySlug.ts # Project by slug retriever
+│   │   ├── getProjects.ts      # All projects retriever
+│   │   ├── getSkillsData.ts    # Skills dataset fetcher
+│   │   ├── hero-types.ts       # Hero data TypeScript definitions
+│   │   ├── projectsData.ts     # Central project data store
+│   │   ├── skill-icons.tsx     # Dynamic skill icons resolver & registry
+│   │   ├── skills-types.ts     # Skills data structures & type interfaces
+│   │   └── utils.ts            # Tailwind class merging utility (clsx + twMerge)
+│   └── utils.ts                # Utility re-export helper
 ```
 
 ---
