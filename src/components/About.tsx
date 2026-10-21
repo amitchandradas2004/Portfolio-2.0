@@ -211,7 +211,7 @@ export default function About() {
                     Clean Architecture
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Modularity, reusability, and maintainable codebase standards.
+                    Modularity, $eusability, and Maintainable CodeBase Standards.
                   </p>
                 </div>
               </div>
