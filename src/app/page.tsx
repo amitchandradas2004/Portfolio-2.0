@@ -9,13 +9,15 @@ import Contact from "@/components/Contact";
 import { getFeaturedProjects } from "@/lib/getFeaturedProjects";
 import { getHeroData } from "@/lib/getHeroData";
 import { getSkillsData } from "@/lib/getSkillsData";
+import { getAboutData } from "@/lib/getAboutData";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function Home() {
-  const [heroData, skillsData, featuredProjects] = await Promise.all([
+  const [heroData, aboutData, skillsData, featuredProjects] = await Promise.all([
     getHeroData(),
+    getAboutData(),
     getSkillsData(),
     getFeaturedProjects(),
   ]);
@@ -23,7 +25,7 @@ export default async function Home() {
   return (
     <main>
       <Hero heroData={heroData} />
-      <About />
+      <About aboutData={aboutData} />
       <Skills initialSkills={skillsData} />
       <Experience />
       <FeaturedProjects projects={featuredProjects} />

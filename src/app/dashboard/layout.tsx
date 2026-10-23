@@ -54,6 +54,7 @@ const sidebarGroups: SidebarGroup[] = [
     items: [
       { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
       { name: "Hero Section", href: "/dashboard/hero", icon: Sparkles, badge: "Main" },
+      { name: "About Section", href: "/dashboard/about", icon: User, badge: "Bio" },
     ],
   },
   {
