@@ -21,6 +21,7 @@ import {
   GraduationCap,
   Mail,
   FileText,
+  User,
 } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
 
@@ -51,6 +52,13 @@ const quickShortcuts = [
     href: "/dashboard/hero",
     icon: Sparkles,
     color: "from-amber-500/15 to-amber-500/5 text-amber-500 border-amber-500/20",
+  },
+  {
+    title: "About Section",
+    description: "Biography, personal narrative, traits, statistics & tech chips",
+    href: "/dashboard/about",
+    icon: User,
+    color: "from-sky-500/15 to-blue-500/5 text-sky-500 border-sky-500/20",
   },
   {
     title: "Technical Skills",

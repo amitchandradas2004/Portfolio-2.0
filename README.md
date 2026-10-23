@@ -116,6 +116,7 @@ portfolio-2.0/
 │   │   │   ├── auth/           # Better-Auth authentication endpoints
 │   │   │   │   ├── [...all]/   # Better-Auth catch-all handler
 │   │   │   │   └── register/   # Registration API route
+│   │   │   ├── about/          # About section CMS API (GET/PUT/PATCH/DELETE)
 │   │   │   ├── github-stats/   # GitHub activity statistics API
 │   │   │   ├── hero/           # Hero section content API
 │   │   │   ├── skills/         # Skills dataset management API
@@ -158,6 +159,24 @@ portfolio-2.0/
 │   │   └── unauthorized.tsx    # Global unauthorized state view
 │   ├── components/             # Reusable UI & section components
 │   │   ├── dashboard/          # Dashboard components & tabs
+│   │   │   ├── about/          # Modular About section editor tabs & modals
+│   │   │   │   ├── modals/     # Modals for About CRUD (Trait, Tech, Learning, Reset)
+│   │   │   │   │   ├── DeleteLearningModal.tsx
+│   │   │   │   │   ├── DeleteTechModal.tsx
+│   │   │   │   │   ├── DeleteTraitModal.tsx
+│   │   │   │   │   ├── LearningModal.tsx
+│   │   │   │   │   ├── ResetAboutModal.tsx
+│   │   │   │   │   ├── TechModal.tsx
+│   │   │   │   │   └── TraitModal.tsx
+│   │   │   │   ├── AboutHeader.tsx          # Header card with Edit/Save/Reset controls
+│   │   │   │   ├── AboutNavTabs.tsx         # Tab navigation bar
+│   │   │   │   ├── AboutNarrativeTab.tsx    # Badge, title & paragraph editors
+│   │   │   │   ├── AboutOverviewCardTab.tsx # Role, status, stats & GitHub editors
+│   │   │   │   ├── AboutTechsTab.tsx        # Tech chips & learning focus manager
+│   │   │   │   ├── AboutTraitsTab.tsx       # Trait cards list editor
+│   │   │   │   ├── AboutPreviewTab.tsx      # Live homepage preview panel
+│   │   │   │   ├── FieldHeaderCompare.tsx   # Saved-vs-current inline diff badge
+│   │   │   │   └── index.ts
 │   │   │   ├── skills/         # Modular skills management views & modals
 │   │   │   │   ├── modals/     # Modals for skills/categories CRUD
 │   │   │   │   ├── SkillsCategoriesTab.tsx
@@ -168,6 +187,7 @@ portfolio-2.0/
 │   │   │   │   ├── SkillsPreviewTab.tsx
 │   │   │   │   ├── SkillsSettingsTab.tsx
 │   │   │   │   └── index.ts
+│   │   │   ├── AboutDashboardClient.tsx     # Main About CMS client orchestrator
 │   │   │   ├── DashboardSkeleton.tsx
 │   │   │   ├── NiceSelect.tsx
 │   │   │   ├── ReadOnlyBanner.tsx
@@ -213,6 +233,9 @@ portfolio-2.0/
 │   │   ├── getProjects.ts      # All projects retriever
 │   │   ├── getSkillsData.ts    # Skills dataset fetcher
 │   │   ├── hero-types.ts       # Hero data TypeScript definitions
+│   │   ├── about-icons.tsx     # Icon registry for About section UI
+│   │   ├── about-sync.ts       # Cross-tab/window broadcast utility (BroadcastChannel + localStorage fallback)
+│   │   ├── about-types.ts      # About section TypeScript interfaces & default seed data
 │   │   ├── projectsData.ts     # Central project data store
 │   │   ├── skill-icons.tsx     # Dynamic skill icons resolver & registry
 │   │   ├── skills-types.ts     # Skills data structures & type interfaces
