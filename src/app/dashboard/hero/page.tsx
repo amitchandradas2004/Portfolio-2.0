@@ -29,7 +29,7 @@ import {
   MapPin,
   Briefcase,
 } from "lucide-react";
-import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
+
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { useUserRole } from "@/hooks/useUserRole";
 import { HeroData, defaultHeroData, TechBadge, formatImageUrl } from "@/lib/hero-types";
@@ -441,8 +441,7 @@ export default function HeroDashboardPage() {
         </motion.div>
       )}
 
-      {/* Read Only Banner if guest */}
-      {isReadOnly && <ReadOnlyBanner />}
+
 
       {/* Status Notification Message */}
       <AnimatePresence>

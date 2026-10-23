@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, AlertCircle, Lock, Edit3 } from "lucide-react";
 import { useUserRole } from "@/hooks/useUserRole";
-import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
+
 import {
   AboutData,
   defaultAboutData,
@@ -505,8 +505,7 @@ export function AboutDashboardClient({ initialData }: AboutDashboardClientProps)
         </motion.div>
       )}
 
-      {/* Read-only banner if demo user */}
-      {isReadOnly && <ReadOnlyBanner />}
+
 
       {/* Status Notification Message */}
       <AnimatePresence>

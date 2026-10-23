@@ -15,7 +15,7 @@ import {
   RotateCcw,
   AlertCircle,
 } from "lucide-react";
-import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
+
 
 interface SkillsHeaderProps {
   totalSkillsCount: number;
@@ -196,8 +196,7 @@ export function SkillsHeader({
         </div>
       </div>
 
-      {/* 2. DEMO VISITOR MODE BANNER */}
-      {isReadOnly && <ReadOnlyBanner />}
+
 
       {/* 3. STATUS NOTIFICATION MESSAGE */}
       <AnimatePresence>
