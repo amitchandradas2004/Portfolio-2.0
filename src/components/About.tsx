@@ -201,38 +201,42 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
             </motion.div>
 
             {/* Trait Highlight Cards */}
-            {traits.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full"
-              >
-                {traits.map((trait) => (
-                  <div
-                    key={trait.id}
-                    className="p-4 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/80 dark:border-white/10 flex items-start gap-3.5 text-left shadow-xs"
-                  >
-                    <div
-                      className={`p-2 rounded-xl shrink-0 ${
-                        trait.badgeBg || "bg-sky-500/10"
-                      } ${trait.iconColor || "text-sky-500"}`}
-                    >
-                      {renderTraitIcon(trait.iconKey, "w-5 h-5")}
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-                        {trait.title}
-                      </h3>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
-                        {trait.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            )}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full"
+            >
+              <div className="p-4 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/80 dark:border-white/10 flex items-start gap-3.5 text-left shadow-xs">
+                <div className="p-2 rounded-xl bg-sky-500/10 text-sky-500 shrink-0">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+                    Clean Architecture
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    Modularity, $eusability, and Maintainable CodeBase Standards.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/80 dark:border-white/10 flex items-start gap-3.5 text-left shadow-xs">
+                <div className="p-2 rounded-xl bg-purple-500/10 text-purple-500 shrink-0">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
+                    User-Centric Design
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    Smooth micro-interactions and pixel-perfect responsiveness.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
           </div>
 
           {/* RIGHT COLUMN: Liquid Glass Information Card */}
