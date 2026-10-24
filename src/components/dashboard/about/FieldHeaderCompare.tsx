@@ -30,7 +30,7 @@ export function FieldHeaderCompare({
             className={`inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-all ${
               isDifferent
                 ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400"
-                : "bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400"
+                : "bg-slate-100 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400"
             }`}
             title={`Last saved in database: ${savedValue || "(empty)"}`}
           >

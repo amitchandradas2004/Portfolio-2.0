@@ -6,7 +6,7 @@ export function DashboardSkeleton() {
   return (
     <div className="space-y-6 pb-12 animate-pulse">
       {/* 1. Header Banner Skeleton */}
-      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-slate-100 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl relative overflow-hidden shadow-lg space-y-5 sm:space-y-6">
+      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-slate-100 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl relative overflow-hidden shadow-lg space-y-5 sm:space-y-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
           <div className="space-y-3 w-full max-w-xl">
             {/* Badge Shimmer */}
@@ -30,7 +30,7 @@ export function DashboardSkeleton() {
 
       {/* 2. Tabs Skeleton */}
       <div className="relative w-full max-w-full">
-        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 overflow-x-auto no-scrollbar w-full">
+        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 overflow-x-auto no-scrollbar w-full">
           <div className="w-28 h-8.5 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
           <div className="w-40 h-8.5 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
           <div className="w-44 h-8.5 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
@@ -39,7 +39,7 @@ export function DashboardSkeleton() {
       </div>
 
       {/* 3. Main Form / Content Card Skeleton */}
-      <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
+      <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
         <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
           <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
           <div className="space-y-2 w-full max-w-sm">

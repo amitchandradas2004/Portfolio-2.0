@@ -25,7 +25,7 @@ export function AboutTraitsTab({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+      className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
         <div className="flex items-center gap-3">
@@ -64,7 +64,7 @@ export function AboutTraitsTab({
           {traits.map((trait) => (
             <div
               key={trait.id}
-              className="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex flex-col justify-between gap-4 group hover:border-sky-500/40 transition-all"
+              className="p-5 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 shadow-sm flex flex-col justify-between gap-4 group hover:border-sky-500/40 transition-all"
             >
               <div className="flex items-start gap-3.5">
                 <div
@@ -84,12 +84,12 @@ export function AboutTraitsTab({
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-700/50">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800/80">
                 <button
                   type="button"
                   onClick={() => onEditTrait(trait)}
                   disabled={isInputDisabled}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700/60 hover:bg-sky-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 hover:bg-sky-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                   <span>Edit</span>

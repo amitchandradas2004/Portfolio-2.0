@@ -59,7 +59,7 @@ function FieldHeaderCompare({
             className={`inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-mono font-medium px-2 py-0.5 rounded-md border transition-all ${
               isDifferent
                 ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400"
-                : "bg-slate-100 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400"
+                : "bg-slate-100 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400"
             }`}
             title={`Last saved in database: ${savedValue || "(empty)"}`}
           >
@@ -306,7 +306,7 @@ export default function HeroDashboardPage() {
   return (
     <div className="space-y-6 pb-12">
       {/* Top Header Card */}
-      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-purple-500/15 border border-sky-500/20 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6">
+      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-purple-500/15 dark:bg-slate-950/80 border border-sky-500/20 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6">
         <div className="space-y-3 relative z-10">
           <div className="flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -377,7 +377,7 @@ export default function HeroDashboardPage() {
               className={`w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all ${
                 hasChanges && !isInputDisabled && !saving
                   ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white shadow-lg shadow-sky-500/25 cursor-pointer"
-                  : "bg-slate-200 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 border border-slate-300/40 dark:border-slate-700/40 cursor-not-allowed opacity-60"
+                  : "bg-slate-200 dark:bg-slate-900/80 text-slate-400 dark:text-slate-500 border border-slate-300/40 dark:border-slate-800/60 cursor-not-allowed opacity-60"
               }`}
             >
               {saving ? (
@@ -398,7 +398,7 @@ export default function HeroDashboardPage() {
             <Link
               href="/#home"
               target="_blank"
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
             >
               <ExternalLink className="w-4 h-4 text-sky-500 shrink-0" />
               <span>View Live Banner</span>
@@ -408,7 +408,7 @@ export default function HeroDashboardPage() {
               type="button"
               onClick={handleReset}
               disabled={isInputDisabled || saving}
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs"
             >
               <RotateCcw className="w-4 h-4 text-slate-400 shrink-0" />
               <span>Reset Defaults</span>
@@ -478,13 +478,13 @@ export default function HeroDashboardPage() {
 
       {/* Tab Navigation */}
       <div className="relative w-full max-w-full">
-        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 overflow-x-auto overflow-y-hidden touch-pan-x scroll-smooth no-scrollbar w-full">
+        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 overflow-x-auto overflow-y-hidden touch-pan-x scroll-smooth no-scrollbar w-full">
           <button
             type="button"
             onClick={() => setActiveTab("info")}
             className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === "info"
-                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                ? "bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-md"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
@@ -497,7 +497,7 @@ export default function HeroDashboardPage() {
             onClick={() => setActiveTab("links")}
             className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === "links"
-                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                ? "bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-md"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
@@ -510,7 +510,7 @@ export default function HeroDashboardPage() {
             onClick={() => setActiveTab("image")}
             className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === "image"
-                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                ? "bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-md"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
@@ -523,7 +523,7 @@ export default function HeroDashboardPage() {
             onClick={() => setActiveTab("preview")}
             className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === "preview"
-                ? "bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-400 shadow-md"
+                ? "bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-md"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
@@ -540,7 +540,7 @@ export default function HeroDashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+            className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
           >
             <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
               <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
@@ -558,7 +558,7 @@ export default function HeroDashboardPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Availability Status Text & Toggle */}
-              <div className="space-y-2 md:col-span-2 p-4 rounded-xl bg-slate-100/60 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60">
+              <div className="space-y-2 md:col-span-2 p-4 rounded-xl bg-slate-100/60 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2">
                   <div className="flex items-center gap-2">
                     <Briefcase className="w-4 h-4 text-emerald-500" />
@@ -597,7 +597,7 @@ export default function HeroDashboardPage() {
                       onChange={handleChange}
                       placeholder="e.g. Available for Freelance & Full-Time Roles"
                       disabled={isInputDisabled}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                     />
                     <p className="text-[11px] text-slate-400">
                       Headline shown in the green pulsing badge.
@@ -618,7 +618,7 @@ export default function HeroDashboardPage() {
                         onChange={handleChange}
                         placeholder="e.g. Dhaka, Bangladesh • Remote Worldwide"
                         disabled={isInputDisabled}
-                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                        className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                       />
                       <MapPin className="w-4 h-4 text-sky-500 absolute left-3 top-3" />
                     </div>
@@ -643,7 +643,7 @@ export default function HeroDashboardPage() {
                   onChange={handleChange}
                   placeholder="e.g. Hi, I'm"
                   disabled={isInputDisabled}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                 />
                 <p className="text-[11px] text-slate-400">
                   Appears as small uppercase tracking text above your main name.
@@ -664,7 +664,7 @@ export default function HeroDashboardPage() {
                   onChange={handleChange}
                   placeholder="e.g. Amit Chandra Das"
                   disabled={isInputDisabled}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                 />
                 <p className="text-[11px] text-slate-400">
                   The primary large heading of your hero section.
@@ -685,7 +685,7 @@ export default function HeroDashboardPage() {
                   onChange={handleChange}
                   placeholder="e.g. Full-Stack Developer"
                   disabled={isInputDisabled}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                 />
                 <p className="text-[11px] text-slate-400">
                   Displayed with a sleek gradient highlight under your name.
@@ -720,7 +720,7 @@ export default function HeroDashboardPage() {
                   onChange={handleChange}
                   placeholder="Describe your tech stack, passion, and expertise (max 300 characters)..."
                   disabled={isInputDisabled}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
                 />
                 <p className="text-[11px] text-slate-400">
                   Paragraph text displayed under your job title. Enforced to 300 characters maximum for optimal responsiveness across all devices.
@@ -735,7 +735,7 @@ export default function HeroDashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+            className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
           >
             <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
               <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20">
@@ -780,7 +780,7 @@ export default function HeroDashboardPage() {
                     onChange={handleChange}
                     placeholder="https://drive.google.com/file/d/..."
                     disabled={isInputDisabled}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                   />
                   <FileText className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
@@ -804,7 +804,7 @@ export default function HeroDashboardPage() {
                     onChange={handleChange}
                     placeholder="youremail@example.com"
                     disabled={isInputDisabled}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                   />
                   <Globe className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
@@ -825,7 +825,7 @@ export default function HeroDashboardPage() {
                     onChange={handleChange}
                     placeholder="https://github.com/username"
                     disabled={isInputDisabled}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                   />
                   <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
@@ -846,7 +846,7 @@ export default function HeroDashboardPage() {
                     onChange={handleChange}
                     placeholder="https://linkedin.com/in/username"
                     disabled={isInputDisabled}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                   />
                   <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
@@ -867,7 +867,7 @@ export default function HeroDashboardPage() {
                     onChange={handleChange}
                     placeholder="https://leetcode.com/u/username"
                     disabled={isInputDisabled}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                   />
                   <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
@@ -888,7 +888,7 @@ export default function HeroDashboardPage() {
                     onChange={handleChange}
                     placeholder="https://x.com/username"
                     disabled={isInputDisabled}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                   />
                   <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
@@ -905,7 +905,7 @@ export default function HeroDashboardPage() {
             className="space-y-6"
           >
             {/* Image Section Card */}
-            <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
+            <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
               <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
                 <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                   <ImageIcon className="w-5 h-5" />
@@ -922,7 +922,7 @@ export default function HeroDashboardPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                 {/* Image Preview Box */}
-                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 relative group">
+                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 relative group">
                   <div className="relative w-40 aspect-[4/5] rounded-xl overflow-hidden shadow-lg border border-slate-300 dark:border-slate-700">
                     <Image
                       src={formatImageUrl(formData.imageUrl)}
@@ -991,7 +991,7 @@ export default function HeroDashboardPage() {
                       onChange={handleChange}
                       placeholder="/Amit_Image_3.png or https://drive.google.com/file/d/..."
                       disabled={isInputDisabled}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                     />
                     <p className="text-[11px] text-slate-400">
                       Supports direct image links (PNG, JPG, WebP) and Google Drive view links (e.g. <code className="font-mono text-sky-500">https://drive.google.com/file/d/...</code>) which are automatically converted to direct image streams.
@@ -1002,7 +1002,7 @@ export default function HeroDashboardPage() {
             </div>
 
             {/* Tech Badges Section Card */}
-            <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
+            <div className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6">
               <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500 border border-amber-500/20 shrink-0">
@@ -1033,7 +1033,7 @@ export default function HeroDashboardPage() {
                 {formData.techBadges.map((badge, idx) => (
                   <div
                     key={idx}
-                    className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80"
+                    className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80"
                   >
                     <div className="flex items-center gap-2 w-full sm:w-1/3">
                       <input
@@ -1049,7 +1049,7 @@ export default function HeroDashboardPage() {
                         onChange={(e) => handleBadgeChange(idx, "name", e.target.value)}
                         placeholder="Badge Label"
                         disabled={isInputDisabled}
-                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white outline-none"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-white outline-none"
                       />
                     </div>
 
@@ -1060,7 +1060,7 @@ export default function HeroDashboardPage() {
                         onChange={(e) => handleBadgeChange(idx, "iconKey", e.target.value)}
                         placeholder="Icon (react, next, ts, node)"
                         disabled={isInputDisabled}
-                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
                       />
                       <input
                         type="text"
@@ -1068,7 +1068,7 @@ export default function HeroDashboardPage() {
                         onChange={(e) => handleBadgeChange(idx, "colorClass", e.target.value)}
                         placeholder="Color (text-cyan-400)"
                         disabled={isInputDisabled}
-                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
+                        className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
                       />
                     </div>
 
@@ -1130,7 +1130,7 @@ export default function HeroDashboardPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 15 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-md p-6 sm:p-7 rounded-xl bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/40 space-y-6 z-10"
+              className="relative w-full max-w-md p-6 sm:p-7 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-950/40 space-y-6 z-10"
             >
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-xl bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30 shrink-0">
@@ -1154,7 +1154,7 @@ export default function HeroDashboardPage() {
                 <button
                   type="button"
                   onClick={() => setShowResetModal(false)}
-                  className="px-4.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer"
+                  className="px-4.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer"
                 >
                   Cancel
                 </button>

@@ -23,7 +23,7 @@ export function AboutNarrativeTab({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+      className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
     >
       <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
         <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500 border border-sky-500/20">
@@ -54,7 +54,7 @@ export function AboutNarrativeTab({
             onChange={onChange}
             placeholder="e.g. About Me"
             disabled={isInputDisabled}
-            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
           />
           <p className="text-[11px] text-slate-400">
             Small uppercase badge displayed with user icon at the top of the section.
@@ -75,7 +75,7 @@ export function AboutNarrativeTab({
             onChange={onChange}
             placeholder="e.g. Crafting Digital Solutions with"
             disabled={isInputDisabled}
-            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
           />
           <p className="text-[11px] text-slate-400">
             The initial solid text before the gradient highlight phrase.
@@ -97,7 +97,7 @@ export function AboutNarrativeTab({
               onChange={onChange}
               placeholder="e.g. Passion & Precision"
               disabled={isInputDisabled}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
             />
           </div>
           <div className="flex items-center gap-2 pt-1 text-xs text-slate-500">
@@ -127,7 +127,7 @@ export function AboutNarrativeTab({
             onChange={onChange}
             placeholder="Hello! I'm Amit Chandra Das, a full-stack developer passionate about..."
             disabled={isInputDisabled}
-            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
+            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
           />
           <p className="text-[11px] text-slate-400">
             Introduce yourself, your primary job identity, and main tech stack.
@@ -153,7 +153,7 @@ export function AboutNarrativeTab({
             onChange={onChange}
             placeholder="My journey into web development began with curiosity about..."
             disabled={isInputDisabled}
-            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
+            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
           />
           <p className="text-[11px] text-slate-400">
             Describe how you started coding, real-world systems built, and backend/frontend capabilities.
@@ -179,7 +179,7 @@ export function AboutNarrativeTab({
             onChange={onChange}
             placeholder="Beyond coding, I enjoy exploring modern web technologies..."
             disabled={isInputDisabled}
-            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
+            className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
           />
           <p className="text-[11px] text-slate-400">
             Highlight what you care about: clean code, collaboration, user experience, and growth.
