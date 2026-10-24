@@ -47,7 +47,7 @@ export function LearningModal({
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-4"
+            className="w-full max-w-md rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-4"
           >
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
@@ -77,7 +77,7 @@ export function LearningModal({
                     setData((prev) => ({ ...prev, title: e.target.value }))
                   }
                   placeholder="e.g. AI Integration & LLMs"
-                  className="w-full mt-1.5 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-sky-500/50"
+                  className="w-full mt-1.5 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-sky-500/50"
                 />
               </div>
 
@@ -92,7 +92,7 @@ export function LearningModal({
                     setData((prev) => ({ ...prev, desc: e.target.value }))
                   }
                   placeholder="e.g. Integrating intelligent agents & API workflows into web apps."
-                  className="w-full mt-1.5 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-normal text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-sky-500/50"
+                  className="w-full mt-1.5 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-normal text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-sky-500/50"
                 />
               </div>
 

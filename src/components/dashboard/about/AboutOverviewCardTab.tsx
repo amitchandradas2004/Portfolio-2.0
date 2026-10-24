@@ -101,7 +101,7 @@ export function AboutOverviewCardTab({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
+      className="p-4 sm:p-6 lg:p-8 rounded-xl bg-white/70 dark:bg-slate-950/85 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-xl shadow-xl space-y-6"
     >
       <div className="flex items-center gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
         <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
@@ -118,7 +118,7 @@ export function AboutOverviewCardTab({
       </div>
 
       {/* Card Role & Availability Status */}
-      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 space-y-4">
+      <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 space-y-4">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
           Card Header & Status Badge
         </h3>
@@ -137,7 +137,7 @@ export function AboutOverviewCardTab({
               onChange={onChange}
               placeholder="e.g. Full Stack Developer"
               disabled={isInputDisabled}
-              className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+              className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
             />
           </div>
 
@@ -154,7 +154,7 @@ export function AboutOverviewCardTab({
               onChange={onChange}
               placeholder="e.g. Open to Work"
               disabled={isInputDisabled}
-              className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+              className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
             />
           </div>
 
@@ -180,7 +180,7 @@ export function AboutOverviewCardTab({
         </div>
 
         {/* GitHub Username */}
-        <div className="pt-3 border-t border-slate-200/60 dark:border-slate-700/60">
+        <div className="pt-3 border-t border-slate-200/60 dark:border-slate-800/80">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <FieldHeaderCompare
@@ -196,7 +196,7 @@ export function AboutOverviewCardTab({
                   onChange={onChange}
                   placeholder="e.g. amitchandradas2004"
                   disabled={isInputDisabled}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                 />
                 <FaGithub className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
@@ -250,7 +250,7 @@ export function AboutOverviewCardTab({
             return (
               <div
                 key={stat.id || idx}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-sm space-y-3"
+                className="p-5 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-3"
               >
                 {/* Header row */}
                 <div className="flex items-center justify-between">
@@ -264,7 +264,7 @@ export function AboutOverviewCardTab({
                         Auto
                       </span>
                     )}
-                    <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300">
+                    <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                       {renderStatIcon(stat.iconKey, "w-4 h-4")}
                     </div>
                   </div>
@@ -292,7 +292,7 @@ export function AboutOverviewCardTab({
                       value={stat.experienceStartDate || ""}
                       onChange={(e) => onStatChange(idx, "experienceStartDate", e.target.value)}
                       disabled={isInputDisabled}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                     />
                     <p className="text-[10px] text-slate-400 mt-1">
                       Months since this date are calculated and displayed live automatically.
@@ -310,7 +310,7 @@ export function AboutOverviewCardTab({
                       value={stat.label}
                       onChange={(e) => onStatChange(idx, "label", e.target.value)}
                       disabled={isInputDisabled}
-                      className="w-full mt-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-900 dark:text-white"
+                      className="w-full mt-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs font-semibold text-slate-900 dark:text-white"
                     />
                   </div>
 
@@ -326,7 +326,7 @@ export function AboutOverviewCardTab({
                       onChange={(e) => onStatChange(idx, "value", e.target.value)}
                       disabled={isInputDisabled || isAuto}
                       placeholder={isAuto ? "Calculated automatically" : "e.g. 10+"}
-                      className="w-full mt-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="w-full mt-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-white disabled:opacity-40 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -341,7 +341,7 @@ export function AboutOverviewCardTab({
                       value={stat.sub}
                       onChange={(e) => onStatChange(idx, "sub", e.target.value)}
                       disabled={isInputDisabled}
-                      className="w-full mt-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-normal text-slate-900 dark:text-white"
+                      className="w-full mt-1 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs font-normal text-slate-900 dark:text-white"
                     />
                   </div>
 
