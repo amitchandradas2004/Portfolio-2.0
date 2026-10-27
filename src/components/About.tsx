@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { User, Sparkles } from "lucide-react";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { AboutData, defaultAboutData } from "@/lib/about-types";
 import {
   renderTraitIcon,
@@ -16,7 +17,22 @@ interface AboutProps {
   aboutData?: AboutData;
 }
 
+const rightCardVariants: Variants = {
+  hidden: (isDesktop?: boolean) => ({
+    opacity: 0,
+    x: isDesktop ? 40 : 0,
+    y: isDesktop ? 0 : -40,
+  }),
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: { duration: 0.7, delay: 0.2 },
+  },
+};
+
 export default function About({ aboutData: propAboutData }: AboutProps) {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [data, setData] = useState<AboutData>(propAboutData || defaultAboutData);
   const [liveCommitCount, setLiveCommitCount] = useState<string>("1300+");
   const [liveProjectCount, setLiveProjectCount] = useState<string | null>(null);
@@ -237,10 +253,11 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
 
           {/* RIGHT COLUMN: Liquid Glass Information Card */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            custom={isDesktop}
+            variants={rightCardVariants}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
             className="w-full lg:w-[45%] flex flex-col justify-between"
           >
             <LiquidGlassCard
