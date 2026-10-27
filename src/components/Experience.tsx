@@ -13,6 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { RenderTechIcon } from "./RenderTechIcon";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export interface ExperienceItem {
   id: string;
@@ -106,24 +107,35 @@ const containerVariants: Variants = {
 };
 
 const cardLeftVariants: Variants = {
-  hidden: { opacity: 0, x: -40 },
+  hidden: (isDesktop?: boolean) => ({
+    opacity: 0,
+    x: isDesktop ? -40 : 0,
+    y: isDesktop ? 0 : -40,
+  }),
   visible: {
     opacity: 1,
     x: 0,
+    y: 0,
     transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 const cardRightVariants: Variants = {
-  hidden: { opacity: 0, x: 40 },
+  hidden: (isDesktop?: boolean) => ({
+    opacity: 0,
+    x: isDesktop ? 40 : 0,
+    y: isDesktop ? 0 : -40,
+  }),
   visible: {
     opacity: 1,
     x: 0,
+    y: 0,
     transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 export default function Experience() {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   return (
     <section
       id="experience"
@@ -176,6 +188,7 @@ export default function Experience() {
 
           <motion.div
             variants={containerVariants}
+            custom={isDesktop}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
@@ -206,6 +219,7 @@ export default function Experience() {
                   <div className="w-full lg:w-1/2 pl-14 lg:pl-0 lg:pr-12 lg:text-right">
                     {isEven && (
                       <motion.div
+                        custom={isDesktop}
                         variants={cardLeftVariants}
                         whileHover={{ y: -6 }}
                         className="group relative rounded-2xl overflow-hidden backdrop-blur-md bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 hover:border-sky-500/40 dark:hover:border-sky-400/40 shadow-lg shadow-slate-900/5 dark:shadow-black/30 hover:shadow-2xl hover:shadow-sky-500/10 dark:hover:shadow-sky-400/10 transition-all duration-300 p-6 sm:p-7"
@@ -327,6 +341,7 @@ export default function Experience() {
                   <div className="w-full lg:w-1/2 pl-14 lg:pl-12 lg:text-left">
                     {!isEven && (
                       <motion.div
+                        custom={isDesktop}
                         variants={cardRightVariants}
                         whileHover={{ y: -6 }}
                         className="group relative rounded-2xl overflow-hidden backdrop-blur-md bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 hover:border-sky-500/40 dark:hover:border-sky-400/40 shadow-lg shadow-slate-900/5 dark:shadow-black/30 hover:shadow-2xl hover:shadow-sky-500/10 dark:hover:shadow-sky-400/10 transition-all duration-300 p-6 sm:p-7"

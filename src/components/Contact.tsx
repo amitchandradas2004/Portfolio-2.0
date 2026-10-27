@@ -18,6 +18,7 @@ import {
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
 import { sendContactEmail } from "@/lib/email";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export interface ContactInfo {
   id: string;
@@ -85,24 +86,35 @@ const containerVariants: Variants = {
 };
 
 const leftColumnVariants: Variants = {
-  hidden: { opacity: 0, x: -35 },
+  hidden: (isDesktop?: boolean) => ({
+    opacity: 0,
+    x: isDesktop ? -35 : 0,
+    y: isDesktop ? 0 : -35,
+  }),
   visible: {
     opacity: 1,
     x: 0,
+    y: 0,
     transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 const rightColumnVariants: Variants = {
-  hidden: { opacity: 0, x: 35 },
+  hidden: (isDesktop?: boolean) => ({
+    opacity: 0,
+    x: isDesktop ? 35 : 0,
+    y: isDesktop ? 0 : -35,
+  }),
   visible: {
     opacity: 1,
     x: 0,
+    y: 0,
     transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
 export default function Contact() {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -217,13 +229,18 @@ export default function Contact() {
         {/* TWO COLUMN CONTAINER */}
         <motion.div
           variants={containerVariants}
+          custom={isDesktop}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start"
         >
           {/* LEFT SIDE: CONTACT INFORMATION CARDS */}
-          <motion.div variants={leftColumnVariants} className="lg:col-span-5 space-y-6">
+          <motion.div
+            custom={isDesktop}
+            variants={leftColumnVariants}
+            className="lg:col-span-5 space-y-6"
+          >
             {/* Contact Info Cards */}
             <div className="space-y-4">
               {contactInfoList.map((item) => {
@@ -287,7 +304,11 @@ export default function Contact() {
           </motion.div>
 
           {/* RIGHT SIDE: CONTACT FORM */}
-          <motion.div variants={rightColumnVariants} className="lg:col-span-7">
+          <motion.div
+            custom={isDesktop}
+            variants={rightColumnVariants}
+            className="lg:col-span-7"
+          >
             <div className="relative rounded-3xl p-6 sm:p-8 md:p-10 backdrop-blur-md bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/50">
               <div className="flex items-center gap-2.5 mb-6">
                 <MessageSquare className="w-5 h-5 text-sky-500" />
