@@ -1,0 +1,10 @@
+export { default as HeroSkeleton } from "./HeroSkeleton";
+export { default as AboutSkeleton } from "./AboutSkeleton";
+export { default as SkillsSkeleton } from "./SkillsSkeleton";
+export { default as ExperienceSkeleton } from "./ExperienceSkeleton";
+export { default as FeaturedProjectsSkeleton } from "./FeaturedProjectsSkeleton";
+export { default as ProjectsSkeleton } from "./ProjectsSkeleton";
+export { default as ProjectCardSkeleton, cardSkeletonVariants } from "./ProjectCardSkeleton";
+export { default as ProjectDetailsSkeleton } from "./ProjectDetailsSkeleton";
+export { default as EducationSkeleton } from "./EducationSkeleton";
+export { default as ContactSkeleton } from "./ContactSkeleton";
