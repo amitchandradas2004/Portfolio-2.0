@@ -118,7 +118,7 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  const isDark = theme === "dark";
+  const isDark = isMounted ? theme === "dark" : false;
 
   if (pathname?.startsWith("/dashboard")) return null;
 
@@ -141,7 +141,7 @@ export default function Navbar() {
       <div className="container mx-auto pointer-events-auto">
         <nav
           aria-label="Main Navigation"
-          style={{
+          style={isMounted ? {
             backgroundColor: isDark
               ? "rgba(15, 23, 42, 0.65)"
               : "rgba(255, 255, 255, 0.65)",
@@ -149,6 +149,9 @@ export default function Navbar() {
               ? "rgba(255, 255, 255, 0.1)"
               : "rgba(0, 0, 0, 0.08)",
             color: isDark ? "#F8FAFC" : "#0F172A",
+          } : {
+            backgroundColor: "transparent",
+            borderColor: "transparent",
           }}
           className="relative flex items-center justify-between h-16 px-4 sm:px-6 rounded-2xl transition-colors duration-300 backdrop-blur-md shadow-lg shadow-black/5 dark:shadow-black/20 border"
         >
@@ -266,7 +269,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 8, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.97 }}
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              style={{
+              style={isMounted ? {
                 backgroundColor: isDark
                   ? "rgba(15, 23, 42, 0.85)"
                   : "rgba(255, 255, 255, 0.85)",
@@ -274,6 +277,9 @@ export default function Navbar() {
                   ? "rgba(255, 255, 255, 0.1)"
                   : "rgba(0, 0, 0, 0.08)",
                 color: isDark ? "#F8FAFC" : "#0F172A",
+              } : {
+                backgroundColor: "transparent",
+                borderColor: "transparent",
               }}
               className="lg:hidden rounded-2xl p-3 border backdrop-blur-xl shadow-xl shadow-black/10 dark:shadow-black/40"
             >
