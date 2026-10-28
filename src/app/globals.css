@@ -260,4 +260,98 @@ section,
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(148, 163, 184, 0.5);
   }
+
+  /* =========================================================================
+     Skeleton Living Animations (Shimmer Wave, Moving Gradient, Floating Glows)
+     ========================================================================= */
+
+  @keyframes skeleton-shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes skeleton-gradient-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes skeleton-ambient-glow {
+    0%, 100% {
+      opacity: 0.55;
+      transform: scale(1) translate(0, 0);
+    }
+    50% {
+      opacity: 0.95;
+      transform: scale(1.12) translate(12px, -12px);
+    }
+  }
+
+  /* Individual skeleton placeholder element with moving shimmer light wave */
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: skeleton-shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+
+  .dark .skeleton-shimmer::after {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(56, 189, 248, 0.18) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  /* Moving fluid gradient for high-impact title bars and action buttons */
+  .skeleton-gradient {
+    background-size: 200% 200% !important;
+    animation: skeleton-gradient-flow 3s ease infinite !important;
+  }
+
+  /* Breathing ambient glow for the background orbs */
+  .skeleton-glow {
+    animation: skeleton-ambient-glow 6s ease-in-out infinite;
+  }
+
+  /* Staggered wave delays for organic wave motion */
+  .skeleton-delay-1::after {
+    animation-delay: 0.2s;
+  }
+  .skeleton-delay-2::after {
+    animation-delay: 0.4s;
+  }
+  .skeleton-delay-3::after {
+    animation-delay: 0.6s;
+  }
+  .skeleton-delay-4::after {
+    animation-delay: 0.8s;
+  }
 }

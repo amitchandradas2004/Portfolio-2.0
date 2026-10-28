@@ -5,7 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { defaultSkillsData, SkillsData } from "@/lib/skills-types";
 import { renderCategoryIcon, renderSkillIcon } from "@/lib/skill-icons";
-import SkillsSkeleton from "./SkillsSkeleton";
+import SkillsSkeleton from "@/components/skeletons/SkillsSkeleton";
 
 interface SkillsProps {
   initialSkills?: SkillsData;
