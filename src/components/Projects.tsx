@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import { Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import ProjectCard from "./ProjectCard";
-import ProjectsSkeleton from "./ProjectsSkeleton";
+import ProjectsSkeleton from "@/components/skeletons/ProjectsSkeleton";
 import { Project } from "@/lib/projectsData";
 
 export interface ProjectsProps {
