@@ -80,21 +80,26 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             <ProjectCard key={project.id} project={project} />
           ))}
         </motion.div>
-
         {/* VIEW ALL PROJECTS LINK */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-14 text-center"
+          className="mt-14 text-center flex justify-center"
         >
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl font-bold text-sm text-white bg-gradient-to-r from-sky-500 via-blue-600 to-purple-600 hover:from-sky-600 hover:to-purple-700 shadow-lg shadow-sky-500/20 hover:shadow-xl hover:shadow-sky-500/30 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-sm text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:via-blue-500 hover:to-indigo-500 shadow-xl shadow-sky-500/25 hover:shadow-sky-500/40 border border-white/20 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] cursor-pointer overflow-hidden"
           >
-            <span>View All Projects</span>
-            <ArrowRight className="w-4 h-4" />
+            {/* Subtle light sweep animation layer */}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+
+            <span className="relative z-10 tracking-wide">Explore All Projects</span>
+
+            <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-white/20 backdrop-blur-md transition-transform duration-300 group-hover:translate-x-1">
+              <ArrowRight className="w-3.5 h-3.5 text-white" />
+            </div>
           </Link>
         </motion.div>
       </div>
