@@ -42,7 +42,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             alt={project.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
+            className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out select-none"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-300" />
 
