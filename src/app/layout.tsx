@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${sora.variable} h-full antialiased`}
+      className={`${inter.variable} ${sora.variable} min-h-screen antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -55,14 +55,14 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-slate-100 transition-colors duration-300">
+      <body className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-slate-100 transition-colors duration-300">
         <ThemeProvider>
-          <ScrollProgress />
-          <Navbar />
           <SmoothScrollProvider>
+            <ScrollProgress />
+            <Navbar />
             <div className="flex-1">{children}</div>
+            <Footer />
           </SmoothScrollProvider>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>
