@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -58,7 +59,9 @@ export default function RootLayout({
         <ThemeProvider>
           <ScrollProgress />
           <Navbar />
-          <div className="flex-1">{children}</div>
+          <SmoothScrollProvider>
+            <div className="flex-1">{children}</div>
+          </SmoothScrollProvider>
           <Footer />
         </ThemeProvider>
       </body>
