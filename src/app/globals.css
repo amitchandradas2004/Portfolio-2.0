@@ -3,128 +3,79 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Control your smooth scroll duration/speed here (e.g., 500ms, 800ms, 1200ms) */
+  /* Control smooth scroll duration/speed */
   --scroll-duration: 200ms;
 
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  /* =========================================================================
+     Core 3-Color System (Light Mode)
+     ========================================================================= */
+  --primary: #0f172a;
+  /* Primary: Headings, main text, heavy UI */
+  --secondary: #64748b;
+  /* Secondary: Borders, muted text, subtle fills */
+  --tertiary: #3b82f6;
+  /* Tertiary (Future Accent): CTAs, highlights, links */
+
+  /* Surface & Base Variables */
+  --background: #ffffff;
+  --foreground: var(--primary);
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: var(--primary);
   --radius: 0.5rem;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --codebg: #f1f1f1f0;
-  --primary-base: #fcfcfc;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
 
-  --ch-0: light;
-  --ch-1: #6e7781;
-  --ch-2: #0550ae;
-  --ch-3: #953800;
-  --ch-4: #24292f;
-  --ch-5: #8250df;
-  --ch-6: #116329;
-  --ch-7: #cf222e;
-  --ch-8: #0a3069;
-  --ch-9: #82071e;
-  --ch-10: #f6f8fa;
-  --ch-11: #ffebe9;
-  --ch-12: #dafbe1;
-  --ch-13: #ffd8b5;
-  --ch-14: #eaeef2;
-  --ch-15: #57606a;
-  --ch-16: #ffffff;
-  --ch-17: #eaeef280;
-  --ch-18: #fdff0033;
-  --ch-19: #1a85ff;
-  --ch-20: #add6ff;
-  --ch-21: #0969da;
-  --ch-22: #f8fafc;
-  --ch-23: #d1d5db;
-  --ch-24: #8c959f;
-  --ch-25: #afb8c133;
-  --ch-26: #ffffffe6;
+  --primary-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: var(--secondary);
+  --accent: #f1f5f9;
+  --accent-foreground: var(--primary);
+  --codebg: #f8fafc;
+  --primary-base: #ffffff;
 
-  /* Syntax Highlighting Colors (Light Mode) */
-  --token-null: #000000;
-  --token-operator: #000000;
-  --token-boolean: #000000;
-  --token-number: #000000;
-  --token-property: #fdcc59;
-  --token-tag: #f7801f;
-  --token-punctuation: #000000;
-  --token-template-string: #5bf8ee;
-  --token-script: #ffcb8b;
-  --token-selector: #c85e7c;
-  --token-attr-name: #b392f0;
-  --token-attr-value: #008422;
-  --token-function-variable: #b392f0;
-  --token-black: #000000;
+  /* =========================================================================
+     Syntax Highlighting Tokens (Mapped to 3-Color System)
+     ========================================================================= */
+  --token-null: var(--secondary);
+  --token-operator: var(--secondary);
+  --token-boolean: var(--tertiary);
+  --token-number: var(--tertiary);
+  --token-property: var(--primary);
+  --token-tag: var(--tertiary);
+  --token-punctuation: var(--secondary);
+  --token-template-string: var(--tertiary);
+  --token-script: var(--primary);
+  --token-selector: var(--tertiary);
+  --token-attr-name: var(--secondary);
+  --token-attr-value: var(--tertiary);
+  --token-function-variable: var(--primary);
+  --token-black: var(--primary);
 }
 
 .dark {
-  --background: 228 86% 5%;
-  --foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
-  --radius: 0.5rem;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --codebg: #030608;
-  --primary-base: #0a0a0a;
+  /* =========================================================================
+     Core 3-Color System (Dark Mode)
+     ========================================================================= */
+  --primary: #f8fafc;
+  /* Primary: Headings, high-contrast text */
+  --secondary: #94a3b8;
+  /* Secondary: Borders, subtle text, muted states */
+  --tertiary: #60a5fa;
+  /* Tertiary: High-visibility accents & CTAs */
 
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --ch-0: dark;
-  --ch-1: #a1a1aa;
-  --ch-2: #7dd3fc;
-  --ch-3: #fb923c;
-  --ch-4: #cbd5e1;
-  --ch-5: #d8b4fe;
-  --ch-6: #86efac;
-  --ch-7: #f87171;
-  --ch-8: #93c5fd;
-  --ch-9: #fca5a5;
-  --ch-10: #eff6ff;
-  --ch-11: #450a0a;
-  --ch-12: #052e16;
-  --ch-13: #451a03;
-  --ch-14: #111827;
-  --ch-15: #a1a1aa;
-  --ch-16: #0a0a0a;
-  --ch-17: #6b72801a;
-  --ch-18: #ffffff0b;
-  --ch-19: #3b82f6;
-  --ch-20: #155e75;
-  --ch-21: #2563eb;
-  --ch-22: #171717;
-  --ch-23: #404040;
-  --ch-24: #6b7280;
-  --ch-25: #6b728066;
-  --ch-26: #171717e6;
+  /* Surface & Base Variables */
+  --background: #030712;
+  --foreground: var(--primary);
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: var(--tertiary);
 
-  /* Syntax Highlighting Colors (Dark Mode) */
-  --token-null: #ffffff;
-  --token-operator: #ffffff;
-  --token-boolean: #ffffff;
-  --token-number: #ffffff;
-  --token-property: #fdcc59;
-  --token-tag: #66befd;
-  --token-punctuation: #ffffff;
-  --token-template-string: #5bf8ee;
-  --token-script: #ffcb8b;
-  --token-selector: #c85e7c;
-  --token-attr-name: #b392f0;
-  --token-attr-value: #52b7ff;
-  --token-function-variable: #b392f0;
-  --token-black: #ffffff;
+  --primary-foreground: #090d16;
+  --muted: #0f172a;
+  --muted-foreground: var(--secondary);
+  --accent: #0f172a;
+  --accent-foreground: var(--primary);
+  --codebg: #0b0f17;
+  --primary-base: #030712;
 }
 
 html {
@@ -143,19 +94,22 @@ section,
   --font-title: var(--font-inter), sans-serif;
   --font-heading: var(--font-inter), sans-serif;
 
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-codebg: var(--codebg);
   --color-primary-base: var(--primary-base);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -168,11 +122,8 @@ section,
 
   body {
     font-family: var(--font-sora), sans-serif;
-  }
-
-  .dark body {
-    background-color: #030712;
-    color: #f8fafc;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 
   h1,
@@ -241,6 +192,7 @@ section,
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -250,25 +202,29 @@ section,
     width: 5px;
     height: 5px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(148, 163, 184, 0.3);
     border-radius: 9999px;
   }
+
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(148, 163, 184, 0.5);
   }
 
   /* =========================================================================
-     Skeleton Living Animations (Shimmer Wave, Moving Gradient, Floating Glows)
+     Skeleton Living Animations
      ========================================================================= */
 
   @keyframes skeleton-shimmer {
     0% {
       transform: translateX(-100%);
     }
+
     100% {
       transform: translateX(100%);
     }
@@ -278,26 +234,30 @@ section,
     0% {
       background-position: 0% 50%;
     }
+
     50% {
       background-position: 100% 50%;
     }
+
     100% {
       background-position: 0% 50%;
     }
   }
 
   @keyframes skeleton-ambient-glow {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 0.55;
       transform: scale(1) translate(0, 0);
     }
+
     50% {
       opacity: 0.95;
       transform: scale(1.12) translate(12px, -12px);
     }
   }
 
-  /* Individual skeleton placeholder element with moving shimmer light wave */
   .skeleton-shimmer {
     position: relative;
     overflow: hidden;
@@ -311,46 +271,42 @@ section,
     bottom: 0;
     left: 0;
     transform: translateX(-100%);
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.7) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0) 100%);
     animation: skeleton-shimmer 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     pointer-events: none;
   }
 
   .dark .skeleton-shimmer::after {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(56, 189, 248, 0.18) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(56, 189, 248, 0.18) 50%,
+        rgba(255, 255, 255, 0) 100%);
   }
 
-  /* Moving fluid gradient for high-impact title bars and action buttons */
   .skeleton-gradient {
     background-size: 200% 200% !important;
     animation: skeleton-gradient-flow 3s ease infinite !important;
   }
 
-  /* Breathing ambient glow for the background orbs */
   .skeleton-glow {
     animation: skeleton-ambient-glow 6s ease-in-out infinite;
   }
 
-  /* Staggered wave delays for organic wave motion */
   .skeleton-delay-1::after {
     animation-delay: 0.2s;
   }
+
   .skeleton-delay-2::after {
     animation-delay: 0.4s;
   }
+
   .skeleton-delay-3::after {
     animation-delay: 0.6s;
   }
+
   .skeleton-delay-4::after {
     animation-delay: 0.8s;
   }
