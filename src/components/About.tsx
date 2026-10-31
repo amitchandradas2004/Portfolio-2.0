@@ -77,7 +77,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
           }
         };
       }
-    } catch (e) {}
+    } catch (e) { }
 
     // 3. Cross-tab localStorage event fallback
     const handleStorage = (event: StorageEvent) => {
@@ -87,7 +87,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
           if (parsed?.data) {
             setData(parsed.data);
           }
-        } catch (err) {}
+        } catch (err) { }
       }
     };
     window.addEventListener("storage", handleStorage);
@@ -129,11 +129,14 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
     }
 
     fetchCommitCount();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [username, hasLiveCommits]);
 
   // Auto-fetch project count from API when any stat uses statType "projects"
-  const hasAutoProjects = data.autoCountProjects !== false &&
+  const hasAutoProjects =
+    data.autoCountProjects !== false &&
     data.stats?.some((s) => s.statType === "projects" || s.id === "projects");
 
   useEffect(() => {
@@ -147,10 +150,10 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
           const list: any[] = Array.isArray(json)
             ? json
             : Array.isArray(json.data)
-            ? json.data
-            : Array.isArray(json.projects)
-            ? json.projects
-            : [];
+              ? json.data
+              : Array.isArray(json.projects)
+                ? json.projects
+                : [];
           if (isMounted && list.length > 0) {
             setLiveProjectCount(`${list.length}+`);
           }
@@ -160,7 +163,9 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
       }
     }
     fetchProjectCount();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+    };
   }, [hasAutoProjects]);
 
   const traits = data.traits?.length ? data.traits : defaultAboutData.traits;
@@ -171,8 +176,15 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
   return (
     <section
       id="about"
-      className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-20 transition-colors duration-300"
+      className="scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-20 sm:py-24 transition-colors duration-300 w-full"
     >
+      {/* Background Liquid Light Orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <div className="absolute top-10 left-10 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-stretch justify-between gap-12 lg:gap-16">
           {/* LEFT COLUMN: Section Heading & Narrative */}
@@ -183,9 +195,9 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs sm:text-sm font-semibold tracking-wide uppercase mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300/40 dark:border-slate-800/60 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4 shadow-sm"
             >
-              <User className="w-4 h-4 text-sky-500" />
+              <User className="w-4 h-4 text-sky-500 dark:text-[#38BDF8]" />
               <span>{data.badgeText || "About Me"}</span>
             </motion.div>
 
@@ -228,16 +240,17 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                 {traits.map((trait) => (
                   <div
                     key={trait.id}
-                    className="p-4 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/80 dark:border-white/10 flex items-start gap-3.5 text-left shadow-xs"
+                    className="group relative p-4 rounded-xl backdrop-blur-2xl bg-slate-200/40 dark:bg-slate-900/40 border border-slate-300/40 dark:border-slate-800/50 hover:border-sky-400/50 dark:hover:border-sky-400/40 shadow-sm flex items-start gap-3.5 text-left transition-all duration-300 overflow-hidden"
                   >
+                    <div className="absolute -top-16 -left-16 w-32 h-32 bg-gradient-to-br from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+
                     <div
-                      className={`p-2 rounded-xl shrink-0 ${
-                        trait.badgeBg || "bg-sky-500/10"
-                      } ${trait.iconColor || "text-sky-500"}`}
+                      className={`relative z-10 p-2.5 rounded-xl shrink-0 backdrop-blur-md shadow-xs ${trait.badgeBg || "bg-slate-300/40 dark:bg-slate-800/60"
+                        } ${trait.iconColor || "text-sky-500"}`}
                     >
                       {renderTraitIcon(trait.iconKey, "w-5 h-5")}
                     </div>
-                    <div>
+                    <div className="relative z-10">
                       <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                         {trait.title}
                       </h3>
@@ -261,18 +274,18 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
             className="w-full lg:w-[45%] flex flex-col justify-between"
           >
             <LiquidGlassCard
-              borderRadius="28px"
+              borderRadius="16px"
               blurIntensity="xl"
               glowIntensity="lg"
               shadowIntensity="lg"
-              className="w-full"
+              className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60"
             >
-              {/* Card inner padding wrapper */}
-              <div className="p-6 sm:p-7 space-y-6">
+              {/* Card Inner Wrapper */}
+              <div className="p-6 sm:p-7 space-y-6 relative z-10">
                 {/* Header */}
-                <div className="flex items-start justify-between gap-3 pb-5 border-b border-slate-200/60 dark:border-white/8">
+                <div className="flex items-start justify-between gap-3 pb-5 border-b border-slate-300/40 dark:border-slate-800/60">
                   <div>
-                    <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-sky-500 dark:text-sky-400 mb-1">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-sky-500 dark:text-sky-400 mb-1">
                       Developer Overview
                     </p>
                     <h3 className="text-[1.35rem] font-extrabold leading-tight text-slate-900 dark:text-white">
@@ -281,7 +294,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                   </div>
 
                   {data.cardStatus && (
-                    <div className="shrink-0 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 dark:bg-emerald-400/10 border border-emerald-500/25 dark:border-emerald-400/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold tracking-wide">
+                    <div className="shrink-0 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 dark:bg-emerald-400/10 border border-emerald-500/30 dark:border-emerald-400/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold tracking-wide backdrop-blur-md shadow-sm">
                       {data.cardStatusActive !== false && (
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -293,15 +306,15 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                   )}
                 </div>
 
-                {/* Stats Grid */}
+                {/* Developer Statistics Grid */}
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500 mb-3">
                     Developer Statistics
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     {stats.map((stat) => {
-                      const effectiveType = stat.statType ||
-                        (stat.useLiveGithubCommits ? "github-commits" : "manual");
+                      const effectiveType =
+                        stat.statType || (stat.useLiveGithubCommits ? "github-commits" : "manual");
 
                       let displayVal: string;
                       if (effectiveType === "github-commits") {
@@ -316,29 +329,28 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                       return (
                         <motion.div
                           key={stat.id}
-                          whileHover={{ y: -4, scale: 1.03 }}
+                          whileHover={{ y: -4, scale: 1.02 }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="relative group p-4 rounded-2xl overflow-hidden bg-white dark:bg-slate-800/70 border border-slate-100 dark:border-slate-700/50 shadow-sm cursor-default"
+                          className="relative group/stat p-4 rounded-xl overflow-hidden bg-slate-200/40 dark:bg-slate-800/40 border border-slate-300/40 dark:border-slate-700/40 hover:border-sky-400/50 dark:hover:border-sky-400/40 backdrop-blur-md shadow-xs transition-all duration-300 cursor-default"
                         >
-                          {/* Subtle gradient wash on hover */}
                           <div
-                            className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${stat.color} [mask-image:none]`}
-                            style={{ opacity: 0.06 }}
+                            className={`absolute inset-0 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${stat.color}`}
+                            style={{ opacity: 0.08 }}
                           />
-                          <div className="flex items-start justify-between mb-2">
+                          <div className="flex items-start justify-between mb-2 relative z-10">
                             <span
                               className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none`}
                             >
                               {displayVal}
                             </span>
-                            <span className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400">
+                            <span className="p-1.5 rounded-lg bg-slate-300/40 dark:bg-slate-700/60 text-slate-500 dark:text-slate-300 backdrop-blur-xs">
                               {renderStatIcon(stat.iconKey, "w-3.5 h-3.5")}
                             </span>
                           </div>
-                          <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100 leading-tight">
+                          <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100 leading-tight relative z-10">
                             {stat.label}
                           </p>
-                          <p className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                          <p className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5 relative z-10">
                             {stat.sub}
                           </p>
                         </motion.div>
@@ -347,7 +359,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                   </div>
                 </div>
 
-                {/* Tech Stack */}
+                {/* Tech Stack Badges */}
                 {currentTechs.length > 0 && (
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500 mb-3">
@@ -359,9 +371,9 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                         .map((tech) => (
                           <motion.span
                             key={tech.id}
-                            whileHover={{ scale: 1.07, y: -1 }}
+                            whileHover={{ scale: 1.05, y: -1 }}
                             transition={{ duration: 0.15 }}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/50 text-[11.5px] font-medium text-slate-700 dark:text-slate-200 shadow-xs cursor-default"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-200/40 dark:bg-slate-800/40 border border-slate-300/40 dark:border-slate-700/40 hover:border-sky-400/50 text-[11.5px] font-medium text-slate-700 dark:text-slate-200 backdrop-blur-md shadow-xs transition-all cursor-default"
                           >
                             <span className={tech.color}>
                               {renderAboutTechIcon(tech.iconKey, "w-3.5 h-3.5 shrink-0")}
@@ -373,7 +385,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                   </div>
                 )}
 
-                {/* Learning Focus */}
+                {/* Currently Learning List */}
                 {learningFocus.length > 0 && (
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500 mb-3">
@@ -385,9 +397,9 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                           key={item.id}
                           whileHover={{ x: 3 }}
                           transition={{ duration: 0.15 }}
-                          className="flex items-center gap-3 p-3 rounded-xl bg-white/80 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/40 shadow-xs"
+                          className="flex items-center gap-3 p-3 rounded-xl bg-slate-200/40 dark:bg-slate-800/40 border border-slate-300/40 dark:border-slate-700/40 hover:border-sky-400/50 backdrop-blur-md shadow-xs transition-all"
                         >
-                          <div className="shrink-0 p-2 rounded-lg bg-gradient-to-br from-sky-500/15 to-blue-500/10 dark:from-sky-400/15 dark:to-blue-400/10 text-sky-600 dark:text-sky-400">
+                          <div className="shrink-0 p-2 rounded-lg bg-sky-500/15 dark:bg-sky-400/15 text-sky-600 dark:text-sky-400">
                             {renderLearningIcon(item.iconKey, "w-4 h-4")}
                           </div>
                           <div className="min-w-0">
