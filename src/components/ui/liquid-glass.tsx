@@ -67,11 +67,11 @@ export function LiquidGlassCard({
 
   const glowShadows: Record<IntensityScale, string> = {
     none: "none",
-    xs: "0 0 8px 1px rgba(148,163,184,0.12)",
-    sm: "0 0 16px 3px rgba(148,163,184,0.18)",
-    md: "0 0 28px 6px rgba(148,163,184,0.22)",
-    lg: "0 2px 40px 8px rgba(99,179,237,0.18), 0 0 0 1px rgba(255,255,255,0.13)",
-    xl: "0 2px 64px 16px rgba(99,179,237,0.28), 0 0 0 1.5px rgba(255,255,255,0.18)",
+    xs: "0 0 8px 1px rgba(56,189,248,0.1)",
+    sm: "0 0 16px 3px rgba(56,189,248,0.15)",
+    md: "0 0 28px 6px rgba(56,189,248,0.18)",
+    lg: "0 2px 40px 8px rgba(56,189,248,0.18)",
+    xl: "0 2px 64px 16px rgba(56,189,248,0.25)",
   };
 
   const dropShadows: Record<IntensityScale, string> = {
@@ -116,35 +116,35 @@ export function LiquidGlassCard({
           className={cn(
             "absolute inset-0",
             blurMap[blurIntensity],
-            "bg-white/30 dark:bg-slate-900/50"
+            "bg-slate-200/40 dark:bg-slate-900/50"
           )}
           aria-hidden="true"
         />
 
-        {/* LAYER 2: Border/shimmer overlay — unfiltered so edges stay crisp */}
+        {/* LAYER 2: Border overlay — dark translucent border in dark mode */}
         <div
           style={{ borderRadius: "inherit" }}
-          className="absolute inset-0 border border-white/50 dark:border-white/12 pointer-events-none"
+          className="absolute inset-0 border border-slate-300/40 dark:border-slate-800/60 pointer-events-none"
           aria-hidden="true"
         />
 
-        {/* LAYER 3: Top-edge specular shine */}
+        {/* LAYER 3: Top-edge specular shine (Light mode only) */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent dark:via-white/30"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent dark:via-transparent"
         />
 
-        {/* LAYER 4: Left-edge shine */}
+        {/* LAYER 4: Left-edge shine (Light mode only) */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-b from-white/60 via-white/20 to-transparent dark:from-white/20"
+          className="pointer-events-none absolute inset-y-0 left-0 w-[1.5px] bg-gradient-to-b from-white/60 via-white/20 to-transparent dark:from-transparent"
         />
 
         {/* LAYER 5: Radial inner glow (top-left corner light source) */}
         <span
           aria-hidden="true"
           style={{ borderRadius: "inherit" }}
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,rgba(255,255,255,0.22)_0%,transparent_70%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,rgba(255,255,255,0.07)_0%,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,rgba(255,255,255,0.22)_0%,transparent_70%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_10%_0%,rgba(56,189,248,0.06)_0%,transparent_70%)]"
         />
 
         {/* CONTENT — completely isolated from all filters */}

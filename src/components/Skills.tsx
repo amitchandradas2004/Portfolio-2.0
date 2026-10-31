@@ -105,9 +105,23 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
   return (
     <section
       id="skills"
-      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] ${isPreview ? "py-8" : "py-25"
-        } transition-colors duration-300`}
+      className={`scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] ${isPreview ? "py-8" : "py-20 sm:py-24"
+        } transition-colors duration-300 w-full`}
     >
+      {/* =========================================================================
+         BACKGROUND LIQUID LIGHT SOURCES (Provides Refraction for Glass)
+         ========================================================================= */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        {/* High-Contrast Neon Cyan Orb */}
+        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+
+        {/* Vibrant Magenta/Purple Liquid Orb */}
+        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+
+        {/* Glass Mesh Grid Texture */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         {/* SECTION HEADING */}
         <div className="text-center max-w-5xl mx-auto mb-14 lg:mb-18">
@@ -116,9 +130,9 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 border border-white/60 dark:border-white/10 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-3 shadow-lg shadow-sky-500/10"
           >
-            <Sparkles className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+            <Sparkles className="w-4 h-4 text-sky-500 dark:text-[#38BDF8]" />
             <span>{badgeText}</span>
           </motion.div>
 
@@ -129,7 +143,7 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
           >
-            {title}{" "} &
+            {title}{" "}
             <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               &nbsp;{highlightedTitle}
             </span>
@@ -146,7 +160,7 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
           </motion.p>
         </div>
 
-        {/* SKILLS CATEGORIES GRID (1 Col Mobile, 2 Col Tablet & Desktop) */}
+        {/* SKILLS CATEGORIES GRID */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -162,60 +176,55 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
               <motion.div
                 key={cat.id}
                 variants={cardVariants}
-                whileHover={{ y: -6, scale: 1.012 }}
+                whileHover={{ y: -6, scale: 1.01 }}
                 transition={{ duration: 0.3 }}
-                className="group relative rounded-2xl bg-white/70 dark:bg-slate-950/85 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 p-6 sm:p-7 shadow-xl shadow-sky-500/5 hover:shadow-2xl hover:shadow-sky-500/15 hover:border-sky-500/40 dark:hover:border-sky-500/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_0_rgba(56,189,248,0.25)] transition-all duration-500 p-6 sm:p-7 flex flex-col justify-between"
               >
-                {/* Subtle Ambient Hover Glow */}
-                <div
-                  className={`absolute -inset-full bg-gradient-to-br ${cat.glowColor || "from-sky-500/20 via-blue-500/10 to-transparent"
-                    } opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl -z-10`}
-                />
+                {/* Liquid Surface Light Reflection */}
+                <div className="absolute -top-24 -left-24 w-48 h-48 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
-                <div>
+                <div className="relative z-10">
                   {/* Category Header */}
-                  <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200/70 dark:border-slate-800">
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-between gap-2.5 mb-6 pb-4 border-b border-slate-200/50 dark:border-slate-800/60 min-w-0">
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
                       <div
-                        className={`p-2.5 rounded-xl ${cat.badgeBg || "bg-sky-500/10 border-sky-500/20 text-sky-600 dark:text-sky-400"
-                          } border shrink-0 transition-transform duration-300 group-hover:scale-110`}
+                        className={`p-2 rounded-xl ${cat.badgeBg || "bg-white/60 dark:bg-slate-800/60 border-white/50 dark:border-slate-700/60 text-sky-600 dark:text-sky-400"
+                          } border shrink-0 transition-transform duration-300 group-hover:scale-110 backdrop-blur-md shadow-sm`}
                       >
                         <div className={cat.iconColor || "text-sky-500"}>
-                          {renderCategoryIcon(cat.iconKey, "w-5 h-5")}
+                          {renderCategoryIcon(cat.iconKey, "w-4.5 h-4.5")}
                         </div>
                       </div>
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-snug">
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">
                         {cat.title}
                       </h3>
                     </div>
 
-                    <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                    <span className="shrink-0 whitespace-nowrap text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-white/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border border-white/40 dark:border-slate-700/50 backdrop-blur-md shadow-sm">
                       {visibleSkills.length} skills
                     </span>
                   </div>
 
                   {/* Skill Items Badges */}
                   <div className="flex flex-wrap gap-2.5">
-                    {visibleSkills.map((skill) => {
-                      return (
-                        <motion.div
-                          key={skill.id}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          whileTap={{ scale: 0.97 }}
-                          className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800/80 text-slate-800 dark:text-slate-200 text-xs font-semibold shadow-2xs transition-all duration-200 hover:border-sky-400/50 hover:bg-white dark:hover:bg-slate-800 dark:hover:text-white cursor-default"
-                        >
-                          <div className={`shrink-0 ${skill.iconColor || "text-sky-400"}`}>
-                            {renderSkillIcon(skill.iconKey, "w-4 h-4")}
-                          </div>
-                          <span>{skill.name}</span>
-                          {skill.level && (
-                            <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-200/60 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 font-medium">
-                              {skill.level}
-                            </span>
-                          )}
-                        </motion.div>
-                      );
-                    })}
+                    {visibleSkills.map((skill) => (
+                      <motion.div
+                        key={skill.id}
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-white/40 dark:border-slate-700/40 text-slate-800 dark:text-slate-200 text-xs font-semibold backdrop-blur-sm shadow-xs transition-all duration-200 hover:border-sky-400/50 hover:scale-105 cursor-default"
+                      >
+                        <div className={`shrink-0 ${skill.iconColor || "text-sky-400"}`}>
+                          {renderSkillIcon(skill.iconKey, "w-4 h-4")}
+                        </div>
+                        <span>{skill.name}</span>
+                        {skill.level && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-200/60 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 font-medium">
+                            {skill.level}
+                          </span>
+                        )}
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </motion.div>
@@ -230,9 +239,12 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative rounded-2xl bg-gradient-to-r from-sky-500/10 via-purple-500/10 to-blue-500/10 dark:bg-slate-950/80 backdrop-blur-xl border border-sky-500/20 dark:border-sky-500/30 p-6 sm:p-8 lg:p-10 shadow-lg w-full"
+            className="relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] p-6 sm:p-8 lg:p-10 w-full"
           >
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            {/* Liquid Surface Light Reflection */}
+            <div className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
               <div className="text-center sm:text-left">
                 <span className="text-xs font-bold uppercase tracking-widest text-sky-600 dark:text-sky-400 inline-flex items-center gap-1.5 mb-1">
                   <Sparkles className="w-3.5 h-3.5" /> {learningBadgeText}
@@ -250,7 +262,7 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
                   <motion.div
                     key={item.id}
                     whileHover={{ scale: 1.05, y: -2 }}
-                    className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-sky-500/30 hover:bg-slate-50 dark:hover:bg-slate-900 dark:hover:text-white transition-colors"
+                    className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-white/40 dark:border-slate-700/40 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-sky-400/50 backdrop-blur-sm transition-all"
                   >
                     <div className={item.color || "text-purple-400"}>
                       {renderSkillIcon(item.iconKey, "w-4 h-4")}
