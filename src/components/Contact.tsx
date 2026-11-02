@@ -183,7 +183,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-20 sm:py-24 transition-colors duration-300 w-full"
+      className="scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-25 sm:py-24 transition-colors duration-300 w-full"
     >
       {/* =========================================================================
          BACKGROUND LIQUID LIGHT SOURCES (Provides Refraction for Glass)

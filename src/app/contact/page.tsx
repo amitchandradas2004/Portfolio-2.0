@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="relative overflow-hidden pt-10 min-h-screen bg-white dark:bg-[#020617]">
+    <main className="relative overflow-hidden min-h-screen">
       <Contact />
     </main>
   );
