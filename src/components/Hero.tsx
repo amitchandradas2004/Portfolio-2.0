@@ -4,13 +4,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Download, Mail, Code, Terminal, Database, Cpu, MapPin } from "lucide-react";
+import { Download, Mail, Code, MapPin, Send } from "lucide-react";
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaReact, FaNodeJs } from "react-icons/fa6";
 import { SiNextdotjs, SiTypescript, SiMongodb, SiLeetcode, SiTailwindcss } from "react-icons/si";
 import { HeroData, defaultHeroData, formatImageUrl } from "@/lib/hero-types";
 import TextAnimation from "@/components/uilayouts/scroll-text";
-import ButtonCrossArrow from "@/components/ButtonCrossArrow";
-<meta name="google-site-verification" content="B-eQlTN3Ns-fBeClNtBrEVERQOl9jJsKs0aIE_bIleE" />
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+
 interface HeroProps {
   heroData?: HeroData;
   isPreview?: boolean;
@@ -18,13 +18,13 @@ interface HeroProps {
 
 const renderBadgeIcon = (iconKey: string, colorClass: string) => {
   const key = iconKey.toLowerCase();
-  if (key.includes("react")) return <FaReact className={`w-4 h-4 animate-spin-slow ${colorClass}`} />;
-  if (key.includes("next")) return <SiNextdotjs className={`w-4 h-4 ${colorClass}`} />;
-  if (key.includes("type") || key.includes("ts")) return <SiTypescript className={`w-3.5 h-3.5 ${colorClass}`} />;
-  if (key.includes("node")) return <FaNodeJs className={`w-4 h-4 ${colorClass}`} />;
-  if (key.includes("mongo")) return <SiMongodb className={`w-4 h-4 ${colorClass}`} />;
-  if (key.includes("tailwind")) return <SiTailwindcss className={`w-4 h-4 ${colorClass}`} />;
-  return <Code className={`w-3.5 h-3.5 ${colorClass}`} />;
+  if (key.includes("react")) return <FaReact className={`w-4 h-4 animate-spin-slow shrink-0 ${colorClass}`} />;
+  if (key.includes("next")) return <SiNextdotjs className={`w-4 h-4 shrink-0 ${colorClass}`} />;
+  if (key.includes("type") || key.includes("ts")) return <SiTypescript className={`w-3.5 h-3.5 shrink-0 ${colorClass}`} />;
+  if (key.includes("node")) return <FaNodeJs className={`w-4 h-4 shrink-0 ${colorClass}`} />;
+  if (key.includes("mongo")) return <SiMongodb className={`w-4 h-4 shrink-0 ${colorClass}`} />;
+  if (key.includes("tailwind")) return <SiTailwindcss className={`w-4 h-4 shrink-0 ${colorClass}`} />;
+  return <Code className={`w-3.5 h-3.5 shrink-0 ${colorClass}`} />;
 };
 
 export default function Hero({ heroData: initialData, isPreview = false }: HeroProps) {
@@ -32,6 +32,8 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
     ...defaultHeroData,
     ...initialData,
   });
+
+  const [isDownloading, setIsDownloading] = React.useState(false);
 
   React.useEffect(() => {
     if (initialData) {
@@ -89,14 +91,42 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
     ? data.techBadges.filter((b) => b.enabled !== false)
     : defaultHeroData.techBadges;
 
+  const handleResumeDownload = () => {
+    if (!data.resumeUrl || isDownloading) return;
+
+    setIsDownloading(true);
+
+    setTimeout(() => {
+      const link = document.createElement("a");
+      link.href = data.resumeUrl!;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.download = "Amit_Chandra_Das_Resume.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 1200);
+    }, 800);
+  };
+
   return (
     <section
       id="home"
-      className={`scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-300 ${isPreview
+      className={`scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-300 w-full ${isPreview
         ? "py-8 sm:py-12 lg:py-16 min-h-0"
-        : "min-h-screen lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-20 sm:pt-24 pb-12 sm:py-20 lg:py-28"
+        : "min-h-screen lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 sm:pt-32 pb-16 sm:py-20 lg:py-28"
         }`}
     >
+      {/* Ambient Liquid Light Orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
 
@@ -107,7 +137,6 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               : ""
               }`}
           >
-
             {/* 1. Greeting Text */}
             <TextAnimation
               as="p"
@@ -118,7 +147,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               classname="text-xs sm:text-sm md:text-xl font-semibold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-2.5 sm:mb-3"
             />
 
-            {/* 2. Developer Name - Strongest Visual Element */}
+            {/* 2. Developer Name */}
             <TextAnimation
               as="h1"
               text={data.name}
@@ -128,7 +157,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               classname="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-tight sm:leading-none break-words w-full"
             />
 
-            {/* 3. Professional Designation - Gradient Text */}
+            {/* 3. Professional Designation */}
             <TextAnimation
               as="h2"
               direction="down"
@@ -152,39 +181,46 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
             />
 
             {/* 5. Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto max-w-md sm:max-w-none"
-            >
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 mb-6 sm:mb-8 w-full sm:w-auto max-w-md sm:max-w-none">
               {/* Primary Button: Download Resume */}
               {data.resumeUrl && (
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-                  <Link
-                    href={data.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group h-12 w-full sm:w-auto pl-5 pr-1.5 sm:pl-6 sm:pr-2 rounded-full font-semibold text-white bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:via-blue-500 hover:to-indigo-500 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 border border-white/20 flex items-center justify-between sm:justify-center gap-3.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer text-sm sm:text-base whitespace-nowrap select-none"
-                    aria-label="Download Resume"
-                  >
-                    <span>Download Resume</span>
-                    <div className="w-8 h-8 sm:h-9 sm:w-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/25 transition-all duration-200 group-hover:scale-105">
-                      <Download className="w-4 h-4 text-white transition-transform duration-200 group-hover:translate-y-0.5" />
-                    </div>
-                  </Link>
-                </motion.div>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleResumeDownload}
+                  disabled={isDownloading}
+                  aria-label="Download Resume"
+                  className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-2.5 px-5 sm:px-8 rounded-full font-bold text-xs sm:text-base text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-80 disabled:cursor-wait shrink-0"
+                >
+                  <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+
+                  {isDownloading ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin shrink-0" />
+                      <span className="tracking-wide">Downloading Resume...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 text-white shrink-0 group-hover:translate-y-0.5 transition-transform duration-200" />
+                      <span className="tracking-wide">Download Resume</span>
+                    </>
+                  )}
+                </motion.button>
               )}
 
               {/* Secondary Button: Contact Me */}
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-                <ButtonCrossArrow
-                  href="#contact"
-                  text="Contact me"
-                  className="h-12 w-full sm:w-[170px]"
-                />
-              </motion.div>
-            </motion.div>
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="/contact"
+                aria-label="Contact Me"
+                className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-2.5 px-5 sm:px-8 rounded-full font-bold text-xs sm:text-base text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto shrink-0"
+              >
+                <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
+                <Send className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform duration-200" />
+                <span className="tracking-wide">Contact me</span>
+              </motion.a>
+            </div>
 
             {/* 6. Social Links with Tooltips */}
             <motion.div
@@ -198,7 +234,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   name: "GitHub",
                   url: data.githubUrl,
                   ariaLabel: "GitHub Profile",
-                  icon: <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <FaGithub className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />,
                   colorClass:
                     "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:border-slate-800 dark:hover:border-slate-200",
                   external: true,
@@ -207,7 +243,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   name: "LinkedIn",
                   url: data.linkedinUrl,
                   ariaLabel: "LinkedIn Profile",
-                  icon: <FaLinkedinIn className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <FaLinkedinIn className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />,
                   colorClass:
                     "text-[#0A66C2] hover:text-[#0A66C2] hover:border-[#0A66C2] dark:hover:border-[#0A66C2]",
                   external: true,
@@ -216,7 +252,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   name: "LeetCode",
                   url: data.leetcodeUrl,
                   ariaLabel: "LeetCode Profile",
-                  icon: <SiLeetcode className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <SiLeetcode className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />,
                   colorClass:
                     "text-[#FFA116] hover:text-[#FFA116] hover:border-[#FFA116] dark:hover:border-[#FFA116]",
                   external: true,
@@ -225,7 +261,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   name: "Twitter / X",
                   url: data.twitterUrl,
                   ariaLabel: "Twitter / X Profile",
-                  icon: <FaXTwitter className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <FaXTwitter className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />,
                   colorClass:
                     "text-[#1DA1F2] hover:text-[#1DA1F2] hover:border-[#1DA1F2] dark:hover:border-[#1DA1F2]",
                   external: true,
@@ -234,7 +270,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   name: "Gmail",
                   url: data.email ? `mailto:${data.email.replace(/[\[\]]/g, "")}` : "",
                   ariaLabel: "Email Me via Gmail",
-                  icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5" />,
+                  icon: <Mail className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />,
                   colorClass:
                     "text-[#EA4335] hover:text-[#EA4335] hover:border-[#EA4335] dark:hover:border-[#EA4335]",
                   external: false,
@@ -250,15 +286,15 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
                       aria-label={item.ariaLabel}
-                      className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border border-slate-300/70 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md ${item.colorClass} transition-all duration-200 shadow-xs cursor-pointer`}
+                      className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center border border-slate-300/40 dark:border-slate-800 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md ${item.colorClass} transition-all duration-200 shadow-xs cursor-pointer`}
                     >
                       {item.icon}
                     </motion.a>
 
-                    {/* Tooltip positioned under the icon */}
+                    {/* Tooltip */}
                     <div
                       role="tooltip"
-                      className="absolute top-full mt-2.5 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none opacity-0 scale-95 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:scale-100 group-focus-within:translate-y-0 transition-all duration-200 ease-out z-30"
+                      className="absolute top-full mt-2.5 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none opacity-0 scale-95 translate-y-1 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 transition-all duration-200 ease-out z-30"
                     >
                       <div className="w-2 h-2 rotate-45 bg-slate-900 dark:bg-slate-800 border-t border-l border-slate-700/80 dark:border-slate-600/80 -mb-1 z-10" />
                       <div className="px-2.5 py-1 rounded-md bg-slate-900/95 dark:bg-slate-800/95 backdrop-blur-md text-white text-[11px] sm:text-xs font-semibold tracking-wide whitespace-nowrap shadow-xl border border-slate-700/80 dark:border-slate-600/80">
@@ -268,10 +304,9 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   </div>
                 ))}
             </motion.div>
-
           </div>
 
-          {/* RIGHT SIDE (42% Width on Desktop - Professional Image & Tech Badges) */}
+          {/* RIGHT SIDE (42% Width on Desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -289,7 +324,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               {/* Soft Background Glow Behind Image */}
               <div className="absolute -inset-4 bg-gradient-to-tr from-sky-500/30 via-blue-500/20 to-purple-500/30 rounded-xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
-              {/* FLOATING TECH BADGES AROUND PROFILE IMAGE (Desktop/Tablet >= sm) */}
+              {/* FLOATING TECH BADGES (Desktop/Tablet >= sm) */}
               {enabledBadges.map((badge, idx) => {
                 const positions = [
                   "-top-4 -right-4",
@@ -306,7 +341,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5 + idx * 0.1 }}
-                    className={`absolute ${posClass} z-20 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-white/10 shadow-lg`}
+                    className={`absolute ${posClass} z-20 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-200/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-300/40 dark:border-slate-700/40 shadow-lg`}
                   >
                     {renderBadgeIcon(badge.iconKey || badge.name, badge.colorClass || "text-sky-400")}
                     <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
@@ -317,11 +352,17 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               })}
 
               {/* Glassmorphism Card Wrapper around Profile Image */}
-              <div className="relative p-3 sm:p-4 rounded-xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 shadow-2xl shadow-sky-500/20 overflow-hidden">
+              <LiquidGlassCard
+                borderRadius="16px"
+                blurIntensity="xl"
+                glowIntensity="lg"
+                shadowIntensity="lg"
+                className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60 p-3 sm:p-4"
+              >
                 <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <Image
                     src={imgSrc || "/Amit_Image_3.png"}
-                    alt={`${data.name} - Full-Stack Developer Profile Portrait`}
+                    alt={`${data.name} Full-Stack Developer Profile Portrait`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 380px"
                     priority
@@ -329,7 +370,6 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                     onError={() => setImgSrc("/Amit_Image_3.png")}
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700 select-none"
                   />
-                  {/* Glass Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
 
                   {/* Floating Glassmorphism Availability & Location Card Overlay */}
@@ -366,8 +406,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                     </motion.div>
                   )}
                 </div>
-              </div>
-
+              </LiquidGlassCard>
             </motion.div>
 
             {/* FLOATING TECH BADGES FOR MOBILE (< sm) */}
@@ -376,7 +415,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                 {enabledBadges.map((badge, idx) => (
                   <div
                     key={badge.name + idx}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-white/10 shadow-md text-xs font-semibold text-slate-800 dark:text-slate-200"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-200/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-300/40 dark:border-slate-700/40 shadow-md text-xs font-semibold text-slate-800 dark:text-slate-200"
                   >
                     {renderBadgeIcon(badge.iconKey || badge.name, badge.colorClass || "text-sky-400")}
                     <span>{badge.name}</span>
@@ -384,7 +423,6 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                 ))}
               </div>
             )}
-
           </motion.div>
 
         </div>
@@ -392,4 +430,3 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
     </section>
   );
 }
-
