@@ -212,7 +212,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                href="#contact"
+                href="/contact"
                 aria-label="Contact Me"
                 className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-2.5 px-5 sm:px-8 rounded-full font-bold text-xs sm:text-base text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto shrink-0"
               >
