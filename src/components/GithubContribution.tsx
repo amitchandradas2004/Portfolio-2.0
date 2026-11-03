@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
 import { useTheme } from "./ThemeProvider";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
 
 export interface ContributionDay {
   date: string;
@@ -60,7 +61,7 @@ export default function GithubContribution({
     y: number;
   } | null>(null);
 
-  // Color themes for contribution calendar blocks (Green default & Blue option)
+  // Color themes for contribution calendar blocks
   const [colorTheme, setColorTheme] = useState<"green" | "blue">("green");
 
   useEffect(() => {
@@ -81,7 +82,6 @@ export default function GithubContribution({
     }
   };
 
-  // Tailored color themes for light & dark mode to match portfolio design system
   const calendarThemes = {
     green: {
       light: ["#F1F5F9", "#9BE9A8", "#40C463", "#30A14E", "#216E39"],
@@ -93,7 +93,6 @@ export default function GithubContribution({
     },
   };
 
-  // Map for fast O(1) date lookup
   const contributionMap = useMemo(() => {
     const map = new Map<string, ContributionDay>();
     daysData.forEach((day) => {
@@ -102,7 +101,6 @@ export default function GithubContribution({
     return map;
   }, [daysData]);
 
-  // Fetch real GitHub contribution data from Next.js API route /api/github-stats
   const fetchContributionData = async () => {
     setIsLoading(true);
     setHasError(false);
@@ -129,7 +127,6 @@ export default function GithubContribution({
     fetchContributionData();
   }, [username]);
 
-  // Mouse hover handlers for contribution blocks
   const handleMouseEnter = (
     event: React.MouseEvent,
     activity: { date: string; count: number }
@@ -144,11 +141,9 @@ export default function GithubContribution({
     if (!cardRef.current) return;
     const cardRect = cardRef.current.getBoundingClientRect();
 
-    // Calculate position relative to container card
     const rawX = blockRect.left + blockRect.width / 2 - cardRect.left;
     const rawY = blockRect.top - cardRect.top - 12;
 
-    // Strict clamping within card container bounds
     const tooltipWidth = 190;
     const padding = 16;
     const clampedX = Math.max(
@@ -173,10 +168,14 @@ export default function GithubContribution({
   return (
     <section
       id="github-contributions"
-      className="scroll-mt-24 relative overflow-hidden bg-white dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-20 sm:py-24 transition-colors duration-300"
+      className="scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 py-20 sm:py-24 transition-colors duration-300 w-full"
     >
-      {/* Background Decorative Ambient Glows */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[130px] rounded-full pointer-events-none -z-10" />
+      {/* Ambient Liquid Light Orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] sm:w-[750px] h-[450px] bg-sky-400/25 dark:bg-cyan-500/20 blur-[130px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-purple-500/20 dark:bg-indigo-600/20 blur-[110px] rounded-full pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         {/* SECTION HEADER */}
@@ -186,9 +185,9 @@ export default function GithubContribution({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200/50 dark:bg-slate-900/50 border border-slate-300/40 dark:border-slate-800/60 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4 shadow-xs"
           >
-            <FaGithub className="w-4 h-4 text-sky-500 dark:text-[#38BDF8]" />
+            <FaGithub className="w-4 h-4 text-sky-500 dark:text-[#38BDF8] shrink-0" />
             <span>Coding Activity</span>
           </motion.div>
 
@@ -197,7 +196,7 @@ export default function GithubContribution({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight text-slate-900 dark:text-white"
           >
             GitHub{" "}
             <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
@@ -216,160 +215,174 @@ export default function GithubContribution({
           </motion.p>
         </div>
 
-        {/* GLASSMORPHISM GRAPH CONTAINER CARD */}
+        {/* INTERACTIVE LIQUID GLASS CARD CONTAINER */}
         <motion.div
           ref={cardRef}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 backdrop-blur-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 shadow-2xl shadow-slate-900/5 dark:shadow-black/40 transition-all duration-300"
+          className="w-full relative"
         >
-          {/* Card Top Info Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200/80 dark:border-slate-800/80">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 border border-slate-300/60 dark:border-slate-700/60">
-                <GitCommit className={`w-5 h-5 ${colorTheme === "green" ? "text-emerald-500" : "text-sky-500"}`} />
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  @{username}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  {totalContributions > 0
-                    ? `${totalContributions.toLocaleString()} total contributions in the last year`
-                    : "Public commit history & pull requests"}
-                </p>
-              </div>
-            </div>
+          <LiquidGlassCard
+            borderRadius="12px"
+            blurIntensity="xl"
+            glowIntensity="lg"
+            shadowIntensity="lg"
+            className="group relative w-full overflow-hidden transition-all duration-500 !border-slate-300/40 dark:!border-slate-800/60 hover:!border-sky-400/60 dark:hover:!border-sky-400/40 hover:-translate-y-1.5 shadow-2xl hover:shadow-sky-500/20"
+          >
+            {/* Specular Liquid Light Sweep Overlay on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-sky-400/15 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10" />
 
-            {/* Action Buttons: Theme Selector (Green/Blue) BEFORE GitHub Button */}
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center p-1 rounded-xl bg-slate-200/70 dark:bg-slate-800/80 border border-slate-300/60 dark:border-slate-700/60 text-xs font-semibold">
-                <button
-                  type="button"
-                  onClick={() => handleThemeChange("green")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${colorTheme === "green"
-                      ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 font-bold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                    }`}
-                  aria-label="Switch contribution blocks color to Green"
-                >
-                  <span
-                    className={`w-2.5 h-2.5 rounded-full ${colorTheme === "green" ? "bg-white" : "bg-emerald-500"
-                      }`}
-                  />
-                  <span>Green</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleThemeChange("blue")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${colorTheme === "blue"
-                      ? "bg-sky-500 text-white shadow-md shadow-sky-500/20 font-bold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                    }`}
-                  aria-label="Switch contribution blocks color to Blue"
-                >
-                  <span
-                    className={`w-2.5 h-2.5 rounded-full ${colorTheme === "blue" ? "bg-white" : "bg-sky-500"
-                      }`}
-                  />
-                  <span>Blue</span>
-                </button>
-              </div>
-
-              {/* Link to GitHub Profile */}
-              <a
-                href={`https://github.com/${username}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-slate-200/60 dark:bg-slate-800/80 hover:bg-slate-300/70 dark:hover:bg-slate-700 border border-slate-300/60 dark:border-slate-700/60 transition-all cursor-pointer group"
-              >
-                <span>View GitHub Profile</span>
-                <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
-            </div>
-          </div>
-
-          {/* CALENDAR GRAPH / LOADING / ERROR STATES */}
-          <div className="w-full overflow-x-auto flex justify-center items-center py-4 px-4 sm:px-6 min-h-[170px]">
-            {isLoading ? (
-              <div className="flex items-center gap-3 text-sm font-semibold text-slate-500 dark:text-slate-400 py-8">
-                <Loader2 className={`w-5 h-5 animate-spin ${colorTheme === "green" ? "text-emerald-500" : "text-sky-500"}`} />
-                <span>Loading GitHub activity...</span>
-              </div>
-            ) : hasError ? (
-              <div className="flex flex-col items-center gap-3 text-sm font-semibold text-rose-500 py-6">
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="w-5 h-5" />
-                  <span>Unable to load GitHub activity</span>
+            <div className="p-6 sm:p-8 md:p-10 relative z-10">
+              {/* Card Top Info Bar */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-300/40 dark:border-slate-800/60">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300/40 dark:border-slate-700/40 backdrop-blur-md group-hover:border-sky-400/40 transition-colors duration-300">
+                    <GitCommit className={`w-5 h-5 ${colorTheme === "green" ? "text-emerald-500" : "text-sky-500"}`} />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors duration-300">
+                      @{username}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                      {totalContributions > 0
+                        ? `${totalContributions.toLocaleString()} total contributions in the last year`
+                        : "Public commit history & pull requests"}
+                    </p>
+                  </div>
                 </div>
-                <button
-                  onClick={fetchContributionData}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all cursor-pointer"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Retry</span>
-                </button>
-              </div>
-            ) : isMounted ? (
-              <GitHubCalendar
-                username={username}
-                blockSize={13}
-                blockMargin={4}
-                fontSize={14}
-                colorScheme={isDark ? "dark" : "light"}
-                theme={calendarThemes[colorTheme]}
-                renderBlock={(block, activity) =>
-                  React.cloneElement(block, {
-                    onMouseEnter: (e: React.MouseEvent) =>
-                      handleMouseEnter(e, activity),
-                    onMouseLeave: handleMouseLeave,
-                    className: `${block.props.className || ""
-                      } transition-transform duration-150 cursor-pointer origin-center`,
-                  })
-                }
-                style={{
-                  color: isDark ? "#94A3B8" : "#475569",
-                  fontFamily: "inherit",
-                }}
-              />
-            ) : null}
-          </div>
 
-          {/* CUSTOM GLASSMORPHISM INTERACTIVE TOOLTIP (CONTAINED INSIDE CARD BOX) */}
-          <AnimatePresence>
-            {hoveredDay && (
-              <motion.div
-                key={hoveredDay.date}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ opacity: { duration: 0.1 }, scale: { duration: 0.1 } }}
-                style={{
-                  position: "absolute",
-                  left: `${hoveredDay.x}px`,
-                  top: `${hoveredDay.y}px`,
-                  transform: "translate(-50%, -100%)",
-                }}
-                className="z-50 pointer-events-none p-3.5 rounded-2xl backdrop-blur-xl bg-slate-900/95 dark:bg-slate-900/95 text-white border border-slate-700/80 shadow-2xl shadow-sky-500/20 min-w-[170px]"
-              >
-                <p className="text-xs font-bold text-slate-300 border-b border-slate-700/60 pb-1.5 mb-2">
-                  {formatDateString(hoveredDay.date)}
-                </p>
-                <div className="space-y-1.5 text-xs font-semibold">
-                  <p className="flex items-center gap-1.5 text-amber-400">
-                    <span>🔥</span>
-                    <span>{hoveredDay.count} Contributions</span>
-                  </p>
-                  <p className="flex items-center gap-1.5 text-sky-400">
-                    <span>💻</span>
-                    <span>{hoveredDay.commits ?? hoveredDay.count} Commits</span>
-                  </p>
+                {/* Action Buttons */}
+                <div className="flex flex-wrap items-center gap-3">
+                  {/* Theme Selector Pill */}
+                  <div className="flex items-center p-1 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 border border-slate-300/40 dark:border-slate-700/40 backdrop-blur-md text-xs font-semibold">
+                    <button
+                      type="button"
+                      onClick={() => handleThemeChange("green")}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${colorTheme === "green"
+                        ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20 font-bold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                      aria-label="Switch contribution blocks color to Green"
+                    >
+                      <span
+                        className={`w-2.5 h-2.5 rounded-full ${colorTheme === "green" ? "bg-white" : "bg-emerald-500"
+                          }`}
+                      />
+                      <span>Green</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleThemeChange("blue")}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all cursor-pointer ${colorTheme === "blue"
+                        ? "bg-sky-500 text-white shadow-md shadow-sky-500/20 font-bold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                      aria-label="Switch contribution blocks color to Blue"
+                    >
+                      <span
+                        className={`w-2.5 h-2.5 rounded-full ${colorTheme === "blue" ? "bg-white" : "bg-sky-500"
+                          }`}
+                      />
+                      <span>Blue</span>
+                    </button>
+                  </div>
+
+                  {/* Contact Style Gradient Link */}
+                  <a
+                    href={`https://github.com/${username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 border border-sky-300/30 shadow-md shadow-sky-500/25 transition-all active:scale-[0.98] cursor-pointer group/btn"
+                  >
+                    <span>View GitHub Profile</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform shrink-0" />
+                  </a>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
+
+              {/* CALENDAR GRAPH */}
+              <div className="w-full overflow-x-auto flex justify-center items-center py-4 px-2 sm:px-6 min-h-[170px]">
+                {isLoading ? (
+                  <div className="flex items-center gap-3 text-sm font-semibold text-slate-500 dark:text-slate-400 py-8">
+                    <Loader2 className={`w-5 h-5 animate-spin ${colorTheme === "green" ? "text-emerald-500" : "text-sky-500"}`} />
+                    <span>Loading GitHub activity...</span>
+                  </div>
+                ) : hasError ? (
+                  <div className="flex flex-col items-center gap-3 text-sm font-semibold text-rose-500 py-6">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="w-5 h-5" />
+                      <span>Unable to load GitHub activity</span>
+                    </div>
+                    <button
+                      onClick={fetchContributionData}
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all cursor-pointer border border-slate-300/40 dark:border-slate-700/40"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>Retry</span>
+                    </button>
+                  </div>
+                ) : isMounted ? (
+                  <GitHubCalendar
+                    username={username}
+                    blockSize={13}
+                    blockMargin={4}
+                    fontSize={14}
+                    colorScheme={isDark ? "dark" : "light"}
+                    theme={calendarThemes[colorTheme]}
+                    renderBlock={(block, activity) =>
+                      React.cloneElement(block, {
+                        onMouseEnter: (e: React.MouseEvent) =>
+                          handleMouseEnter(e, activity),
+                        onMouseLeave: handleMouseLeave,
+                        className: `${block.props.className || ""
+                          } transition-transform duration-150 cursor-pointer origin-center`,
+                      })
+                    }
+                    style={{
+                      color: isDark ? "#94A3B8" : "#475569",
+                      fontFamily: "inherit",
+                    }}
+                  />
+                ) : null}
+              </div>
+
+              {/* INTERACTIVE TOOLTIP */}
+              <AnimatePresence>
+                {hoveredDay && (
+                  <motion.div
+                    key={hoveredDay.date}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ opacity: { duration: 0.1 }, scale: { duration: 0.1 } }}
+                    style={{
+                      position: "absolute",
+                      left: `${hoveredDay.x}px`,
+                      top: `${hoveredDay.y}px`,
+                      transform: "translate(-50%, -100%)",
+                    }}
+                    className="z-50 pointer-events-none p-3.5 rounded-2xl backdrop-blur-xl bg-slate-900/95 dark:bg-slate-900/95 text-white border border-slate-700/80 shadow-2xl shadow-sky-500/20 min-w-[170px]"
+                  >
+                    <p className="text-xs font-bold text-slate-300 border-b border-slate-700/60 pb-1.5 mb-2">
+                      {formatDateString(hoveredDay.date)}
+                    </p>
+                    <div className="space-y-1.5 text-xs font-semibold">
+                      <p className="flex items-center gap-1.5 text-amber-400">
+                        <span>🔥</span>
+                        <span>{hoveredDay.count} Contributions</span>
+                      </p>
+                      <p className="flex items-center gap-1.5 text-sky-400">
+                        <span>💻</span>
+                        <span>{hoveredDay.commits ?? hoveredDay.count} Commits</span>
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </LiquidGlassCard>
         </motion.div>
       </div>
     </section>
