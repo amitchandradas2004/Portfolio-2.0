@@ -456,53 +456,85 @@ export default function Contact() {
 
                   {/* Message Input */}
                   <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
-                    >
-                      Your Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={5}
-                      value={formData.message}
-                      onChange={handleChange}
-                      placeholder="Tell me about your project or requirements..."
-                      className="w-full p-4 rounded-xl text-sm bg-white/50 dark:bg-slate-950/50 border border-white/60 dark:border-slate-800/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-400/60 dark:focus:border-sky-400/50 transition-all duration-200 resize-none backdrop-blur-md shadow-inner"
-                    />
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label
+                        htmlFor="message"
+                        className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400"
+                      >
+                        Your Message *
+                      </label>
+
+                      {/* Live Character Counter */}
+                      <span
+                        className={`text-xs font-semibold transition-colors duration-200 ${formData.message.length === 0
+                          ? "text-slate-400 dark:text-slate-500"
+                          : formData.message.length < 10
+                            ? "text-red-600 dark:text-red-400"
+                            : "text-emerald-600 dark:text-emerald-400"
+                          }`}
+                      >
+                        {formData.message.length} chars
+                        {formData.message.length > 0 && formData.message.length < 10 && (
+                          <span className="ml-1 text-[11px] font-medium opacity-90">
+                            (min 10)
+                          </span>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="relative">
+                      <textarea
+                        id="message"
+                        name="message"
+                        required
+                        rows={5}
+                        minLength={10}
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Tell me about your project or requirements..."
+                        className={`w-full p-4 rounded-xl text-sm bg-white/70 dark:bg-slate-900/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 backdrop-blur-xl border transition-all duration-200 resize-none shadow-xs focus:outline-none focus:ring-2 ${formData.message.length > 0 && formData.message.length < 10
+                          ? "border-red-400/80 dark:border-red-500/80 focus:ring-red-400/30 focus:border-red-500"
+                          : "border-slate-300/70 dark:border-slate-600/80 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-500/80 dark:focus:border-sky-400/80"
+                          }`}
+                      />
+                    </div>
+
+                    {/* Minimum Length Warning Message */}
+                    {formData.message.length > 0 && formData.message.length < 10 && (
+                      <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
+                        <span>Please enter at least 10 characters ({10 - formData.message.length} more needed)</span>
+                      </p>
+                    )}
                   </div>
 
-                  {/* Submit Button */}
-                  <button
+                  {/* Submit button */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     type="submit"
-                    disabled={isSubmitting}
-                    className="group relative inline-flex h-12 w-full sm:w-auto items-center justify-center overflow-hidden rounded-xl p-[1px] focus:outline-none focus:ring-2 focus:ring-sky-400/30 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-sky-500/10 hover:shadow-lg hover:shadow-sky-500/20 cursor-pointer"
+                    disabled={isSubmitting || isSubmitted}
+                    aria-label="Send Message"
+                    className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {/* Soft Specular Border Highlight */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-sky-400/40 via-blue-500/30 to-purple-500/40 rounded-xl opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+                    <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
 
-                    {/* Button Inner Body with Liquid Glass Backdrop */}
-                    <span className="relative inline-flex h-full w-full items-center justify-center rounded-[11px] bg-white/70 dark:bg-slate-900/80 hover:bg-white/90 dark:hover:bg-slate-800/90 px-8 py-1 text-sm font-bold text-slate-800 dark:text-white backdrop-blur-xl gap-2.5 transition-colors duration-200">
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin text-sky-500 dark:text-sky-400" />
-                          <span>Sending...</span>
-                        </>
-                      ) : isSubmitted ? (
-                        <>
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                          <span>Message Sent ✓</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4 text-sky-500 dark:text-sky-400 transition-transform duration-200 group-hover:translate-x-1" />
-                          <span>Send Message</span>
-                        </>
-                      )}
-                    </span>
-                  </button>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-sky-600 dark:text-sky-400 shrink-0" />
+                        <span>Sending...</span>
+                      </>
+                    ) : isSubmitted ? (
+                      <>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <span>Message Sent ✓</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform duration-200" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </motion.button>
                 </form>
               </div>
             </div>
