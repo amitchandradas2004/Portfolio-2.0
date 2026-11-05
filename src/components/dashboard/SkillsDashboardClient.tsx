@@ -43,7 +43,9 @@ export function SkillsDashboardClient({ initialData }: SkillsDashboardClientProp
   const [formData, setFormData] = useState<SkillsData>(initialData || defaultSkillsData);
   const [lastSavedData, setLastSavedData] = useState<SkillsData>(initialData || defaultSkillsData);
   const [saving, setSaving] = useState(false);
-  const [isEditing, setIsEditing] = useState(true);
+
+  // Initialize in locked mode by default
+  const [isEditing, setIsEditing] = useState(false);
 
   // Notifications
   const [statusMessage, setStatusMessage] = useState<{
@@ -485,7 +487,6 @@ export function SkillsDashboardClient({ initialData }: SkillsDashboardClientProp
       });
       return;
     }
-    if (isInputDisabled) setIsEditing(true);
     setCategoryModalState({
       isOpen: true,
       mode: "add",
@@ -509,7 +510,6 @@ export function SkillsDashboardClient({ initialData }: SkillsDashboardClientProp
       });
       return;
     }
-    if (isInputDisabled) setIsEditing(true);
     setCategoryModalState({
       isOpen: true,
       mode: "edit",
@@ -590,7 +590,6 @@ export function SkillsDashboardClient({ initialData }: SkillsDashboardClientProp
       });
       return;
     }
-    if (isInputDisabled) setIsEditing(true);
     setLearningModalState({
       isOpen: true,
       mode: "add",
@@ -606,7 +605,6 @@ export function SkillsDashboardClient({ initialData }: SkillsDashboardClientProp
       });
       return;
     }
-    if (isInputDisabled) setIsEditing(true);
     setLearningModalState({
       isOpen: true,
       mode: "edit",
