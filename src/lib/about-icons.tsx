@@ -1,62 +1,71 @@
-import React from "react";
 import {
-  CheckCircle2,
-  Sparkles,
-  Zap,
-  ShieldCheck,
-  Code2,
-  Rocket,
-  Heart,
-  Star,
   Award,
-  Target,
-  Cpu,
-  Terminal,
-  FolderGit2,
-  Briefcase,
-  Coffee,
-  Users,
-  BrainCircuit,
-  Cloud,
-  Layers,
-  Server,
-  Globe,
-  Flame,
-  Layout,
-  Wrench,
   BookOpen,
+  BrainCircuit,
+  Briefcase,
+  CheckCircle2,
+  Cloud,
+  Code2,
+  Coffee,
+  Cpu,
+  FolderGit2,
+  Globe,
+  Heart,
+  Layers,
+  type LucideIcon,
+  Rocket,
+  Server,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Target,
+  Terminal,
+  Users,
+  Zap,
 } from "lucide-react";
 import {
-  FaReact,
-  FaNodeJs,
+  FaAws,
+  FaCss3Alt,
+  FaDocker,
   FaGitAlt,
   FaGithub,
-  FaPython,
-  FaDocker,
-  FaAws,
   FaHtml5,
-  FaCss3Alt,
   FaJs,
+  FaNodeJs,
+  FaPython,
+  FaReact,
 } from "react-icons/fa6";
 import {
-  SiNextdotjs,
-  SiTypescript,
-  SiMongodb,
-  SiTailwindcss,
+  SiBun,
   SiExpress,
   SiFirebase,
-  SiPostgresql,
-  SiRedis,
-  SiGraphql,
-  SiPrisma,
   SiFramer,
-  SiVite,
-  SiBun,
+  SiGraphql,
+  SiMongodb,
+  SiNextdotjs,
+  SiPostgresql,
+  SiPrisma,
+  SiRedis,
   SiSupabase,
+  SiTailwindcss,
+  SiTypescript,
+  SiVite,
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
 
-export const TRAIT_ICON_OPTIONS = [
+export interface IconOption {
+  key: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+export interface TechIconOption {
+  key: string;
+  name: string;
+  defaultColor: string;
+}
+
+export const TRAIT_ICON_OPTIONS: IconOption[] = [
   { key: "check", label: "Checkmark", icon: CheckCircle2 },
   { key: "sparkles", label: "Sparkles", icon: Sparkles },
   { key: "zap", label: "Zap / Lightning", icon: Zap },
@@ -71,7 +80,7 @@ export const TRAIT_ICON_OPTIONS = [
   { key: "terminal", label: "Terminal", icon: Terminal },
 ];
 
-export const STAT_ICON_OPTIONS = [
+export const STAT_ICON_OPTIONS: IconOption[] = [
   { key: "terminal", label: "Terminal", icon: Terminal },
   { key: "code", label: "Code", icon: Code2 },
   { key: "git", label: "Git / Commits", icon: FolderGit2 },
@@ -84,7 +93,7 @@ export const STAT_ICON_OPTIONS = [
   { key: "globe", label: "Globe", icon: Globe },
 ];
 
-export const LEARNING_ICON_OPTIONS = [
+export const LEARNING_ICON_OPTIONS: IconOption[] = [
   { key: "brain", label: "AI / Brain", icon: BrainCircuit },
   { key: "rocket", label: "Rocket / Speed", icon: Rocket },
   { key: "sparkles", label: "Sparkles / Polish", icon: Sparkles },
@@ -95,17 +104,33 @@ export const LEARNING_ICON_OPTIONS = [
   { key: "book", label: "Book / Learning", icon: BookOpen },
 ];
 
-export const TECH_ICON_OPTIONS = [
+export const TECH_ICON_OPTIONS: TechIconOption[] = [
   { key: "react", name: "React", defaultColor: "text-cyan-400" },
-  { key: "next", name: "Next.js", defaultColor: "text-slate-900 dark:text-white" },
+  {
+    key: "next",
+    name: "Next.js",
+    defaultColor: "text-slate-900 dark:text-white",
+  },
   { key: "typescript", name: "TypeScript", defaultColor: "text-blue-500" },
   { key: "javascript", name: "JavaScript", defaultColor: "text-yellow-400" },
   { key: "node", name: "Node.js", defaultColor: "text-emerald-500" },
-  { key: "express", name: "Express", defaultColor: "text-slate-700 dark:text-slate-300" },
-  { key: "mongo", name: "MongoDB", defaultColor: "text-emerald-600 dark:text-emerald-400" },
+  {
+    key: "express",
+    name: "Express",
+    defaultColor: "text-slate-700 dark:text-slate-300",
+  },
+  {
+    key: "mongo",
+    name: "MongoDB",
+    defaultColor: "text-emerald-600 dark:text-emerald-400",
+  },
   { key: "tailwind", name: "Tailwind CSS", defaultColor: "text-sky-400" },
   { key: "git", name: "Git", defaultColor: "text-orange-500" },
-  { key: "github", name: "GitHub", defaultColor: "text-slate-900 dark:text-white" },
+  {
+    key: "github",
+    name: "GitHub",
+    defaultColor: "text-slate-900 dark:text-white",
+  },
   { key: "html", name: "HTML5", defaultColor: "text-orange-500" },
   { key: "css", name: "CSS3", defaultColor: "text-blue-500" },
   { key: "framer", name: "Framer Motion", defaultColor: "text-[#ff0055]" },
@@ -119,102 +144,55 @@ export const TECH_ICON_OPTIONS = [
   { key: "docker", name: "Docker", defaultColor: "text-sky-500" },
   { key: "aws", name: "AWS", defaultColor: "text-amber-500" },
   { key: "python", name: "Python", defaultColor: "text-blue-400" },
+  { key: "bun", name: "Bun", defaultColor: "text-amber-300" },
   { key: "vscode", name: "VS Code", defaultColor: "text-blue-500" },
 ];
 
+const buildIconMap = (options: IconOption[]): Record<string, LucideIcon> =>
+  Object.fromEntries(options.map(({ key, icon }) => [key, icon]));
+
+const TRAIT_ICON_MAP = buildIconMap(TRAIT_ICON_OPTIONS);
+
+const STAT_ICON_MAP: Record<string, LucideIcon> = {
+  ...buildIconMap(STAT_ICON_OPTIONS),
+  github: FolderGit2,
+  commits: FolderGit2,
+};
+
+const LEARNING_ICON_MAP: Record<string, LucideIcon> = {
+  ...buildIconMap(LEARNING_ICON_OPTIONS),
+  ai: BrainCircuit,
+};
+
 export function renderTraitIcon(iconKey: string, className = "w-5 h-5") {
   const key = (iconKey || "").toLowerCase().trim();
-  switch (key) {
-    case "check":
-      return <CheckCircle2 className={className} />;
-    case "sparkles":
-      return <Sparkles className={className} />;
-    case "zap":
-      return <Zap className={className} />;
-    case "shield":
-      return <ShieldCheck className={className} />;
-    case "code":
-      return <Code2 className={className} />;
-    case "rocket":
-      return <Rocket className={className} />;
-    case "target":
-      return <Target className={className} />;
-    case "award":
-      return <Award className={className} />;
-    case "star":
-      return <Star className={className} />;
-    case "heart":
-      return <Heart className={className} />;
-    case "cpu":
-      return <Cpu className={className} />;
-    case "terminal":
-      return <Terminal className={className} />;
-    default:
-      return <Sparkles className={className} />;
-  }
+  const Icon = TRAIT_ICON_MAP[key] ?? Sparkles;
+  return <Icon className={className} />;
 }
 
 export function renderStatIcon(iconKey: string, className = "w-3.5 h-3.5") {
   const key = (iconKey || "").toLowerCase().trim();
-  switch (key) {
-    case "terminal":
-      return <Terminal className={className} />;
-    case "code":
-      return <Code2 className={className} />;
-    case "git":
-    case "github":
-    case "commits":
-      return <FolderGit2 className={className} />;
-    case "zap":
-      return <Zap className={className} />;
-    case "briefcase":
-      return <Briefcase className={className} />;
-    case "coffee":
-      return <Coffee className={className} />;
-    case "award":
-      return <Award className={className} />;
-    case "users":
-      return <Users className={className} />;
-    case "rocket":
-      return <Rocket className={className} />;
-    case "globe":
-      return <Globe className={className} />;
-    default:
-      return <Code2 className={className} />;
-  }
+  const Icon = STAT_ICON_MAP[key] ?? Code2;
+  return <Icon className={className} />;
 }
 
 export function renderLearningIcon(iconKey: string, className = "w-4 h-4") {
   const key = (iconKey || "").toLowerCase().trim();
-  switch (key) {
-    case "brain":
-    case "ai":
-      return <BrainCircuit className={className} />;
-    case "rocket":
-      return <Rocket className={className} />;
-    case "sparkles":
-      return <Sparkles className={className} />;
-    case "cloud":
-      return <Cloud className={className} />;
-    case "layers":
-      return <Layers className={className} />;
-    case "server":
-      return <Server className={className} />;
-    case "shield":
-      return <ShieldCheck className={className} />;
-    case "book":
-      return <BookOpen className={className} />;
-    default:
-      return <Sparkles className={className} />;
-  }
+  const Icon = LEARNING_ICON_MAP[key] ?? Sparkles;
+  return <Icon className={className} />;
 }
 
-export function renderAboutTechIcon(iconKey: string, className = "w-3.5 h-3.5") {
+export function renderAboutTechIcon(
+  iconKey: string,
+  className = "w-3.5 h-3.5",
+) {
   const key = (iconKey || "").toLowerCase().trim();
   if (key.includes("next")) return <SiNextdotjs className={className} />;
   if (key.includes("react")) return <FaReact className={className} />;
-  if (key.includes("typescript") || key === "ts") return <SiTypescript className={className} />;
-  if (key.includes("javascript") || key === "js") return <FaJs className={className} />;
+  if (key.includes("typescript") || key === "ts")
+    return <SiTypescript className={className} />;
+  if (key.includes("javascript") || key === "js")
+    return <FaJs className={className} />;
   if (key.includes("node")) return <FaNodeJs className={className} />;
   if (key.includes("express")) return <SiExpress className={className} />;
   if (key.includes("mongo")) return <SiMongodb className={className} />;

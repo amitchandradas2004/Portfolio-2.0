@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface ButtonCreativeRightProps {
   href?: string;
@@ -16,12 +15,12 @@ interface ButtonCreativeRightProps {
 
 export default function ButtonCreativeRight({
   href,
-  text = 'Download Resume',
-  target = '_blank',
-  rel = 'noopener noreferrer',
-  className = '',
+  text = "Download Resume",
+  target = "_blank",
+  rel = "noopener noreferrer",
+  className = "",
   onClick,
-  ariaLabel = 'Download Resume',
+  ariaLabel = "Download Resume",
 }: ButtonCreativeRightProps) {
   const innerContent = (
     <>

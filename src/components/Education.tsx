@@ -1,14 +1,8 @@
 "use client";
 
-import React from "react";
-import { motion, Variants } from "framer-motion";
-import {
-  GraduationCap,
-  Calendar,
-  Building2,
-  BookOpen,
-} from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { motion, Variants } from "framer-motion";
+import { BookOpen, Building2, Calendar, GraduationCap } from "lucide-react";
 
 export interface EducationItem {
   id: string;
@@ -91,18 +85,17 @@ export default function Education() {
       id="education"
       className="scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-20 sm:py-24 transition-colors duration-300 w-full"
     >
-      {/* =========================================================================
-         BACKGROUND LIQUID LIGHT SOURCES (Crucial for Glass Refraction)
-         ========================================================================= */}
+      {/* BACKGROUND LIQUID LIGHT SOURCES (Crucial for Glass Refraction) */}
+
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         {/* High-Contrast Neon Cyan Orb */}
-        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/40 dark:bg-cyan-500/35 blur-[80px] rounded-full animate-pulse" />
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/40 dark:bg-cyan-500/35 blur-[80px] rounded-full animate-pulse" />
 
         {/* Vibrant Magenta/Purple Liquid Orb */}
-        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/35 dark:bg-indigo-600/35 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/35 dark:bg-indigo-600/35 blur-[90px] rounded-full animate-pulse" />
 
         {/* Glass Mesh Grid Texture */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
@@ -126,7 +119,7 @@ export default function Education() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
           >
-            <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Education
             </span>
           </motion.h2>
@@ -145,7 +138,7 @@ export default function Education() {
         {/* TIMELINE CONTAINER */}
         <div className="relative w-full">
           {/* Vertical Central Line */}
-          <div className="absolute top-0 bottom-0 left-6 lg:left-1/2 lg:-translate-x-1/2 w-0.5 bg-gradient-to-b from-sky-400 via-blue-500 to-purple-500 opacity-50 dark:opacity-70" />
+          <div className="absolute top-0 bottom-0 left-6 lg:left-1/2 lg:-translate-x-1/2 w-0.5 bg-linear-to-b from-sky-400 via-blue-500 to-purple-500 opacity-50 dark:opacity-70" />
 
           <motion.div
             variants={containerVariants}
@@ -167,10 +160,11 @@ export default function Education() {
                   <div className="absolute left-6 lg:left-1/2 lg:-translate-x-1/2 top-1.5 lg:top-1/2 lg:-translate-y-1/2 z-20 -translate-x-1/2 flex items-center justify-center">
                     <div className="relative flex items-center justify-center w-9 h-9 rounded-full bg-white/80 dark:bg-slate-900/80 border-2 border-sky-400 backdrop-blur-md shadow-lg shadow-sky-500/30">
                       <div
-                        className={`w-3 h-3 rounded-full ${item.isCurrent
-                          ? "bg-sky-400 animate-pulse shadow-[0_0_12px_#38bdf8]"
-                          : "bg-blue-600 dark:bg-sky-400"
-                          }`}
+                        className={`w-3 h-3 rounded-full ${
+                          item.isCurrent
+                            ? "bg-sky-400 animate-pulse shadow-[0_0_12px_#38bdf8]"
+                            : "bg-blue-600 dark:bg-sky-400"
+                        }`}
                       />
                     </div>
                   </div>
@@ -182,10 +176,10 @@ export default function Education() {
                         custom={isDesktop}
                         variants={cardLeftVariants}
                         whileHover={{ y: -6, scale: 1.01 }}
-                        className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_0_rgba(56,189,248,0.25)] transition-all duration-500 p-6 sm:p-8"
+                        className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 p-6 sm:p-8"
                       >
                         {/* Liquid Surface Light Reflection */}
-                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
                         <div className="relative z-10">
                           <div className="flex flex-wrap items-center gap-2 mb-3 lg:justify-end">
@@ -231,10 +225,10 @@ export default function Education() {
                         custom={isDesktop}
                         variants={cardRightVariants}
                         whileHover={{ y: -6, scale: 1.01 }}
-                        className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_0_rgba(56,189,248,0.25)] transition-all duration-500 p-6 sm:p-8"
+                        className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 p-6 sm:p-8"
                       >
                         {/* Liquid Surface Light Reflection */}
-                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
                         <div className="relative z-10">
                           <div className="flex flex-wrap items-center gap-2 mb-3">

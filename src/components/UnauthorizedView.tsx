@@ -1,22 +1,21 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
 import { motion, Variants } from "framer-motion";
 import {
-  ShieldAlert,
-  Lock,
-  ArrowRight,
-  ArrowLeft,
-  KeyRound,
-  Compass,
-  Sparkles,
-  UserCheck,
   AlertTriangle,
-  Terminal,
+  ArrowLeft,
+  ArrowRight,
+  Compass,
+  KeyRound,
+  Lock,
+  ShieldAlert,
   ShieldCheck,
+  Sparkles,
+  Terminal,
+  UserCheck,
 } from "lucide-react";
-import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import Link from "next/link";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -54,7 +53,7 @@ export default function UnauthorizedView() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[600px] md:w-[750px] h-[400px] sm:h-[600px] md:h-[750px] bg-gradient-to-tr from-rose-500/20 via-amber-500/15 to-purple-600/20 blur-[140px] rounded-full pointer-events-none -z-10"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-100 sm:w-150 md:w-187.5 h-100 sm:h-150 md:h-187.5 bg-linear-to-tr from-rose-500/20 via-amber-500/15 to-purple-600/20 blur-[140px] rounded-full pointer-events-none -z-10"
       />
 
       <motion.div
@@ -70,7 +69,7 @@ export default function UnauthorizedView() {
           ease: "easeInOut",
           delay: 1,
         }}
-        className="absolute bottom-10 right-10 w-[280px] sm:w-[480px] h-[280px] sm:h-[480px] bg-gradient-to-br from-indigo-500/15 via-purple-500/10 to-rose-400/15 blur-[120px] rounded-full pointer-events-none -z-10"
+        className="absolute bottom-10 right-10 w-70 sm:w-120 h-70 sm:h-120 bg-linear-to-br from-indigo-500/15 via-purple-500/10 to-rose-400/15 blur-[120px] rounded-full pointer-events-none -z-10"
       />
 
       {/* Floating Cyber / Security Ambience */}
@@ -86,7 +85,12 @@ export default function UnauthorizedView() {
 
         <motion.div
           animate={{ y: [0, 18, 0], rotate: [0, -5, 0] }}
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          transition={{
+            duration: 7.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
           className="absolute top-1/3 right-[7%] text-amber-500/30 dark:text-amber-400/25 font-mono text-xs sm:text-sm font-semibold flex items-center gap-2 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20 backdrop-blur-md"
         >
           <Lock className="w-3.5 h-3.5 shrink-0" />
@@ -95,7 +99,12 @@ export default function UnauthorizedView() {
 
         <motion.div
           animate={{ y: [0, -12, 0], x: [0, 10, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
           className="absolute bottom-24 left-[12%] text-slate-500/30 dark:text-slate-400/25 font-mono text-xs hidden md:flex items-center gap-2 bg-slate-500/10 px-3 py-1.5 rounded-full border border-slate-500/20 backdrop-blur-md"
         >
           <KeyRound className="w-3.5 h-3.5 shrink-0" />
@@ -116,7 +125,7 @@ export default function UnauthorizedView() {
             blurIntensity="xl"
             glowIntensity="lg"
             shadowIntensity="lg"
-            className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60 p-6 sm:p-10 md:p-12 shadow-2xl shadow-slate-900/10 dark:shadow-black/50 text-center flex flex-col items-center"
+            className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60! p-6 sm:p-10 md:p-12 shadow-2xl shadow-slate-900/10 dark:shadow-black/50 text-center flex flex-col items-center"
           >
             {/* Animated Lock & Shield Icon Header */}
             <motion.div variants={itemVariants} className="relative mb-6">
@@ -124,7 +133,11 @@ export default function UnauthorizedView() {
                 {/* Pulsing Backglow Ring */}
                 <motion.div
                   animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.7, 0.3] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                   className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-rose-500/20 dark:bg-rose-500/30 blur-xl"
                 />
 
@@ -136,7 +149,12 @@ export default function UnauthorizedView() {
                 {/* Lock Badge */}
                 <motion.div
                   animate={{ rotate: [0, -8, 8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.5,
+                  }}
                   className="absolute -bottom-2 -right-2 p-2 rounded-lg bg-amber-500 text-slate-950 font-bold shadow-lg shadow-amber-500/30 border border-amber-300 shrink-0"
                 >
                   <Lock className="w-4 h-4" />
@@ -162,7 +180,9 @@ export default function UnauthorizedView() {
             {/* Description */}
             <motion.div variants={itemVariants}>
               <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-lg mx-auto mb-8 font-normal leading-relaxed">
-                You are attempting to access a protected area of this portfolio. Please sign in with your account credentials or test the interactive demo mode.
+                You are attempting to access a protected area of this portfolio.
+                Please sign in with your account credentials or test the
+                interactive demo mode.
               </p>
             </motion.div>
 
@@ -174,11 +194,12 @@ export default function UnauthorizedView() {
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
+                    <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                       Looking to explore the admin features?
-                    </h4>
+                    </h2>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
-                      Use our Demo Login to experience read-only admin capabilities without setup.
+                      Use our Demo Login to experience read-only admin
+                      capabilities without setup.
                     </p>
                   </div>
                 </div>
@@ -201,9 +222,9 @@ export default function UnauthorizedView() {
               {/* Primary Sign In Button */}
               <Link
                 href="/login"
-                className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-1/2 h-12 rounded-full font-bold text-sm text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 active:scale-[0.98] cursor-pointer overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-2 w-full sm:w-1/2 h-12 rounded-full font-bold text-sm text-white bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 active:scale-[0.98] cursor-pointer overflow-hidden"
               >
-                <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-white/80 to-transparent" />
                 <UserCheck className="w-4 h-4 text-white shrink-0" />
                 <span className="tracking-wide">Sign In</span>
                 <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform shrink-0" />

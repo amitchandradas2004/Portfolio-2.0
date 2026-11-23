@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import SkillsSkeleton from "@/components/skeletons/SkillsSkeleton";
+import { renderCategoryIcon, renderSkillIcon } from "@/lib/skill-icons";
+import { defaultSkillsData, SkillsData } from "@/lib/skills-types";
 import { motion, Variants } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { defaultSkillsData, SkillsData } from "@/lib/skills-types";
-import { renderCategoryIcon, renderSkillIcon } from "@/lib/skill-icons";
-import SkillsSkeleton from "@/components/skeletons/SkillsSkeleton";
+import { useEffect, useState } from "react";
 
 interface SkillsProps {
   initialSkills?: SkillsData;
@@ -31,19 +31,14 @@ const cardVariants: Variants = {
   },
 };
 
-export default function Skills({ initialSkills, isPreview = false }: SkillsProps) {
-  const [skillsData, setSkillsData] = useState<SkillsData>(initialSkills || defaultSkillsData);
+export default function Skills({
+  initialSkills,
+  isPreview = false,
+}: SkillsProps) {
+  const [liveSkillsData, setLiveSkillsData] = useState<SkillsData | null>(null);
   const [loading, setLoading] = useState<boolean>(!initialSkills);
 
-  // Sync with prop updates
-  useEffect(() => {
-    if (initialSkills) {
-      setSkillsData(initialSkills);
-      setLoading(false);
-    }
-  }, [initialSkills]);
-
-  // Client-side fetch if initial data was not provided or for revalidation
+  // Client-side fetch if initial data was not provided, plus real-time dashboard updates
   useEffect(() => {
     let isMounted = true;
 
@@ -51,9 +46,9 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
       try {
         const res = await fetch("/api/skills", { cache: "no-store" });
         if (res.ok) {
-          const data = await res.json();
+          const data = (await res.json()) as SkillsData;
           if (isMounted) {
-            setSkillsData(data);
+            setLiveSkillsData(data);
           }
         }
       } catch (err) {
@@ -66,29 +61,37 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
     }
 
     if (!initialSkills) {
-      fetchSkills();
+      void fetchSkills();
     }
 
     // Real-time listener for instant updates from dashboard
     const handleSkillsUpdated = (event: Event) => {
       const customEvent = event as CustomEvent<SkillsData>;
       if (customEvent.detail) {
-        setSkillsData(customEvent.detail);
+        setLiveSkillsData(customEvent.detail);
+        setLoading(false);
       } else {
-        fetchSkills();
+        void fetchSkills();
       }
     };
 
     window.addEventListener("portfolio-skills-updated", handleSkillsUpdated);
     return () => {
       isMounted = false;
-      window.removeEventListener("portfolio-skills-updated", handleSkillsUpdated);
+      window.removeEventListener(
+        "portfolio-skills-updated",
+        handleSkillsUpdated,
+      );
     };
   }, [initialSkills]);
 
-  if (loading && !isPreview) {
+  const isLoading = loading && !initialSkills && !liveSkillsData;
+
+  if (isLoading && !isPreview) {
     return <SkillsSkeleton />;
   }
+
+  const skillsData = liveSkillsData ?? initialSkills ?? defaultSkillsData;
 
   const {
     badgeText = "Skills & Expertise",
@@ -105,21 +108,22 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
   return (
     <section
       id="skills"
-      className={`scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] ${isPreview ? "py-8" : "py-20 sm:py-24"
-        } transition-colors duration-300 w-full`}
+      className={`scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] ${
+        isPreview ? "py-8" : "py-20 sm:py-24"
+      } transition-colors duration-300 w-full`}
     >
       {/* =========================================================================
          BACKGROUND LIQUID LIGHT SOURCES (Provides Refraction for Glass)
          ========================================================================= */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         {/* High-Contrast Neon Cyan Orb */}
-        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
 
         {/* Vibrant Magenta/Purple Liquid Orb */}
-        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
 
         {/* Glass Mesh Grid Texture */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
@@ -144,7 +148,7 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
           >
             {title}{" "}
-            <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               &nbsp;{highlightedTitle}
             </span>
           </motion.h2>
@@ -169,7 +173,9 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
           className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-16"
         >
           {categories.map((cat) => {
-            const visibleSkills = (cat.skills || []).filter((s) => s.enabled !== false);
+            const visibleSkills = (cat.skills || []).filter(
+              (s) => s.enabled !== false,
+            );
             if (visibleSkills.length === 0 && !isPreview) return null;
 
             return (
@@ -178,18 +184,20 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
                 variants={cardVariants}
                 whileHover={{ y: -6, scale: 1.01 }}
                 transition={{ duration: 0.3 }}
-                className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_0_rgba(56,189,248,0.25)] transition-all duration-500 p-6 sm:p-7 flex flex-col justify-between"
+                className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 p-6 sm:p-7 flex flex-col justify-between"
               >
                 {/* Liquid Surface Light Reflection */}
-                <div className="absolute -top-24 -left-24 w-48 h-48 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+                <div className="absolute -top-24 -left-24 w-48 h-48 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
                 <div className="relative z-10">
                   {/* Category Header */}
                   <div className="flex items-center justify-between gap-2.5 mb-6 pb-4 border-b border-slate-200/50 dark:border-slate-800/60 min-w-0">
                     <div className="flex items-center gap-2.5 min-w-0 flex-1">
                       <div
-                        className={`p-2 rounded-xl ${cat.badgeBg || "bg-white/60 dark:bg-slate-800/60 border-white/50 dark:border-slate-700/60 text-sky-600 dark:text-sky-400"
-                          } border shrink-0 transition-transform duration-300 group-hover:scale-110 backdrop-blur-md shadow-sm`}
+                        className={`p-2 rounded-xl ${
+                          cat.badgeBg ||
+                          "bg-white/60 dark:bg-slate-800/60 border-white/50 dark:border-slate-700/60 text-sky-600 dark:text-sky-400"
+                        } border shrink-0 transition-transform duration-300 group-hover:scale-110 backdrop-blur-md shadow-sm`}
                       >
                         <div className={cat.iconColor || "text-sky-500"}>
                           {renderCategoryIcon(cat.iconKey, "w-4.5 h-4.5")}
@@ -214,12 +222,14 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
                         whileTap={{ scale: 0.97 }}
                         className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-white/40 dark:border-slate-700/40 text-slate-800 dark:text-slate-200 text-xs font-semibold backdrop-blur-sm shadow-xs transition-all duration-200 hover:border-sky-400/50 hover:scale-105 cursor-default"
                       >
-                        <div className={`shrink-0 ${skill.iconColor || "text-sky-400"}`}>
+                        <div
+                          className={`shrink-0 ${skill.iconColor || "text-sky-400"}`}
+                        >
                           {renderSkillIcon(skill.iconKey, "w-4 h-4")}
                         </div>
                         <span>{skill.name}</span>
                         {skill.level && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-200/60 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 font-medium">
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200/60 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 font-medium">
                             {skill.level}
                           </span>
                         )}
@@ -239,10 +249,10 @@ export default function Skills({ initialSkills, isPreview = false }: SkillsProps
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] p-6 sm:p-8 lg:p-10 w-full"
+            className="relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] p-6 sm:p-8 lg:p-10 w-full"
           >
             {/* Liquid Surface Light Reflection */}
-            <div className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute -top-32 -left-32 w-64 h-64 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
 
             <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
               <div className="text-center sm:text-left">

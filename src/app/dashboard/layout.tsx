@@ -1,40 +1,33 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  LayoutDashboard,
-  Sparkles,
-  User,
-  Cpu,
-  Briefcase,
-  FolderGit2,
-  GraduationCap,
-  Mail,
-  GitBranch,
-  FileText,
-  LogOut,
-  Menu,
-  X,
-  Sun,
-  Moon,
-  Loader2,
-  ChevronRight,
-  ChevronLeft,
-  Shield,
-  ExternalLink,
-  Home,
-  Eye,
-  Zap,
-  Activity,
-  Compass,
-} from "lucide-react";
-import { useSession, authClient } from "@/lib/auth-client";
+import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
 import { useTheme } from "@/components/ThemeProvider";
 import { useUserRole } from "@/hooks/useUserRole";
-import { ReadOnlyBanner } from "@/components/dashboard/ReadOnlyBanner";
+import { authClient, useSession } from "@/lib/auth-client";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Briefcase,
+  ChevronLeft,
+  ChevronRight,
+  Cpu,
+  Eye,
+  FolderGit2,
+  GraduationCap,
+  Home,
+  LayoutDashboard,
+  Loader2,
+  LogOut,
+  Menu,
+  Moon,
+  Shield,
+  Sparkles,
+  Sun,
+  User,
+  X,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 
 export interface SidebarItem {
   name: string;
@@ -53,8 +46,18 @@ const sidebarGroups: SidebarGroup[] = [
     title: "General",
     items: [
       { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-      { name: "Hero Section", href: "/dashboard/hero", icon: Sparkles, badge: "Main" },
-      { name: "About Section", href: "/dashboard/about", icon: User, badge: "Bio" },
+      {
+        name: "Hero Section",
+        href: "/dashboard/hero",
+        icon: Sparkles,
+        badge: "Main",
+      },
+      {
+        name: "About Section",
+        href: "/dashboard/about",
+        icon: User,
+        badge: "Bio",
+      },
     ],
   },
   {
@@ -62,7 +65,12 @@ const sidebarGroups: SidebarGroup[] = [
     items: [
       { name: "Skills", href: "/dashboard/skills", icon: Cpu, badge: "Tech" },
       { name: "Experiences", href: "/dashboard/experiences", icon: Briefcase },
-      { name: "Projects", href: "/dashboard/projects", icon: FolderGit2, badge: "Works" },
+      {
+        name: "Projects",
+        href: "/dashboard/projects",
+        icon: FolderGit2,
+        badge: "Works",
+      },
       { name: "Education", href: "/dashboard/education", icon: GraduationCap },
     ],
   },
@@ -70,6 +78,26 @@ const sidebarGroups: SidebarGroup[] = [
 
 // Flattened list for lookup
 const allSidebarItems = sidebarGroups.flatMap((group) => group.items);
+
+const SIDEBAR_STORAGE_KEY = "dashboard_sidebar_collapsed";
+const SIDEBAR_CHANGE_EVENT = "dashboard-sidebar-collapsed-change";
+
+function getSidebarCollapsedSnapshot(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(SIDEBAR_STORAGE_KEY) === "true";
+}
+
+function subscribeSidebarCollapsed(callback: () => void) {
+  const handleStorage = (e: StorageEvent) => {
+    if (e.key === SIDEBAR_STORAGE_KEY) callback();
+  };
+  window.addEventListener(SIDEBAR_CHANGE_EVENT, callback);
+  window.addEventListener("storage", handleStorage);
+  return () => {
+    window.removeEventListener(SIDEBAR_CHANGE_EVENT, callback);
+    window.removeEventListener("storage", handleStorage);
+  };
+}
 
 export default function DashboardLayout({
   children,
@@ -79,32 +107,34 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
-  const { role, isAdmin, isReadOnly } = useUserRole();
+  const { isReadOnly } = useUserRole();
   const { theme, toggleTheme, isMounted } = useTheme();
 
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const isCollapsed = useSyncExternalStore(
+    subscribeSidebarCollapsed,
+    getSidebarCollapsedSnapshot,
+    () => false,
+  );
+
+  const [mobileMenuState, setMobileMenuState] = useState<{
+    open: boolean;
+    path: string;
+  }>({ open: false, path: pathname });
+
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  // Restore collapsed state from localStorage on mount
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("dashboard_sidebar_collapsed");
-      if (stored !== null) {
-        setIsCollapsed(stored === "true");
-      }
-    }
-  }, []);
+  const mobileSidebarOpen =
+    mobileMenuState.open && mobileMenuState.path === pathname;
+
+  const setMobileSidebarOpen = (open: boolean) => {
+    setMobileMenuState({ open, path: pathname });
+  };
 
   const toggleSidebar = () => {
-    setIsCollapsed((prev) => {
-      const next = !prev;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("dashboard_sidebar_collapsed", String(next));
-      }
-      return next;
-    });
+    const next = !isCollapsed;
+    localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next));
+    window.dispatchEvent(new Event(SIDEBAR_CHANGE_EVENT));
   };
 
   // Auth Protection
@@ -113,11 +143,6 @@ export default function DashboardLayout({
       router.push("/login");
     }
   }, [isPending, session, router]);
-
-  // Close mobile sidebar on route change
-  useEffect(() => {
-    setMobileSidebarOpen(false);
-  }, [pathname]);
 
   const handleLogout = async () => {
     try {
@@ -163,7 +188,7 @@ export default function DashboardLayout({
     allSidebarItems.find((item) =>
       item.href === "/dashboard"
         ? pathname === "/dashboard"
-        : pathname.startsWith(item.href)
+        : pathname.startsWith(item.href),
     ) || allSidebarItems[0];
 
   const CurrentIcon = currentItem.icon;
@@ -171,8 +196,8 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen flex bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-slate-100 transition-colors duration-300 relative">
       {/* Background Ambient Glowing Orbs */}
-      <div className="fixed top-1/4 left-1/3 w-[650px] h-[650px] bg-gradient-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[160px] rounded-full pointer-events-none -z-10" />
-      <div className="fixed bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-br from-indigo-500/10 via-sky-500/5 to-emerald-500/10 blur-[140px] rounded-full pointer-events-none -z-10" />
+      <div className="fixed top-1/4 left-1/3 w-162.5 h-162.5 bg-linear-to-tr from-sky-500/10 via-blue-500/5 to-purple-500/10 blur-[160px] rounded-full pointer-events-none -z-10" />
+      <div className="fixed bottom-10 right-10 w-112.5 h-112.5 bg-linear-to-br from-indigo-500/10 via-sky-500/5 to-emerald-500/10 blur-[140px] rounded-full pointer-events-none -z-10" />
 
       {/* Desktop Sidebar */}
       <motion.aside
@@ -182,15 +207,17 @@ export default function DashboardLayout({
         className="hidden lg:flex flex-col shrink-0 border-r border-slate-200/80 dark:border-slate-800/80 bg-white/90 dark:bg-[#070a13]/95 backdrop-blur-2xl sticky top-0 h-screen z-30 select-none shadow-sm"
       >
         {/* Brand Header */}
-        <div className={`h-16 px-4 flex items-center border-b border-slate-200/80 dark:border-slate-800/80 ${
-          isCollapsed ? "justify-center" : "justify-between"
-        }`}>
+        <div
+          className={`h-16 px-4 flex items-center border-b border-slate-200/80 dark:border-slate-800/80 ${
+            isCollapsed ? "justify-center" : "justify-between"
+          }`}
+        >
           {!isCollapsed && (
             <Link
               href="/dashboard"
               className="flex items-center gap-3 group font-bold tracking-tight text-slate-900 dark:text-white overflow-hidden"
             >
-              <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-600 text-white shadow-md shadow-sky-500/25 group-hover:rotate-6 transition-transform shrink-0">
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-linear-to-br from-sky-500 via-blue-600 to-indigo-600 text-white shadow-md shadow-sky-500/25 group-hover:rotate-6 transition-transform shrink-0">
                 <Sparkles className="w-4 h-4" />
               </div>
               <AnimatePresence mode="wait">
@@ -201,7 +228,7 @@ export default function DashboardLayout({
                   transition={{ duration: 0.15 }}
                   className="flex flex-col min-w-0 whitespace-nowrap overflow-hidden"
                 >
-                  <span className="text-sm font-black bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent truncate">
+                  <span className="text-sm font-black bg-linear-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent truncate">
                     Portfolio Admin
                   </span>
                   <span className="text-[10px] font-bold tracking-widest text-sky-500 uppercase">
@@ -234,13 +261,13 @@ export default function DashboardLayout({
         {/* User Status Profile Card */}
         <div className="p-3">
           <div
-            className={`relative group rounded-2xl bg-gradient-to-b from-slate-100/90 to-slate-100/50 dark:from-[#0b0f19]/90 dark:to-[#0b0f19]/50 border border-slate-200/80 dark:border-slate-800/80 transition-all ${
+            className={`relative group rounded-2xl bg-linear-to-b from-slate-100/90 to-slate-100/50 dark:from-[#0b0f19]/90 dark:to-[#0b0f19]/50 border border-slate-200/80 dark:border-slate-800/80 transition-all ${
               isCollapsed ? "p-2 flex justify-center" : "p-3.5"
             }`}
           >
             <div className="flex items-center gap-3">
               <div className="relative shrink-0">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center font-black text-sm shadow-md">
+                <div className="w-9 h-9 rounded-xl bg-linear-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center font-black text-sm shadow-md">
                   {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                 </div>
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 shadow-sm" />
@@ -271,9 +298,13 @@ export default function DashboardLayout({
 
             {/* Collapsed Hover Tooltip for User */}
             {isCollapsed && (
-              <div className="fixed left-[92px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-bold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap space-y-0.5">
-                <p className="text-white dark:text-sky-300 font-black">{user.name || "User"}</p>
-                <p className="text-[11px] text-slate-300 dark:text-slate-400 font-medium">{user.email}</p>
+              <div className="fixed left-23 px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-bold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-100 whitespace-nowrap space-y-0.5">
+                <p className="text-white dark:text-sky-300 font-black">
+                  {user.name || "User"}
+                </p>
+                <p className="text-[11px] text-slate-300 dark:text-slate-400 font-medium">
+                  {user.email}
+                </p>
               </div>
             )}
           </div>
@@ -306,7 +337,9 @@ export default function DashboardLayout({
                     key={item.href}
                     href={item.href}
                     className={`relative flex items-center ${
-                      isCollapsed ? "justify-center px-2 py-2.5" : "justify-between px-3.5 py-2.5"
+                      isCollapsed
+                        ? "justify-center px-2 py-2.5"
+                        : "justify-between px-3.5 py-2.5"
                     } rounded-xl text-sm font-semibold transition-colors group ${
                       isActive
                         ? "text-sky-600 dark:text-sky-400 bg-sky-500/10"
@@ -325,7 +358,9 @@ export default function DashboardLayout({
                       </div>
 
                       {!isCollapsed && (
-                        <span className="truncate whitespace-nowrap">{item.name}</span>
+                        <span className="truncate whitespace-nowrap">
+                          {item.name}
+                        </span>
                       )}
                     </div>
 
@@ -338,7 +373,7 @@ export default function DashboardLayout({
                     {isActive && (
                       <motion.div
                         layoutId="sidebarActiveIndicator"
-                        className="absolute right-0 w-1.5 h-6 rounded-l-full bg-gradient-to-b from-sky-400 to-blue-600 shadow-sm shadow-sky-500/50"
+                        className="absolute right-0 w-1.5 h-6 rounded-l-full bg-linear-to-b from-sky-400 to-blue-600 shadow-sm shadow-sky-500/50"
                         transition={{
                           type: "spring",
                           stiffness: 380,
@@ -349,7 +384,7 @@ export default function DashboardLayout({
 
                     {/* Floating Side Tooltip when Collapsed */}
                     {isCollapsed && (
-                      <div className="fixed left-[90px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
+                      <div className="fixed left-22.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-100 whitespace-nowrap">
                         {item.name}
                       </div>
                     )}
@@ -369,15 +404,18 @@ export default function DashboardLayout({
             } rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors group`}
           >
             <Home className="w-4 h-4 text-slate-400 shrink-0" />
-            {!isCollapsed && <span className="whitespace-nowrap">Back to Home</span>}
+            {!isCollapsed && (
+              <span className="whitespace-nowrap">Back to Home</span>
+            )}
             {isCollapsed && (
-              <div className="fixed left-[90px] px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
+              <div className="fixed left-22.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-[#0f172a] dark:text-slate-100 text-xs font-extrabold shadow-2xl border border-slate-700 dark:border-sky-500/40 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-100 whitespace-nowrap">
                 Back to Home
               </div>
             )}
           </Link>
 
           <button
+            type="button"
             onClick={() => setShowLogoutModal(true)}
             className={`relative w-full flex items-center ${
               isCollapsed ? "justify-center p-2.5" : "gap-3 px-3.5 py-2.5"
@@ -386,7 +424,7 @@ export default function DashboardLayout({
             <LogOut className="w-4 h-4 shrink-0" />
             {!isCollapsed && <span className="whitespace-nowrap">Logout</span>}
             {isCollapsed && (
-              <div className="fixed left-[90px] px-3.5 py-2 rounded-xl bg-rose-950 text-rose-100 dark:bg-rose-900 dark:text-rose-100 text-xs font-extrabold shadow-2xl border border-rose-800 dark:border-rose-700/80 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-[100] whitespace-nowrap">
+              <div className="fixed left-22.5 px-3.5 py-2 rounded-xl bg-rose-950 text-rose-100 dark:bg-rose-900 dark:text-rose-100 text-xs font-extrabold shadow-2xl border border-rose-800 dark:border-rose-700/80 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 z-100 whitespace-nowrap">
                 Logout
               </div>
             )}
@@ -417,7 +455,9 @@ export default function DashboardLayout({
               <ChevronRight className="w-4 h-4 text-slate-400 hidden sm:inline shrink-0" />
               <div className="flex items-center gap-1.5 sm:gap-2 text-slate-900 dark:text-white font-extrabold bg-slate-100 dark:bg-[#0b0f19]/90 px-2.5 py-1.5 sm:px-3 rounded-xl border border-slate-200/60 dark:border-slate-800/80 min-w-0">
                 <CurrentIcon className="w-4 h-4 text-sky-500 shrink-0" />
-                <span className="truncate max-w-[100px] xs:max-w-[150px] sm:max-w-none">{currentItem.name}</span>
+                <span className="truncate max-w-25 xs:max-w-37.5 sm:max-w-none">
+                  {currentItem.name}
+                </span>
               </div>
             </div>
           </div>
@@ -438,20 +478,22 @@ export default function DashboardLayout({
               <div className="flex items-center gap-1.5 px-2 py-1.5 sm:px-3 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-700 dark:text-amber-300 text-xs font-bold shadow-sm">
                 <Eye className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                 <span className="hidden sm:inline">Demo Visitor</span>
-                <span className="hidden min-[360px]:inline sm:hidden">Demo</span>
+                <span className="hidden xs:inline sm:hidden">Demo</span>
               </div>
             ) : (
               <div className="flex items-center gap-1.5 px-2 py-1.5 sm:px-3 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs font-bold shadow-sm">
                 <Shield className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                 <span className="hidden sm:inline">Admin Mode</span>
-                <span className="hidden min-[360px]:inline sm:hidden">Admin</span>
+                <span className="hidden xs:inline sm:hidden">Admin</span>
               </div>
             )}
 
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={
+                isDark ? "Switch to light mode" : "Switch to dark mode"
+              }
               type="button"
               className="p-2 sm:p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-slate-100/50 dark:bg-[#0b0f19]/80 hover:bg-slate-200/60 dark:hover:bg-[#111726] text-slate-700 dark:text-slate-200 transition-all cursor-pointer shrink-0"
             >
@@ -475,6 +517,7 @@ export default function DashboardLayout({
 
             {/* Quick Logout Header Button */}
             <button
+              type="button"
               onClick={() => setShowLogoutModal(true)}
               className="inline-flex items-center gap-2 p-2 sm:px-3.5 sm:py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs sm:text-sm font-semibold transition-all cursor-pointer shrink-0"
             >
@@ -525,9 +568,12 @@ export default function DashboardLayout({
                   <div className="p-2 rounded-xl bg-sky-500 text-white shadow-md">
                     <Sparkles className="w-4 h-4" />
                   </div>
-                  <span className="font-extrabold text-base">Dashboard Menu</span>
+                  <span className="font-extrabold text-base">
+                    Dashboard Menu
+                  </span>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setMobileSidebarOpen(false)}
                   className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 bg-slate-100 dark:bg-[#0b0f19]"
                 >
@@ -540,7 +586,7 @@ export default function DashboardLayout({
                 <div className="relative group rounded-2xl bg-slate-100/80 dark:bg-[#0b0f19]/90 border border-slate-200/80 dark:border-slate-800/80 p-3">
                   <div className="flex items-center gap-3">
                     <div className="relative shrink-0">
-                      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center font-black text-sm shadow-md">
+                      <div className="w-9 h-9 rounded-xl bg-linear-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center font-black text-sm shadow-md">
                         {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                       </div>
                       <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 shadow-sm" />
@@ -598,7 +644,9 @@ export default function DashboardLayout({
                             <Icon className="w-4 h-4 text-sky-500" />
                             <span>{item.name}</span>
                           </div>
-                          {isActive && <div className="w-2 h-2 rounded-full bg-sky-500" />}
+                          {isActive && (
+                            <div className="w-2 h-2 rounded-full bg-sky-500" />
+                          )}
                         </Link>
                       );
                     })}
@@ -617,6 +665,7 @@ export default function DashboardLayout({
                 </Link>
 
                 <button
+                  type="button"
                   onClick={() => {
                     setMobileSidebarOpen(false);
                     setShowLogoutModal(true);
@@ -649,7 +698,7 @@ export default function DashboardLayout({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-[320px] xs:max-w-sm sm:max-w-md rounded-xl p-4 sm:p-7 bg-white dark:bg-[#070a13] border border-slate-200/80 dark:border-slate-800 shadow-2xl z-10 space-y-3 sm:space-y-5"
+              className="relative w-full max-w-80 xs:max-w-sm sm:max-w-md rounded-xl p-4 sm:p-7 bg-white dark:bg-[#070a13] border border-slate-200/80 dark:border-slate-800 shadow-2xl z-10 space-y-3 sm:space-y-5"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2.5 sm:gap-3.5">
@@ -676,7 +725,8 @@ export default function DashboardLayout({
               </div>
 
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Logging out will end your current session. You will need to log back in to access your portfolio management settings.
+                Logging out will end your current session. You will need to log
+                back in to access your portfolio management settings.
               </p>
 
               <div className="flex items-center justify-end gap-2 sm:gap-3 pt-1 sm:pt-2">
