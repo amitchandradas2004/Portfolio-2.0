@@ -1,24 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { sendContactEmail } from "@/lib/email";
 import { motion, Variants } from "framer-motion";
 import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  CheckCircle2,
   AlertCircle,
-  Sparkles,
-  Loader2,
-  User,
+  CheckCircle2,
   FileText,
+  Loader2,
+  Mail,
+  MapPin,
   MessageSquare,
+  Phone,
+  Send,
+  Sparkles,
+  User,
 } from "lucide-react";
+import React, { useState } from "react";
 import { FaGithub, FaLinkedin, FaXTwitter } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
-import { sendContactEmail } from "@/lib/email";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export interface ContactInfo {
   id: string;
@@ -126,7 +126,7 @@ export default function Contact() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (errorMessage) setErrorMessage(null);
@@ -349,7 +349,8 @@ export default function Contact() {
                   >
                     <CheckCircle2 className="w-5 h-5 shrink-0" />
                     <span>
-                      Thank you! Your message has been sent successfully. I will get back to you shortly.
+                      Thank you! Your message has been sent successfully. I will
+                      get back to you shortly.
                     </span>
                   </motion.div>
                 )}
@@ -479,11 +480,12 @@ export default function Contact() {
                           }`}
                         >
                           {formData.message.length} chars
-                          {formData.message.length > 0 && formData.message.length < 10 && (
-                            <span className="ml-1 text-[11px] font-medium opacity-90">
-                              (min 10)
-                            </span>
-                          )}
+                          {formData.message.length > 0 &&
+                            formData.message.length < 10 && (
+                              <span className="ml-1 text-[11px] font-medium opacity-90">
+                                (min 10)
+                              </span>
+                            )}
                         </span>
                       </div>
 
@@ -498,7 +500,8 @@ export default function Contact() {
                           onChange={handleChange}
                           placeholder="Tell me about your project or requirements..."
                           className={`w-full p-4 rounded-xl text-sm bg-white/70 dark:bg-slate-900/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 backdrop-blur-xl border transition-all duration-200 resize-none shadow-xs focus:outline-none focus:ring-2 ${
-                            formData.message.length > 0 && formData.message.length < 10
+                            formData.message.length > 0 &&
+                            formData.message.length < 10
                               ? "border-red-400/80 dark:border-red-500/80 focus:ring-red-400/30 focus:border-red-500"
                               : "border-slate-300/70 dark:border-slate-600/80 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-500/80 dark:focus:border-sky-400/80"
                           }`}
@@ -506,13 +509,15 @@ export default function Contact() {
                       </div>
 
                       {/* Minimum Length Warning Message */}
-                      {formData.message.length > 0 && formData.message.length < 10 && (
-                        <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
-                          <span>
-                            Please enter at least 10 characters ({10 - formData.message.length} more needed)
-                          </span>
-                        </p>
-                      )}
+                      {formData.message.length > 0 &&
+                        formData.message.length < 10 && (
+                          <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
+                            <span>
+                              Please enter at least 10 characters (
+                              {10 - formData.message.length} more needed)
+                            </span>
+                          </p>
+                        )}
                     </div>
                   </div>
 

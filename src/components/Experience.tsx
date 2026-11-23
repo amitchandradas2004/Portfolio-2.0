@@ -1,7 +1,7 @@
 "use client";
 
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { motion, Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import {
   Briefcase,
   Building2,
@@ -144,6 +144,168 @@ const cardRightVariants: Variants = {
   },
 };
 
+interface ExperienceCardProps {
+  item: ExperienceItem;
+  isDesktop: boolean;
+  align: "left" | "right";
+}
+
+function ExperienceCard({ item, isDesktop, align }: ExperienceCardProps) {
+  const isRightAligned = align === "right";
+
+  return (
+    <motion.div
+      custom={isDesktop}
+      variants={isRightAligned ? cardLeftVariants : cardRightVariants}
+      whileHover={{ y: -6, scale: 1.01 }}
+      className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 p-6 sm:p-8"
+    >
+      {/* Liquid Surface Light Reflection */}
+      <div className="absolute -top-24 -left-24 w-48 h-48 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+
+      <div className="relative z-10">
+        {/* Header Badges */}
+        <div
+          className={`flex flex-wrap items-center gap-2 mb-3 ${
+            isRightAligned ? "lg:justify-end" : ""
+          }`}
+        >
+          {item.badge && (
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-400/30 backdrop-blur-md shadow-inner">
+              {item.badge}
+            </span>
+          )}
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 border border-white/40 dark:border-slate-700/50 backdrop-blur-md shadow-sm">
+            <Calendar className="w-3.5 h-3.5 text-sky-500" />
+            <span>{item.duration}</span>
+          </span>
+          {item.offerLetter && (
+            <a
+              href={item.offerLetter.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all duration-200 backdrop-blur-md shadow-sm"
+            >
+              <FileText className="w-3.5 h-3.5 text-emerald-500" />
+              <span>{item.offerLetter.text}</span>
+              <ExternalLink className="w-3 h-3 opacity-70" />
+            </a>
+          )}
+        </div>
+
+        {/* Role Title */}
+        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors duration-200 mb-1">
+          {item.role}
+        </h3>
+
+        {/* Company / Organization Name */}
+        <div
+          className={`flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 mb-4 ${
+            isRightAligned ? "lg:justify-end" : ""
+          }`}
+        >
+          <Building2 className="w-4 h-4 shrink-0" />
+          {item.companyLink ? (
+            <a
+              href={item.companyLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline hover:text-sky-500 dark:hover:text-sky-300 transition-colors duration-200"
+            >
+              {item.company}
+            </a>
+          ) : (
+            <span>{item.company}</span>
+          )}
+        </div>
+
+        {/* Description */}
+        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+          {item.description}
+        </p>
+
+        {/* Responsibilities List */}
+        {item.responsibilities && item.responsibilities.length > 0 && (
+          <div className={`mb-5 ${isRightAligned ? "text-left" : ""}`}>
+            <h4
+              className={`text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5 ${
+                isRightAligned ? "lg:text-right" : ""
+              }`}
+            >
+              Key Responsibilities &amp; Highlights
+            </h4>
+            <ul className="space-y-2">
+              {item.responsibilities.map((resp, i) => (
+                <li
+                  key={i}
+                  className={`flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 ${
+                    isRightAligned ? "lg:flex-row-reverse" : ""
+                  }`}
+                >
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className={isRightAligned ? "lg:text-right" : ""}>
+                    {resp}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Skills Developed List */}
+        {item.skillsDeveloped && item.skillsDeveloped.length > 0 && (
+          <div className={`mb-5 ${isRightAligned ? "text-left" : ""}`}>
+            <h4
+              className={`text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5 ${
+                isRightAligned ? "lg:text-right" : ""
+              }`}
+            >
+              Skills Developed &amp; Practical Labs
+            </h4>
+            <ul className="space-y-2">
+              {item.skillsDeveloped.map((skill, i) => (
+                <li
+                  key={i}
+                  className={`flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 ${
+                    isRightAligned ? "lg:flex-row-reverse" : ""
+                  }`}
+                >
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className={isRightAligned ? "lg:text-right" : ""}>
+                    {skill}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Technology Badges */}
+        {item.technologies && item.technologies.length > 0 && (
+          <div
+            className={`flex flex-wrap gap-1.5 pt-3 border-t border-slate-200/50 dark:border-slate-800/60 ${
+              isRightAligned ? "lg:justify-end" : ""
+            }`}
+          >
+            {item.technologies.map((tech) => (
+              <span
+                key={tech.name}
+                className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-white/50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 border border-white/40 dark:border-slate-700/40 hover:border-sky-400/50 hover:scale-105 transition-all duration-200 flex items-center gap-1.5 backdrop-blur-sm cursor-default"
+              >
+                <RenderTechIcon
+                  iconKey={tech.iconKey}
+                  className={`w-3.5 h-3.5 shrink-0 ${tech.iconColor || ""}`}
+                />
+                <span>{tech.name}</span>
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Experience() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
@@ -175,7 +337,7 @@ export default function Experience() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 border border-white/60 dark:border-white/10 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4 shadow-lg shadow-sky-500/10"
           >
             <Briefcase className="w-4 h-4 text-sky-500 dark:text-[#38BDF8]" />
-            <span>Work & Practical Growth</span>
+            <span>Work &amp; Practical Growth</span>
           </motion.div>
 
           <motion.h2
@@ -238,258 +400,22 @@ export default function Experience() {
                   {/* Left Side Container (For even items on desktop) */}
                   <div className="w-full lg:w-1/2 pl-14 lg:pl-0 lg:pr-12 lg:text-right">
                     {isEven && (
-                      <motion.div
-                        custom={isDesktop}
-                        variants={cardLeftVariants}
-                        whileHover={{ y: -6, scale: 1.01 }}
-                        className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 p-6 sm:p-8"
-                      >
-                        {/* Liquid Surface Light Reflection */}
-                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
-
-                        <div className="relative z-10">
-                          {/* Header Badges */}
-                          <div className="flex flex-wrap items-center gap-2 mb-3 lg:justify-end">
-                            {item.badge && (
-                              <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-400/30 backdrop-blur-md shadow-inner">
-                                {item.badge}
-                              </span>
-                            )}
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 border border-white/40 dark:border-slate-700/50 backdrop-blur-md shadow-sm">
-                              <Calendar className="w-3.5 h-3.5 text-sky-500" />
-                              <span>{item.duration}</span>
-                            </span>
-                            {item.offerLetter && (
-                              <a
-                                href={item.offerLetter.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all duration-200 backdrop-blur-md shadow-sm"
-                              >
-                                <FileText className="w-3.5 h-3.5 text-emerald-500" />
-                                <span>{item.offerLetter.text}</span>
-                                <ExternalLink className="w-3 h-3 opacity-70" />
-                              </a>
-                            )}
-                          </div>
-
-                          {/* Role Title */}
-                          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors duration-200 mb-1">
-                            {item.role}
-                          </h3>
-
-                          {/* Company / Organization Name */}
-                          <div className="flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 mb-4 lg:justify-end">
-                            <Building2 className="w-4 h-4 shrink-0" />
-                            {item.companyLink ? (
-                              <a
-                                href={item.companyLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline hover:text-sky-500 dark:hover:text-sky-300 transition-colors duration-200"
-                              >
-                                {item.company}
-                              </a>
-                            ) : (
-                              <span>{item.company}</span>
-                            )}
-                          </div>
-
-                          {/* Description */}
-                          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
-                            {item.description}
-                          </p>
-
-                          {/* Responsibilities List */}
-                          {item.responsibilities && (
-                            <div className="mb-5 text-left">
-                              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5 lg:text-right">
-                                Key Responsibilities & Highlights
-                              </h4>
-                              <ul className="space-y-2">
-                                {item.responsibilities.map((resp, i) => (
-                                  <li
-                                    key={i}
-                                    className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 lg:flex-row-reverse"
-                                  >
-                                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                                    <span className="lg:text-right">
-                                      {resp}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          {/* Skills Developed List */}
-                          {item.skillsDeveloped && (
-                            <div className="mb-5 text-left">
-                              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5 lg:text-right">
-                                Skills Developed & Practical Labs
-                              </h4>
-                              <ul className="space-y-2">
-                                {item.skillsDeveloped.map((skill, i) => (
-                                  <li
-                                    key={i}
-                                    className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 lg:flex-row-reverse"
-                                  >
-                                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                                    <span className="lg:text-right">
-                                      {skill}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          {/* Technology Badges */}
-                          {item.technologies && (
-                            <div className="flex flex-wrap gap-1.5 lg:justify-end pt-3 border-t border-slate-200/50 dark:border-slate-800/60">
-                              {item.technologies.map((tech) => (
-                                <span
-                                  key={tech.name}
-                                  className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-white/50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 border border-white/40 dark:border-slate-700/40 hover:border-sky-400/50 hover:scale-105 transition-all duration-200 flex items-center gap-1.5 backdrop-blur-sm cursor-default"
-                                >
-                                  <RenderTechIcon
-                                    iconKey={tech.iconKey}
-                                    className={`w-3.5 h-3.5 shrink-0 ${tech.iconColor || ""}`}
-                                  />
-                                  <span>{tech.name}</span>
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
+                      <ExperienceCard
+                        item={item}
+                        isDesktop={isDesktop}
+                        align="right"
+                      />
                     )}
                   </div>
 
                   {/* Right Side Container (For odd items on desktop) */}
                   <div className="w-full lg:w-1/2 pl-14 lg:pl-12 lg:text-left">
                     {!isEven && (
-                      <motion.div
-                        custom={isDesktop}
-                        variants={cardRightVariants}
-                        whileHover={{ y: -6, scale: 1.01 }}
-                        className="group relative rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 p-6 sm:p-8"
-                      >
-                        {/* Liquid Surface Light Reflection */}
-                        <div className="absolute -top-24 -left-24 w-48 h-48 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
-
-                        <div className="relative z-10">
-                          {/* Header Badges */}
-                          <div className="flex flex-wrap items-center gap-2 mb-3">
-                            {item.badge && (
-                              <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-400/30 backdrop-blur-md shadow-inner">
-                                {item.badge}
-                              </span>
-                            )}
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/60 dark:bg-slate-800/60 text-slate-700 dark:text-slate-200 border border-white/40 dark:border-slate-700/50 backdrop-blur-md shadow-sm">
-                              <Calendar className="w-3.5 h-3.5 text-sky-500" />
-                              <span>{item.duration}</span>
-                            </span>
-                            {item.offerLetter && (
-                              <a
-                                href={item.offerLetter.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all duration-200 backdrop-blur-md shadow-sm"
-                              >
-                                <FileText className="w-3.5 h-3.5 text-emerald-500" />
-                                <span>{item.offerLetter.text}</span>
-                                <ExternalLink className="w-3 h-3 opacity-70" />
-                              </a>
-                            )}
-                          </div>
-
-                          {/* Role Title */}
-                          <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors duration-200 mb-1">
-                            {item.role}
-                          </h3>
-
-                          {/* Company / Organization Name */}
-                          <div className="flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 mb-4">
-                            <Building2 className="w-4 h-4 shrink-0" />
-                            {item.companyLink ? (
-                              <a
-                                href={item.companyLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline hover:text-sky-500 dark:hover:text-sky-300 transition-colors duration-200"
-                              >
-                                {item.company}
-                              </a>
-                            ) : (
-                              <span>{item.company}</span>
-                            )}
-                          </div>
-
-                          {/* Description */}
-                          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
-                            {item.description}
-                          </p>
-
-                          {/* Responsibilities List */}
-                          {item.responsibilities && (
-                            <div className="mb-5">
-                              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">
-                                Key Responsibilities & Highlights
-                              </h4>
-                              <ul className="space-y-2">
-                                {item.responsibilities.map((resp, i) => (
-                                  <li
-                                    key={i}
-                                    className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300"
-                                  >
-                                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                                    <span>{resp}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          {/* Skills Developed List */}
-                          {item.skillsDeveloped && (
-                            <div className="mb-5">
-                              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2.5">
-                                Skills Developed & Practical Labs
-                              </h4>
-                              <ul className="space-y-2">
-                                {item.skillsDeveloped.map((skill, i) => (
-                                  <li
-                                    key={i}
-                                    className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300"
-                                  >
-                                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                                    <span>{skill}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          {/* Technology Badges */}
-                          {item.technologies && (
-                            <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-200/50 dark:border-slate-800/60">
-                              {item.technologies.map((tech) => (
-                                <span
-                                  key={tech.name}
-                                  className="px-2.5 py-1 text-xs font-semibold rounded-lg bg-white/50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 border border-white/40 dark:border-slate-700/40 hover:border-sky-400/50 hover:scale-105 transition-all duration-200 flex items-center gap-1.5 backdrop-blur-sm cursor-default"
-                                >
-                                  <RenderTechIcon
-                                    iconKey={tech.iconKey}
-                                    className={`w-3.5 h-3.5 shrink-0 ${tech.iconColor || ""}`}
-                                  />
-                                  <span>{tech.name}</span>
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
+                      <ExperienceCard
+                        item={item}
+                        isDesktop={isDesktop}
+                        align="left"
+                      />
                     )}
                   </div>
                 </div>

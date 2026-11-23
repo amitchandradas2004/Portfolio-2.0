@@ -1,8 +1,13 @@
-import { AboutData } from "./about-types";
+import type { AboutData } from "./about-types";
 
 export const ABOUT_UPDATE_EVENT = "portfolio-about-updated";
 export const ABOUT_SYNC_CHANNEL = "portfolio-sync";
 export const ABOUT_STORAGE_KEY = "portfolio-about-updated";
+
+export interface AboutSyncMessage {
+  type: "ABOUT_UPDATED";
+  data: AboutData;
+}
 
 /**
  * Broadcasts an about data update across the current window, all open browser tabs,
@@ -11,10 +16,10 @@ export const ABOUT_STORAGE_KEY = "portfolio-about-updated";
 export function broadcastAboutUpdate(data: AboutData): void {
   if (typeof window === "undefined") return;
 
-  // 1. Same-window CustomEvent (e.g. for components within the same tab)
+  // 1. Same-window CustomEvent (e.g., for components within the same tab)
   try {
     window.dispatchEvent(
-      new CustomEvent(ABOUT_UPDATE_EVENT, { detail: data })
+      new CustomEvent<AboutData>(ABOUT_UPDATE_EVENT, { detail: data }),
     );
   } catch (err) {
     console.warn("Failed to dispatch custom event:", err);
@@ -24,20 +29,21 @@ export function broadcastAboutUpdate(data: AboutData): void {
   try {
     if (typeof window.BroadcastChannel !== "undefined") {
       const channel = new BroadcastChannel(ABOUT_SYNC_CHANNEL);
-      channel.postMessage({ type: "ABOUT_UPDATED", data });
+      const message: AboutSyncMessage = { type: "ABOUT_UPDATED", data };
+      channel.postMessage(message);
       channel.close();
     }
-  } catch (err) {
-    // BroadcastChannel unsupported or blocked
+  } catch {
+    // BroadcastChannel unsupported or blocked (e.g., private browsing restrictions)
   }
 
   // 3. Cross-tab localStorage storage event fallback
   try {
     localStorage.setItem(
       ABOUT_STORAGE_KEY,
-      JSON.stringify({ data, timestamp: Date.now() })
+      JSON.stringify({ data, timestamp: Date.now() }),
     );
-  } catch (err) {
-    // localStorage disabled/restricted
+  } catch {
+    // localStorage disabled or quota exceeded
   }
 }

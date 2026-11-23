@@ -1,5 +1,5 @@
-import { HeroData, defaultHeroData } from "./hero-types";
 import { getDb } from "./db";
+import { type HeroData, defaultHeroData } from "./hero-types";
 
 export * from "./hero-types";
 
@@ -10,11 +10,16 @@ export async function getHeroData(): Promise<HeroData> {
     if (db) {
       const heroDoc = await db.collection("hero").findOne({});
       if (heroDoc) {
-        return {
-          ...defaultHeroData,
-          ...heroDoc,
-          _id: heroDoc._id?.toString(),
-        } as HeroData;
+        const { _id, ...rest } = heroDoc;
+        const serialized = JSON.parse(
+          JSON.stringify({
+            ...defaultHeroData,
+            ...rest,
+            ...(_id ? { _id: _id.toString() } : {}),
+          }),
+        ) as HeroData;
+
+        return serialized;
       }
     }
   } catch (dbErr) {
@@ -22,21 +27,22 @@ export async function getHeroData(): Promise<HeroData> {
   }
 
   // 2. Fallback to Express backend if configured
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-  if (backendUrl && !backendUrl.includes("localhost")) {
+  const rawBackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL?.trim();
+  if (rawBackendUrl && !rawBackendUrl.includes("localhost")) {
+    const backendUrl = rawBackendUrl.replace(/\/+$/, "");
     try {
       const res = await fetch(`${backendUrl}/api/hero`, {
         cache: "no-store",
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as Partial<HeroData>;
         return {
           ...defaultHeroData,
           ...data,
         };
       }
-    } catch (err) {
-      // Backend fetch failed
+    } catch {
+      // Backend fetch failed; fall back to defaultHeroData
     }
   }
 

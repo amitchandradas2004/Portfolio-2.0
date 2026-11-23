@@ -52,9 +52,9 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
     <main className="relative overflow-hidden min-h-screen bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 pt-28 pb-20 transition-colors duration-300 w-full">
       {/* Ambient background lighting blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[850px] h-[550px] bg-sky-400/25 dark:bg-cyan-500/20 blur-[140px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-purple-500/20 dark:bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 sm:w-212.5 h-137.5 bg-sky-400/25 dark:bg-cyan-500/20 blur-[140px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-112.5 h-112.5 bg-purple-500/20 dark:bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <motion.div
@@ -119,9 +119,9 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-white bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden"
             >
-              <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+              <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-white/80 to-transparent" />
               <ExternalLink className="w-4 h-4 text-white shrink-0" />
               <span>Live Demo</span>
             </motion.a>
@@ -187,7 +187,7 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
               blurIntensity="xl"
               glowIntensity="lg"
               shadowIntensity="lg"
-              className="w-full relative overflow-hidden !border-slate-300/40 dark:!border-slate-800/60 p-6 sm:p-8"
+              className="w-full relative overflow-hidden border-slate-300/40! dark:border-slate-800/60! p-6 sm:p-8"
             >
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2.5">
                 <Code2 className="w-5 h-5 text-sky-500 shrink-0" />
@@ -254,7 +254,7 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
                 blurIntensity="xl"
                 glowIntensity="lg"
                 shadowIntensity="lg"
-                className="w-full relative overflow-hidden !border-amber-500/30 dark:!border-amber-500/20 p-6 sm:p-8"
+                className="w-full relative overflow-hidden border-amber-500/30! dark:border-amber-500/20! p-6 sm:p-8"
               >
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2.5">
                   <AlertCircle className="w-5 h-5 text-amber-500 shrink-0" />
@@ -280,7 +280,7 @@ export default function ProjectDetailsClient({ project }: ProjectDetailsClientPr
                 blurIntensity="xl"
                 glowIntensity="lg"
                 shadowIntensity="lg"
-                className="w-full relative overflow-hidden !border-sky-500/30 dark:!border-sky-500/20 p-6 sm:p-8"
+                className="w-full relative overflow-hidden border-sky-500/30! dark:border-sky-500/20! p-6 sm:p-8"
               >
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2.5">
                   <Sparkles className="w-5 h-5 text-sky-500 shrink-0" />

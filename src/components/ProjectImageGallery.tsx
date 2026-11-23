@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Maximize2,
-  X,
   ChevronLeft,
   ChevronRight,
   ImageIcon,
+  Maximize2,
+  X,
 } from "lucide-react";
+import Image from "next/image";
+import React, { useCallback, useEffect, useState } from "react";
 
 interface ProjectImageGalleryProps {
   images: string[];
@@ -72,10 +72,10 @@ export default function ProjectImageGallery({
       if (lightboxIndex === null) return;
       setDirection(-1);
       setLightboxIndex((prev) =>
-        prev === null ? 0 : prev === 0 ? galleryImages.length - 1 : prev - 1
+        prev === null ? 0 : prev === 0 ? galleryImages.length - 1 : prev - 1,
       );
     },
-    [lightboxIndex, galleryImages.length]
+    [lightboxIndex, galleryImages.length],
   );
 
   const handleNextLightbox = useCallback(
@@ -84,10 +84,10 @@ export default function ProjectImageGallery({
       if (lightboxIndex === null) return;
       setDirection(1);
       setLightboxIndex((prev) =>
-        prev === null ? 0 : prev === galleryImages.length - 1 ? 0 : prev + 1
+        prev === null ? 0 : prev === galleryImages.length - 1 ? 0 : prev + 1,
       );
     },
-    [lightboxIndex, galleryImages.length]
+    [lightboxIndex, galleryImages.length],
   );
 
   // Keyboard navigation for Lightbox
@@ -106,14 +106,19 @@ export default function ProjectImageGallery({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxIndex, handleCloseLightbox, handlePrevLightbox, handleNextLightbox]);
+  }, [
+    lightboxIndex,
+    handleCloseLightbox,
+    handlePrevLightbox,
+    handleNextLightbox,
+  ]);
 
   if (galleryImages.length === 0) return null;
 
   return (
     <div className="space-y-6">
       {/* Cover / Main Banner Image with Framer Motion Smooth Transition */}
-      <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden bg-slate-200 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl group">
+      <div className="relative aspect-video w-full rounded-3xl overflow-hidden bg-slate-200 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl group">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={activeImageIndex}
@@ -149,10 +154,13 @@ export default function ProjectImageGallery({
         {galleryImages.length > 1 && (
           <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 handleSelectImage(
-                  activeImageIndex === 0 ? galleryImages.length - 1 : activeImageIndex - 1
+                  activeImageIndex === 0
+                    ? galleryImages.length - 1
+                    : activeImageIndex - 1,
                 );
               }}
               aria-label="Previous Image"
@@ -162,10 +170,13 @@ export default function ProjectImageGallery({
             </button>
 
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 handleSelectImage(
-                  activeImageIndex === galleryImages.length - 1 ? 0 : activeImageIndex + 1
+                  activeImageIndex === galleryImages.length - 1
+                    ? 0
+                    : activeImageIndex + 1,
                 );
               }}
               aria-label="Next Image"
@@ -194,7 +205,7 @@ export default function ProjectImageGallery({
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => handleSelectImage(idx)}
-                  className={`relative aspect-[16/10] rounded-2xl overflow-hidden cursor-pointer border transition-all duration-200 shadow-md ${
+                  className={`relative aspect-16/10 rounded-2xl overflow-hidden cursor-pointer border transition-all duration-200 shadow-md ${
                     isActive
                       ? "border-sky-500 ring-2 ring-sky-500/30 dark:ring-sky-400/30"
                       : "border-slate-200 dark:border-slate-800 hover:border-sky-500/50"
@@ -209,7 +220,9 @@ export default function ProjectImageGallery({
                   />
                   <div
                     className={`absolute inset-0 transition-colors ${
-                      isActive ? "bg-transparent" : "bg-slate-950/20 hover:bg-transparent"
+                      isActive
+                        ? "bg-transparent"
+                        : "bg-slate-950/20 hover:bg-transparent"
                     }`}
                   />
 
@@ -253,6 +266,7 @@ export default function ProjectImageGallery({
                 </span>
 
                 <button
+                  type="button"
                   onClick={handleCloseLightbox}
                   aria-label="Close Lightbox"
                   className="p-2 rounded-full bg-slate-800/80 text-slate-200 hover:text-white hover:bg-slate-700 border border-slate-700 transition-colors cursor-pointer"
@@ -262,7 +276,7 @@ export default function ProjectImageGallery({
               </div>
 
               {/* Main Expanded Image View with Framer Motion Transitions */}
-              <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
+              <div className="relative w-full aspect-16/10 sm:aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
                 <AnimatePresence mode="wait" custom={direction}>
                   <motion.div
                     key={lightboxIndex}
@@ -287,6 +301,7 @@ export default function ProjectImageGallery({
                 {galleryImages.length > 1 && (
                   <>
                     <button
+                      type="button"
                       onClick={handlePrevLightbox}
                       aria-label="Previous Image"
                       className="absolute left-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg cursor-pointer z-20"
@@ -295,6 +310,7 @@ export default function ProjectImageGallery({
                     </button>
 
                     <button
+                      type="button"
                       onClick={handleNextLightbox}
                       aria-label="Next Image"
                       className="absolute right-3 top-1/2 -translate-y-1/2 p-3 rounded-full bg-slate-950/70 text-white hover:bg-sky-600 border border-white/10 backdrop-blur-md transition-all shadow-lg cursor-pointer z-20"

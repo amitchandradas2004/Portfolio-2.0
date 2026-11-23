@@ -1,39 +1,43 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  Sparkles,
-  Save,
-  RotateCcw,
-  ExternalLink,
-  Upload,
-  Link as LinkIcon,
-  CheckCircle2,
   AlertCircle,
+  Briefcase,
+  CheckCircle2,
+  Clock,
+  Edit3,
+  ExternalLink,
   Eye,
-  User,
   FileText,
   Globe,
   ImageIcon,
-  Loader2,
-  Trash2,
-  Plus,
   Layers,
-  ShieldAlert,
-  Clock,
-  Edit3,
+  Link as LinkIcon,
+  Loader2,
   Lock,
   MapPin,
-  Briefcase,
+  Plus,
+  RotateCcw,
+  Save,
+  Sparkles,
+  Trash2,
+  Upload,
+  User,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
-import { useUserRole } from "@/hooks/useUserRole";
-import { HeroData, defaultHeroData, TechBadge, formatImageUrl } from "@/lib/hero-types";
 import Hero from "@/components/Hero";
+import { useUserRole } from "@/hooks/useUserRole";
+import {
+  HeroData,
+  TechBadge,
+  defaultHeroData,
+  formatImageUrl,
+} from "@/lib/hero-types";
 
 function FieldHeaderCompare({
   label,
@@ -46,7 +50,10 @@ function FieldHeaderCompare({
   currentValue?: string;
   extraRight?: React.ReactNode;
 }) {
-  const isDifferent = savedValue !== undefined && currentValue !== undefined && savedValue !== currentValue;
+  const isDifferent =
+    savedValue !== undefined &&
+    currentValue !== undefined &&
+    savedValue !== currentValue;
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 mb-1.5">
@@ -64,8 +71,10 @@ function FieldHeaderCompare({
             title={`Last saved in database: ${savedValue || "(empty)"}`}
           >
             <Clock className="w-3 h-3 shrink-0" />
-            <span className="font-semibold hidden xs:inline">{isDifferent ? "Saved:" : "Last Saved:"}</span>
-            <span className="max-w-[90px] xs:max-w-[140px] sm:max-w-[200px] truncate italic">
+            <span className="font-semibold hidden xs:inline">
+              {isDifferent ? "Saved:" : "Last Saved:"}
+            </span>
+            <span className="max-w-22.5 xs:max-w-35 sm:max-w-50 truncate italic">
               &quot;{savedValue || "Empty"}&quot;
             </span>
             {isDifferent && (
@@ -91,11 +100,13 @@ export default function HeroDashboardPage() {
   const [uploading, setUploading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<"info" | "links" | "image" | "preview">("info");
+  const [activeTab, setActiveTab] = useState<
+    "info" | "links" | "image" | "preview"
+  >("info");
 
   // Effective state determining if inputs are locked
   const isInputDisabled = !isEditing;
-  
+
   const [statusMessage, setStatusMessage] = useState<{
     type: "success" | "error" | "info";
     text: string;
@@ -108,13 +119,15 @@ export default function HeroDashboardPage() {
 
   // Fetch initial hero data from database
   useEffect(() => {
+    let isMounted = true;
+
     async function fetchHero() {
       try {
         setLoading(true);
         const res = await fetch("/api/hero");
-        if (res.ok) {
+        if (res.ok && isMounted) {
           const data = await res.json();
-          const merged = {
+          const merged: HeroData = {
             ...defaultHeroData,
             ...data,
           };
@@ -124,15 +137,20 @@ export default function HeroDashboardPage() {
       } catch (err) {
         console.error("Failed to fetch hero data:", err);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
-    fetchHero();
+    void fetchHero();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
@@ -149,16 +167,22 @@ export default function HeroDashboardPage() {
     }
   };
 
-  const handleBadgeChange = (index: number, field: keyof TechBadge, value: any) => {
-    const updatedBadges = [...formData.techBadges];
-    updatedBadges[index] = {
-      ...updatedBadges[index],
-      [field]: value,
-    };
-    setFormData((prev) => ({
-      ...prev,
-      techBadges: updatedBadges,
-    }));
+  const handleBadgeChange = <K extends keyof TechBadge>(
+    index: number,
+    field: K,
+    value: TechBadge[K],
+  ) => {
+    setFormData((prev) => {
+      const updatedBadges = [...prev.techBadges];
+      updatedBadges[index] = {
+        ...updatedBadges[index],
+        [field]: value,
+      };
+      return {
+        ...prev,
+        techBadges: updatedBadges,
+      };
+    });
   };
 
   const handleAddBadge = () => {
@@ -166,7 +190,12 @@ export default function HeroDashboardPage() {
       ...prev,
       techBadges: [
         ...prev.techBadges,
-        { name: "", iconKey: "code", colorClass: "text-sky-400", enabled: true },
+        {
+          name: "",
+          iconKey: "code",
+          colorClass: "text-sky-400",
+          enabled: true,
+        },
       ],
     }));
   };
@@ -220,10 +249,10 @@ export default function HeroDashboardPage() {
         type: "success",
         text: "Image uploaded successfully! Remember to click Save Changes.",
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatusMessage({
         type: "error",
-        text: err.message || "Failed to upload image.",
+        text: err instanceof Error ? err.message : "Failed to upload image.",
       });
     } finally {
       setUploading(false);
@@ -231,7 +260,7 @@ export default function HeroDashboardPage() {
   };
 
   // Save changes to database
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (isInputDisabled) {
@@ -262,13 +291,15 @@ export default function HeroDashboardPage() {
         throw new Error(data.error || "Failed to update Hero section.");
       }
 
-      const savedHero = data.hero ? { ...defaultHeroData, ...data.hero } : formData;
+      const savedHero: HeroData = data.hero
+        ? { ...defaultHeroData, ...data.hero }
+        : formData;
       setFormData(savedHero);
       setLastSavedData(savedHero);
 
       if (typeof window !== "undefined") {
         window.dispatchEvent(
-          new CustomEvent("portfolio-hero-updated", { detail: savedHero })
+          new CustomEvent("portfolio-hero-updated", { detail: savedHero }),
         );
       }
 
@@ -276,10 +307,13 @@ export default function HeroDashboardPage() {
         type: "success",
         text: "Hero section updated successfully in database! Your main website is now live with these changes.",
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatusMessage({
         type: "error",
-        text: err.message || "Something went wrong while saving.",
+        text:
+          err instanceof Error
+            ? err.message
+            : "Something went wrong while saving.",
       });
     } finally {
       setSaving(false);
@@ -306,7 +340,7 @@ export default function HeroDashboardPage() {
   return (
     <div className="space-y-6 pb-12">
       {/* Top Header Card */}
-      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-purple-500/15 dark:bg-slate-950/80 border border-sky-500/20 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6">
+      <div className="rounded-xl p-4 sm:p-6 lg:p-8 bg-linear-to-r from-sky-500/15 via-blue-500/10 to-purple-500/15 dark:bg-slate-950/80 border border-sky-500/20 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6">
         <div className="space-y-3 relative z-10">
           <div className="flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider">
@@ -323,7 +357,7 @@ export default function HeroDashboardPage() {
 
             {hasChanges ? (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider animate-pulse">
-                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
                 <span>Unsaved Changes</span>
               </div>
             ) : (
@@ -339,7 +373,9 @@ export default function HeroDashboardPage() {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed max-w-4xl">
-            Update your hero banner headline, professional designation, introduction bio, resume link, social handles, and profile portrait image.
+            Update your hero banner headline, professional designation,
+            introduction bio, resume link, social handles, and profile portrait
+            image.
           </p>
         </div>
 
@@ -353,7 +389,7 @@ export default function HeroDashboardPage() {
                 className={`w-full sm:w-auto px-4 py-2.5 rounded-xl border text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
                   isEditing
                     ? "bg-amber-500/15 border-amber-500/40 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25 ring-2 ring-amber-500/20"
-                    : "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent hover:opacity-90 shadow-md shadow-sky-500/20"
+                    : "bg-linear-to-r from-sky-500 via-blue-600 to-indigo-600 text-white border-transparent hover:opacity-90 shadow-md shadow-sky-500/20"
                 }`}
               >
                 {isEditing ? (
@@ -372,11 +408,11 @@ export default function HeroDashboardPage() {
 
             <button
               type="submit"
-              onClick={handleSubmit}
+              form="hero-settings-form"
               disabled={isInputDisabled || saving || !hasChanges}
               className={`w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all ${
                 hasChanges && !isInputDisabled && !saving
-                  ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white shadow-lg shadow-sky-500/25 cursor-pointer"
+                  ? "bg-linear-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white shadow-lg shadow-sky-500/25 cursor-pointer"
                   : "bg-slate-200 dark:bg-slate-900/80 text-slate-400 dark:text-slate-500 border border-slate-300/40 dark:border-slate-800/60 cursor-not-allowed opacity-60"
               }`}
             >
@@ -388,7 +424,9 @@ export default function HeroDashboardPage() {
               ) : (
                 <>
                   <Save className="w-4 h-4 shrink-0" />
-                  <span>{hasChanges ? "Save Changes" : "No Changes to Save"}</span>
+                  <span>
+                    {hasChanges ? "Save Changes" : "No Changes to Save"}
+                  </span>
                 </>
               )}
             </button>
@@ -427,7 +465,15 @@ export default function HeroDashboardPage() {
           <div className="flex items-center gap-2.5">
             <Lock className="w-4 h-4 text-sky-500 shrink-0" />
             <span>
-              <strong className="font-extrabold text-sky-800 dark:text-sky-200">Admin View Mode:</strong> Form fields are currently locked to prevent accidental edits. Click <strong className="text-sky-800 dark:text-sky-200 font-bold">Edit Hero Section</strong> to unlock.
+              <strong className="font-extrabold text-sky-800 dark:text-sky-200">
+                Admin View Mode:
+              </strong>{" "}
+              Form fields are currently locked to prevent accidental edits.
+              Click{" "}
+              <strong className="text-sky-800 dark:text-sky-200 font-bold">
+                Edit Hero Section
+              </strong>{" "}
+              to unlock.
             </span>
           </div>
           <button
@@ -441,8 +487,6 @@ export default function HeroDashboardPage() {
         </motion.div>
       )}
 
-
-
       {/* Status Notification Message */}
       <AnimatePresence>
         {statusMessage && (
@@ -454,8 +498,8 @@ export default function HeroDashboardPage() {
               statusMessage.type === "success"
                 ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300"
                 : statusMessage.type === "error"
-                ? "bg-rose-500/10 border-rose-500/30 text-rose-700 dark:text-rose-300"
-                : "bg-sky-500/10 border-sky-500/30 text-sky-700 dark:text-sky-300"
+                  ? "bg-rose-500/10 border-rose-500/30 text-rose-700 dark:text-rose-300"
+                  : "bg-sky-500/10 border-sky-500/30 text-sky-700 dark:text-sky-300"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -467,6 +511,7 @@ export default function HeroDashboardPage() {
               <span>{statusMessage.text}</span>
             </div>
             <button
+              type="button"
               onClick={() => setStatusMessage(null)}
               className="text-xs opacity-70 hover:opacity-100 cursor-pointer"
             >
@@ -534,7 +579,11 @@ export default function HeroDashboardPage() {
       </div>
 
       {/* Main Form Body */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form
+        id="hero-settings-form"
+        onSubmit={handleSubmit}
+        className="space-y-6"
+      >
         {/* TAB 1: BASIC BIO INFO */}
         {activeTab === "info" && (
           <motion.div
@@ -551,7 +600,8 @@ export default function HeroDashboardPage() {
                   Basic Hero Information
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Configure your primary greeting, main header title, job title, and bio summary.
+                  Configure your primary greeting, main header title, job title,
+                  and bio summary.
                 </p>
               </div>
             </div>
@@ -576,9 +626,11 @@ export default function HeroDashboardPage() {
                       disabled={isInputDisabled}
                       className="sr-only peer"
                     />
-                    <div className="relative w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:after:border-slate-600 peer-checked:bg-emerald-500" />
+                    <div className="relative w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:inset-s-0.5 after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:after:border-slate-600 peer-checked:bg-emerald-500" />
                     <span className="text-xs font-extrabold text-slate-700 dark:text-slate-200">
-                      {formData.isAvailable !== false ? "🟢 Status: Active Available" : "⚪ Status: Inactive / Busy"}
+                      {formData.isAvailable !== false
+                        ? "🟢 Status: Active Available"
+                        : "⚪ Status: Inactive / Busy"}
                     </span>
                   </label>
                 </div>
@@ -704,8 +756,8 @@ export default function HeroDashboardPage() {
                         (formData.description?.length || 0) >= 290
                           ? "text-rose-500"
                           : (formData.description?.length || 0) >= 250
-                          ? "text-amber-500"
-                          : "text-slate-400"
+                            ? "text-amber-500"
+                            : "text-slate-400"
                       }`}
                     >
                       {formData.description?.length || 0} / 300 characters
@@ -723,7 +775,9 @@ export default function HeroDashboardPage() {
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-normal text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60 leading-relaxed"
                 />
                 <p className="text-[11px] text-slate-400">
-                  Paragraph text displayed under your job title. Enforced to 300 characters maximum for optimal responsiveness across all devices.
+                  Paragraph text displayed under your job title. Enforced to 300
+                  characters maximum for optimal responsiveness across all
+                  devices.
                 </p>
               </div>
             </div>
@@ -746,7 +800,8 @@ export default function HeroDashboardPage() {
                   Resume & Social Media Links
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Manage your resume download URL, contact email, and public social profile links.
+                  Manage your resume download URL, contact email, and public
+                  social profile links.
                 </p>
               </div>
             </div>
@@ -785,7 +840,8 @@ export default function HeroDashboardPage() {
                   <FileText className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
                 <p className="text-[11px] text-slate-400">
-                  Link to your Google Drive PDF, Dropbox file, or hosted resume document.
+                  Link to your Google Drive PDF, Dropbox file, or hosted resume
+                  document.
                 </p>
               </div>
 
@@ -923,12 +979,15 @@ export default function HeroDashboardPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                 {/* Image Preview Box */}
                 <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 relative group">
-                  <div className="relative w-40 aspect-[4/5] rounded-xl overflow-hidden shadow-lg border border-slate-300 dark:border-slate-700">
+                  <div className="relative w-40 aspect-4/5 rounded-xl overflow-hidden shadow-lg border border-slate-300 dark:border-slate-700">
                     <Image
                       src={formatImageUrl(formData.imageUrl)}
                       alt="Hero Profile Preview"
                       fill
-                      unoptimized={formatImageUrl(formData.imageUrl).startsWith("data:") || formatImageUrl(formData.imageUrl).startsWith("http")}
+                      unoptimized={
+                        formatImageUrl(formData.imageUrl).startsWith("data:") ||
+                        formatImageUrl(formData.imageUrl).startsWith("http")
+                      }
                       className="object-cover"
                     />
                   </div>
@@ -994,7 +1053,13 @@ export default function HeroDashboardPage() {
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-sm font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-sky-500/50 outline-none transition-all disabled:opacity-60"
                     />
                     <p className="text-[11px] text-slate-400">
-                      Supports direct image links (PNG, JPG, WebP) and Google Drive view links (e.g. <code className="font-mono text-sky-500">https://drive.google.com/file/d/...</code>) which are automatically converted to direct image streams.
+                      Supports direct image links (PNG, JPG, WebP) and Google
+                      Drive view links (e.g.{" "}
+                      <code className="font-mono text-sky-500">
+                        https://drive.google.com/file/d/...
+                      </code>
+                      ) which are automatically converted to direct image
+                      streams.
                     </p>
                   </div>
                 </div>
@@ -1032,21 +1097,25 @@ export default function HeroDashboardPage() {
               <div className="space-y-3">
                 {formData.techBadges.map((badge, idx) => (
                   <div
-                    key={idx}
+                    key={`${badge.iconKey}-${idx}`}
                     className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80"
                   >
                     <div className="flex items-center gap-2 w-full sm:w-1/3">
                       <input
                         type="checkbox"
                         checked={badge.enabled !== false}
-                        onChange={(e) => handleBadgeChange(idx, "enabled", e.target.checked)}
+                        onChange={(e) =>
+                          handleBadgeChange(idx, "enabled", e.target.checked)
+                        }
                         disabled={isInputDisabled}
                         className="w-4 h-4 rounded text-sky-500 focus:ring-sky-500 cursor-pointer shrink-0"
                       />
                       <input
                         type="text"
                         value={badge.name}
-                        onChange={(e) => handleBadgeChange(idx, "name", e.target.value)}
+                        onChange={(e) =>
+                          handleBadgeChange(idx, "name", e.target.value)
+                        }
                         placeholder="Badge Label"
                         disabled={isInputDisabled}
                         className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-white outline-none"
@@ -1057,7 +1126,9 @@ export default function HeroDashboardPage() {
                       <input
                         type="text"
                         value={badge.iconKey}
-                        onChange={(e) => handleBadgeChange(idx, "iconKey", e.target.value)}
+                        onChange={(e) =>
+                          handleBadgeChange(idx, "iconKey", e.target.value)
+                        }
                         placeholder="Icon (react, next, ts, node)"
                         disabled={isInputDisabled}
                         className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
@@ -1065,7 +1136,9 @@ export default function HeroDashboardPage() {
                       <input
                         type="text"
                         value={badge.colorClass}
-                        onChange={(e) => handleBadgeChange(idx, "colorClass", e.target.value)}
+                        onChange={(e) =>
+                          handleBadgeChange(idx, "colorClass", e.target.value)
+                        }
                         placeholder="Color (text-cyan-400)"
                         disabled={isInputDisabled}
                         className="w-full px-3 py-1.5 rounded-lg bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300 outline-none truncate"
@@ -1141,13 +1214,23 @@ export default function HeroDashboardPage() {
                     Reset Hero Section Defaults?
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                    Are you sure you want to reset all input fields (greeting, name, job title, bio summary, links, and profile image) to default settings?
+                    Are you sure you want to reset all input fields (greeting,
+                    name, job title, bio summary, links, and profile image) to
+                    default settings?
                   </p>
                 </div>
               </div>
 
               <div className="p-3.5 rounded-xl bg-rose-500/10 dark:bg-rose-500/15 border border-rose-500/25 text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
-                <span className="font-bold text-rose-600 dark:text-rose-400">Important Note:</span> This will reset your editor inputs and live preview. Your live website won't change until you click <strong className="text-slate-900 dark:text-white font-bold">Save Changes</strong>.
+                <span className="font-bold text-rose-600 dark:text-rose-400">
+                  Important Note:
+                </span>{" "}
+                This will reset your editor inputs and live preview. Your live
+                website won&apos;t change until you click{" "}
+                <strong className="text-slate-900 dark:text-white font-bold">
+                  Save Changes
+                </strong>
+                .
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-2">
@@ -1162,7 +1245,7 @@ export default function HeroDashboardPage() {
                 <button
                   type="button"
                   onClick={confirmReset}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 via-red-600 to-rose-600 hover:from-rose-600 hover:to-red-700 text-white text-xs font-extrabold flex items-center gap-2 shadow-lg shadow-rose-500/25 transition-all cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-linear-to-r from-rose-500 via-red-600 to-rose-600 hover:from-rose-600 hover:to-red-700 text-white text-xs font-extrabold flex items-center gap-2 shadow-lg shadow-rose-500/25 transition-all cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Yes, Reset Fields</span>
