@@ -50,26 +50,28 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         blurIntensity="xl"
         glowIntensity="lg"
         shadowIntensity="lg"
-        className="group relative w-full h-full overflow-hidden flex flex-col justify-between transition-all duration-500 !border-slate-300/40 dark:!border-slate-800/60 shadow-xl hover:shadow-2xl hover:shadow-sky-500/20"
+        className="group relative w-full h-full overflow-hidden flex flex-col justify-between transition-all duration-500 border-slate-300/40! dark:border-slate-800/60! shadow-xl hover:shadow-2xl hover:shadow-sky-500/20"
       >
         {/* Specular Liquid Light Sweep on Hover */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-sky-400/15 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10" />
+        <div className="absolute inset-0 bg-linear-to-tr from-transparent via-sky-400/15 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none -z-10" />
 
         {/* Top & Body Section */}
         <div className="flex-1 flex flex-col justify-between">
           <div>
             {/* Center-Aligned Image Container */}
             <div className="px-3 pt-3">
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 dark:bg-slate-900/80 rounded-xl border border-slate-300/40 dark:border-slate-800/60 shadow-md">
-                <Image
-                  key={project.id}
-                  src={project.images?.[0] || ""}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover object-top rounded-xl group-hover:scale-105 transition-transform duration-700 ease-out select-none"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none rounded-xl" />
+              <div className="relative aspect-16/10 w-full overflow-hidden bg-slate-100 dark:bg-slate-900/80 rounded-xl border border-slate-300/40 dark:border-slate-800/60 shadow-md">
+                {project.images?.[0] && (
+                  <Image
+                    key={project.id}
+                    src={project.images[0]}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover object-top rounded-xl group-hover:scale-105 transition-transform duration-700 ease-out select-none"
+                  />
+                )}
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none rounded-xl" />
 
                 {/* Badges */}
                 <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2 z-10">
@@ -127,6 +129,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         {/* Card Footer: Secondary Glass Pill Button with Loading State */}
         <div className="px-5 pb-6 pt-0 mt-auto">
           <motion.button
+            type="button"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleViewDetails}
@@ -134,7 +137,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             aria-label={`View details for ${project.title}`}
             className="group/btn relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full disabled:opacity-80 disabled:cursor-wait"
           >
-            <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
+            <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
 
             {isNavigating ? (
               <>

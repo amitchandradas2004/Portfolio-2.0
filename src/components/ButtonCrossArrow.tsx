@@ -1,8 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface ButtonCrossArrowProps {
   href?: string;
@@ -13,11 +12,11 @@ interface ButtonCrossArrowProps {
 }
 
 export default function ButtonCrossArrow({
-  href = '#contact',
-  text = 'Contact me',
-  className = '',
+  href = "#contact",
+  text = "Contact me",
+  className = "",
   onClick,
-  ariaLabel = 'Contact me',
+  ariaLabel = "Contact me",
 }: ButtonCrossArrowProps) {
   const innerContent = (
     <>
@@ -58,10 +57,10 @@ export default function ButtonCrossArrow({
   );
 
   const sharedClasses = cn(
-    'group relative flex h-12 w-auto min-w-[135px] sm:w-[170px] items-center justify-between rounded-full font-semibold transition-all duration-300 cursor-pointer select-none backdrop-blur-xl',
-    'bg-white/70 hover:bg-white/95 text-slate-800 border border-slate-300/80 hover:border-sky-500/60 shadow-xs hover:shadow-md hover:shadow-sky-500/10',
-    'dark:bg-slate-900/70 dark:hover:bg-slate-900/95 dark:text-white dark:border-slate-800 dark:hover:border-sky-500/50 dark:shadow-xs dark:hover:shadow-md dark:hover:shadow-sky-500/15',
-    className
+    "group relative flex h-12 w-auto min-w-[135px] sm:w-[170px] items-center justify-between rounded-full font-semibold transition-all duration-300 cursor-pointer select-none backdrop-blur-xl",
+    "bg-white/70 hover:bg-white/95 text-slate-800 border border-slate-300/80 hover:border-sky-500/60 shadow-xs hover:shadow-md hover:shadow-sky-500/10",
+    "dark:bg-slate-900/70 dark:hover:bg-slate-900/95 dark:text-white dark:border-slate-800 dark:hover:border-sky-500/50 dark:shadow-xs dark:hover:shadow-md dark:hover:shadow-sky-500/15",
+    className,
   );
 
   if (href) {

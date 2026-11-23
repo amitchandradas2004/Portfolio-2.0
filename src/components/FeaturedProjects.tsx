@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { Project } from "@/lib/projectsData";
+import { motion, Variants } from "framer-motion";
+import { ArrowRight, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion, Variants } from "framer-motion";
-import { Sparkles, ArrowRight, Loader2 } from "lucide-react";
+import React, { useState } from "react";
 import ProjectCard from "./ProjectCard";
-import { Project } from "@/lib/projectsData";
 
 export interface FeaturedProjectsProps {
   projects: Project[];
@@ -44,9 +44,9 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     >
       {/* Background Ambient Liquid Lighting Orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] sm:w-[750px] h-[450px] bg-sky-400/25 dark:bg-cyan-500/20 blur-[130px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-purple-500/20 dark:bg-indigo-600/20 blur-[110px] rounded-full pointer-events-none" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-150 sm:w-187.5 h-112.5 bg-sky-400/25 dark:bg-cyan-500/20 blur-[130px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-100 h-100 bg-purple-500/20 dark:bg-indigo-600/20 blur-[110px] rounded-full pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
@@ -71,7 +71,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight text-slate-900 dark:text-white"
           >
             Featured{" "}
-            <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               Projects
             </span>
           </motion.h2>
@@ -83,7 +83,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed"
           >
-            A curated selection of my highest-impact full-stack applications, SaaS products, and enterprise tools.
+            A curated selection of my highest-impact full-stack applications,
+            SaaS products, and enterprise tools.
           </motion.p>
         </div>
 
@@ -98,7 +99,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           {projects.map((project, index) => (
             <div
               key={project.id}
-              className={index === 2 ? "md:col-span-2 lg:col-span-1" : ""}
+              className={index === 2 ? "md:col-span-2 2xl:col-span-1" : ""}
             >
               <ProjectCard project={project} />
             </div>
@@ -117,25 +118,30 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             href="/projects"
             onClick={handleExploreClick}
             aria-label="Explore All Projects"
-            className={`group relative inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-sm text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-xl shadow-sky-500/25 hover:shadow-sky-500/40 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 active:scale-[0.98] cursor-pointer overflow-hidden ${isNavigating ? "opacity-90 cursor-wait" : ""
-              }`}
+            className={`group relative inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-sm text-white bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-xl shadow-sky-500/25 hover:shadow-sky-500/40 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 active:scale-[0.98] cursor-pointer overflow-hidden ${
+              isNavigating ? "opacity-90 cursor-wait" : ""
+            }`}
           >
             {/* Top Specular Edge Shine Overlay */}
-            <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+            <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-white/80 to-transparent" />
 
             {/* Subtle light sweep animation layer */}
-            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+            <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
 
             {isNavigating ? (
               <>
-                <span className="relative z-10 tracking-wide">Exploring Projects...</span>
+                <span className="relative z-10 tracking-wide">
+                  Exploring Projects...
+                </span>
                 <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-white/20 backdrop-blur-md">
                   <Loader2 className="w-3.5 h-3.5 text-white animate-spin shrink-0" />
                 </div>
               </>
             ) : (
               <>
-                <span className="relative z-10 tracking-wide">Explore All Projects</span>
+                <span className="relative z-10 tracking-wide">
+                  Explore All Projects
+                </span>
                 <div className="relative z-10 flex items-center justify-center w-6 h-6 rounded-full bg-white/20 backdrop-blur-md transition-transform duration-300 group-hover:translate-x-1">
                   <ArrowRight className="w-3.5 h-3.5 text-white shrink-0" />
                 </div>

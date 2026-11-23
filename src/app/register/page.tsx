@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export interface RegisterFormData {
   name: string;
@@ -47,6 +47,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Redirect authenticated user to dashboard
   useEffect(() => {
@@ -58,12 +59,21 @@ export default function RegisterPage() {
     }
   }, [isPending, session, router]);
 
+  // Clear post-registration redirect timer on unmount
+  useEffect(() => {
+    return () => {
+      if (redirectTimerRef.current) {
+        clearTimeout(redirectTimerRef.current);
+      }
+    };
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
@@ -82,12 +92,14 @@ export default function RegisterPage() {
         );
       } else if (data) {
         setSuccessMsg("Account created successfully! Redirecting to login...");
-        setTimeout(() => {
+        redirectTimerRef.current = setTimeout(() => {
           router.push("/login");
         }, 3000);
       }
-    } catch (err: any) {
-      setErrorMsg(err?.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      setErrorMsg(
+        err instanceof Error ? err.message : "An unexpected error occurred.",
+      );
     } finally {
       setLoading(false);
     }
@@ -320,6 +332,7 @@ export default function RegisterPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     required
+                    minLength={6}
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="••••••••"

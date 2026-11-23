@@ -1,29 +1,20 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
+import { useUserRole } from "@/hooks/useUserRole";
 import { motion, Variants } from "framer-motion";
 import {
-  Sparkles,
-  Shield,
+  ArrowRight,
+  Briefcase,
+  Cpu,
   Eye,
   FolderGit2,
-  Cpu,
-  Briefcase,
-  GitBranch,
-  ArrowRight,
-  UserCheck,
-  CheckCircle2,
-  ExternalLink,
-  Activity,
-  Layers,
-  Wrench,
   GraduationCap,
-  Mail,
-  FileText,
+  Layers,
+  Shield,
+  Sparkles,
   User,
 } from "lucide-react";
-import { useUserRole } from "@/hooks/useUserRole";
+import Link from "next/link";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -51,11 +42,13 @@ const quickShortcuts = [
     description: "Update headline, bio summary & CTA links",
     href: "/dashboard/hero",
     icon: Sparkles,
-    color: "from-amber-500/15 to-amber-500/5 text-amber-500 border-amber-500/20",
+    color:
+      "from-amber-500/15 to-amber-500/5 text-amber-500 border-amber-500/20",
   },
   {
     title: "About Section",
-    description: "Biography, personal narrative, traits, statistics & tech chips",
+    description:
+      "Biography, personal narrative, traits, statistics & tech chips",
     href: "/dashboard/about",
     icon: User,
     color: "from-sky-500/15 to-blue-500/5 text-sky-500 border-sky-500/20",
@@ -65,14 +58,16 @@ const quickShortcuts = [
     description: "Organize tech stacks, frameworks & categories",
     href: "/dashboard/skills",
     icon: Cpu,
-    color: "from-purple-500/15 to-indigo-500/5 text-purple-500 border-purple-500/20",
+    color:
+      "from-purple-500/15 to-indigo-500/5 text-purple-500 border-purple-500/20",
   },
   {
     title: "Experiences",
     description: "Milestones, work history & job titles",
     href: "/dashboard/experiences",
     icon: Briefcase,
-    color: "from-emerald-500/15 to-teal-500/5 text-emerald-500 border-emerald-500/20",
+    color:
+      "from-emerald-500/15 to-teal-500/5 text-emerald-500 border-emerald-500/20",
   },
   {
     title: "Featured Projects",
@@ -103,7 +98,7 @@ export default function DashboardPage() {
       {/* Welcome Banner */}
       <motion.div
         variants={itemVariants}
-        className="rounded-xl p-4 sm:p-6 lg:p-8 bg-gradient-to-r from-sky-500/15 via-blue-500/10 to-indigo-500/15 border border-sky-500/25 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6"
+        className="rounded-xl p-4 sm:p-6 lg:p-8 bg-linear-to-r from-sky-500/15 via-blue-500/10 to-indigo-500/15 border border-sky-500/25 backdrop-blur-xl relative overflow-hidden shadow-xl shadow-sky-500/5 space-y-5 sm:space-y-6"
       >
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2 max-w-2xl">
@@ -115,13 +110,16 @@ export default function DashboardPage() {
               Welcome back, {user?.name || "Portfolio Manager"}!
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-              Full control center to manage your portfolio content, showcase projects, and keep your tech skills and experience updated.
+              Full control center to manage your portfolio content, showcase
+              projects, and keep your tech skills and experience updated.
             </p>
           </div>
 
-          <div className="p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md shrink-0 flex flex-col gap-3 min-w-[240px] w-full sm:w-auto shadow-lg">
+          <div className="p-4 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 backdrop-blur-md shrink-0 flex flex-col gap-3 min-w-60 w-full sm:w-auto shadow-lg">
             <div className="flex items-center justify-between gap-3 text-xs font-semibold">
-              <span className="text-slate-500 dark:text-slate-400">Current Session</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                Current Session
+              </span>
               {isReadOnly ? (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 text-[11px] font-black uppercase">
                   <Eye className="w-3 h-3" />
@@ -138,7 +136,9 @@ export default function DashboardPage() {
             <div className="h-px bg-slate-200/80 dark:bg-slate-800/80" />
 
             <div className="flex items-center justify-between gap-3 text-xs font-semibold">
-              <span className="text-slate-500 dark:text-slate-400">Access Privileges</span>
+              <span className="text-slate-500 dark:text-slate-400">
+                Access Privileges
+              </span>
               <span className="text-slate-900 dark:text-white font-extrabold">
                 {isReadOnly ? "Read-Only Visitor" : "Full Write Access"}
               </span>
@@ -173,7 +173,9 @@ export default function DashboardPage() {
                   className="group block p-5 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 hover:border-sky-500/40 dark:hover:border-sky-500/40 backdrop-blur-xl shadow-lg shadow-slate-900/5 dark:shadow-black/20 transition-all h-full"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br border ${shortcut.color}`}>
+                    <div
+                      className={`p-3 rounded-xl bg-linear-to-br border ${shortcut.color}`}
+                    >
                       <Icon className="w-5 h-5" />
                     </div>
                     <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-sky-500 group-hover:translate-x-1 transition-all" />

@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Download, Mail, Code, MapPin, Send } from "lucide-react";
 import { FaGithub, FaLinkedinIn, FaXTwitter, FaReact, FaNodeJs } from "react-icons/fa6";
@@ -28,40 +27,22 @@ const renderBadgeIcon = (iconKey: string, colorClass: string) => {
 };
 
 export default function Hero({ heroData: initialData, isPreview = false }: HeroProps) {
-  const [heroState, setHeroState] = React.useState<HeroData>({
-    ...defaultHeroData,
-    ...initialData,
-  });
-
+  const [liveData, setLiveData] = React.useState<Partial<HeroData> | null>(null);
   const [isDownloading, setIsDownloading] = React.useState(false);
-
-  React.useEffect(() => {
-    if (initialData) {
-      setHeroState({
-        ...defaultHeroData,
-        ...initialData,
-      });
-    }
-  }, [initialData]);
+  const [failedImageUrl, setFailedImageUrl] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const handleUpdate = async (e?: Event) => {
       try {
-        const customDetail = (e as CustomEvent)?.detail;
+        const customDetail = (e as CustomEvent<Partial<HeroData>>)?.detail;
         if (customDetail) {
-          setHeroState({
-            ...defaultHeroData,
-            ...customDetail,
-          });
+          setLiveData(customDetail);
           return;
         }
         const res = await fetch("/api/hero", { cache: "no-store" });
         if (res.ok) {
-          const freshData = await res.json();
-          setHeroState({
-            ...defaultHeroData,
-            ...freshData,
-          });
+          const freshData = (await res.json()) as Partial<HeroData>;
+          setLiveData(freshData);
         }
       } catch (err) {
         console.error("Failed to re-fetch hero data:", err);
@@ -74,22 +55,27 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
     };
   }, []);
 
-  const data = heroState;
+  const data: HeroData = {
+    ...defaultHeroData,
+    ...initialData,
+    ...liveData,
+  };
+
   const activeImageUrl = formatImageUrl(data.imageUrl);
-  const [imgSrc, setImgSrc] = React.useState(activeImageUrl);
+  const resolvedImgSrc =
+    failedImageUrl === activeImageUrl
+      ? "/Amit_Image_3.png"
+      : activeImageUrl || "/Amit_Image_3.png";
 
   const formattedDescription =
     data.description && data.description.length > 300
       ? data.description.slice(0, 300).trim() + "..."
       : data.description;
 
-  React.useEffect(() => {
-    setImgSrc(activeImageUrl);
-  }, [activeImageUrl]);
-
-  const enabledBadges = (data.techBadges && data.techBadges.length > 0)
-    ? data.techBadges.filter((b) => b.enabled !== false)
-    : defaultHeroData.techBadges;
+  const enabledBadges =
+    data.techBadges && data.techBadges.length > 0
+      ? data.techBadges.filter((b) => b.enabled !== false)
+      : defaultHeroData.techBadges;
 
   const handleResumeDownload = () => {
     if (!data.resumeUrl || isDownloading) return;
@@ -115,27 +101,28 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
   return (
     <section
       id="home"
-      className={`scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-300 w-full ${isPreview
-        ? "py-8 sm:py-12 lg:py-16 min-h-0"
-        : "min-h-screen lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 sm:pt-32 pb-16 sm:py-20 lg:py-28"
-        }`}
+      className={`scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 transition-colors duration-300 w-full ${
+        isPreview
+          ? "py-8 sm:py-12 lg:py-16 min-h-0"
+          : "min-h-screen lg:min-h-[calc(100vh-5rem)] flex items-center justify-center pt-24 sm:pt-32 pb-16 sm:py-20 lg:py-28"
+      }`}
     >
       {/* Ambient Liquid Light Orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 lg:gap-16">
-
           {/* LEFT SIDE (58% Width on Desktop) */}
           <div
-            className={`w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left ${!isPreview
-              ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 justify-center py-6 sm:py-8 lg:py-0"
-              : ""
-              }`}
+            className={`w-full lg:w-[58%] flex flex-col items-center lg:items-start text-center lg:text-left ${
+              !isPreview
+                ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 justify-center py-6 sm:py-8 lg:py-0"
+                : ""
+            }`}
           >
             {/* 1. Greeting Text */}
             <TextAnimation
@@ -154,7 +141,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               direction="down"
               distance={24}
               delay={0.1}
-              classname="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-tight sm:leading-none break-words w-full"
+              classname="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-3 text-slate-900 dark:text-white leading-tight sm:leading-none wrap-break-word w-full"
             />
 
             {/* 3. Professional Designation */}
@@ -165,7 +152,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               delay={0.2}
               classname="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 sm:mb-6"
             >
-              <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 {data.designation}
               </span>
             </TextAnimation>
@@ -190,9 +177,9 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                   onClick={handleResumeDownload}
                   disabled={isDownloading}
                   aria-label="Download Resume"
-                  className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-2.5 px-5 sm:px-8 rounded-full font-bold text-xs sm:text-base text-white bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-80 disabled:cursor-wait shrink-0"
+                  className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-2.5 px-5 sm:px-8 rounded-full font-bold text-xs sm:text-base text-white bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 shadow-lg shadow-sky-500/25 border border-sky-300/30 backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-80 disabled:cursor-wait shrink-0"
                 >
-                  <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                  <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-white/80 to-transparent" />
 
                   {isDownloading ? (
                     <>
@@ -216,7 +203,7 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                 aria-label="Contact Me"
                 className="group relative inline-flex h-12 sm:h-14 items-center justify-center gap-2.5 px-5 sm:px-8 rounded-full font-bold text-xs sm:text-base text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto shrink-0"
               >
-                <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
+                <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
                 <Send className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform duration-200" />
                 <span className="tracking-wide">Contact me</span>
               </motion.a>
@@ -311,18 +298,19 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className={`w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0 ${!isPreview
-              ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 py-8 sm:py-12 lg:py-0"
-              : ""
-              }`}
+            className={`w-full lg:w-[42%] flex flex-col items-center justify-center relative mt-4 lg:mt-0 ${
+              !isPreview
+                ? "min-h-[calc(100dvh-5rem)] sm:min-h-[calc(100dvh-6rem)] lg:min-h-0 py-8 sm:py-12 lg:py-0"
+                : ""
+            }`}
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative group w-full max-w-[260px] xs:max-w-[300px] sm:max-w-sm md:max-w-md lg:max-w-[420px] xl:max-w-[450px]"
+              className="relative group w-full max-w-65 xs:max-w-75 sm:max-w-sm md:max-w-md lg:max-w-105 xl:max-w-112.5"
             >
               {/* Soft Background Glow Behind Image */}
-              <div className="absolute -inset-4 bg-gradient-to-tr from-sky-500/30 via-blue-500/20 to-purple-500/30 rounded-xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+              <div className="absolute -inset-4 bg-linear-to-tr from-sky-500/30 via-blue-500/20 to-purple-500/30 rounded-xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
               {/* FLOATING TECH BADGES (Desktop/Tablet >= sm) */}
               {enabledBadges.map((badge, idx) => {
@@ -357,20 +345,22 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                 blurIntensity="xl"
                 glowIntensity="lg"
                 shadowIntensity="lg"
-                className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60 p-3 sm:p-4"
+                className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60! p-3 sm:p-4"
               >
-                <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <div className="relative w-full aspect-4/5 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <Image
-                    src={imgSrc || "/Amit_Image_3.png"}
+                    src={resolvedImgSrc}
                     alt={`${data.name} Full-Stack Developer Profile Portrait`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 380px"
                     priority
-                    unoptimized={Boolean(imgSrc?.startsWith("data:") || imgSrc?.startsWith("http"))}
-                    onError={() => setImgSrc("/Amit_Image_3.png")}
+                    unoptimized={Boolean(
+                      resolvedImgSrc.startsWith("data:") || resolvedImgSrc.startsWith("http")
+                    )}
+                    onError={() => setFailedImageUrl(activeImageUrl)}
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-700 select-none"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
 
                   {/* Floating Glassmorphism Availability & Location Card Overlay */}
                   {(data.availabilityStatus || data.locationText) && (
@@ -387,8 +377,9 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                             )}
                             <span
-                              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${data.isAvailable !== false ? "bg-emerald-500" : "bg-slate-400"
-                                }`}
+                              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                                data.isAvailable !== false ? "bg-emerald-500" : "bg-slate-400"
+                              }`}
                             />
                           </span>
                           <span className="text-xs font-bold text-white tracking-wide truncate">
@@ -424,7 +415,6 @@ export default function Hero({ heroData: initialData, isPreview = false }: HeroP
               </div>
             )}
           </motion.div>
-
         </div>
       </div>
     </section>

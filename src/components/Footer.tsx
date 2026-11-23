@@ -52,13 +52,13 @@ export default function Footer() {
     <footer className="relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 pt-16 pb-10 transition-colors duration-300 w-full">
       {/* Ambient Liquid Light Blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] h-[300px] bg-sky-400/25 dark:bg-cyan-500/20 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-purple-500/20 dark:bg-indigo-600/20 blur-[110px] rounded-full pointer-events-none" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-150 sm:w-200 h-75 bg-sky-400/25 dark:bg-cyan-500/20 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-100 h-100 bg-purple-500/20 dark:bg-indigo-600/20 blur-[110px] rounded-full pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       {/* SINGLE OUTER GLASS CARD CONTAINER WITH ROUNDED-XL BORDER */}
-      <div className="container mx-auto px-4 md:px-4 xl:px-0 w-full relative z-10">
+      <div className="container mx-auto px-4 xl:px-0 w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,10 +75,10 @@ export default function Footer() {
                   href="/"
                   className="inline-flex items-center gap-2.5 text-xl font-bold tracking-tight mb-2 group"
                 >
-                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 text-white shadow-md shadow-sky-500/25 group-hover:rotate-6 transition-transform duration-300 border border-sky-300/30">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 text-white shadow-md shadow-sky-500/25 group-hover:rotate-6 transition-transform duration-300 border border-sky-300/30">
                     <Sparkles className="w-4 h-4 shrink-0" />
                   </div>
-                  <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent font-black text-2xl">
+                  <span className="bg-linear-to-r from-slate-900 via-slate-800 to-slate-700 dark:from-white dark:via-slate-100 dark:to-slate-300 bg-clip-text text-transparent font-black text-2xl">
                     Amit Chandra Das
                   </span>
                 </Link>
@@ -129,7 +129,7 @@ export default function Footer() {
                   whileTap={{ scale: 0.95 }}
                   aria-label="Scroll to top"
                   type="button"
-                  className="p-2.5 rounded-xl bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white shadow-md shadow-sky-500/25 border border-sky-300/30 transition-all duration-200 cursor-pointer"
+                  className="p-2.5 rounded-xl bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white shadow-md shadow-sky-500/25 border border-sky-300/30 transition-all duration-200 cursor-pointer"
                 >
                   <ArrowUp className="w-4 h-4 shrink-0" />
                 </motion.button>
@@ -147,7 +147,7 @@ export default function Footer() {
 
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-400 hover:to-sky-500 border border-sky-300/30 shadow-xs backdrop-blur-md transition-all active:scale-[0.98]"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold text-white bg-linear-to-r from-sky-500 to-sky-600 hover:from-sky-400 hover:to-sky-500 border border-sky-300/30 shadow-xs backdrop-blur-md transition-all active:scale-[0.98]"
                 >
                   <Send className="w-3 h-3 shrink-0" />
                   <span>Contact</span>
