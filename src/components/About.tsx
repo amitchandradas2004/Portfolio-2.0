@@ -1,20 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, Variants } from "framer-motion";
-import { User, Sparkles } from "lucide-react";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { AboutData, defaultAboutData } from "@/lib/about-types";
 import {
-  renderTraitIcon,
-  renderStatIcon,
-  renderLearningIcon,
   renderAboutTechIcon,
+  renderLearningIcon,
+  renderStatIcon,
+  renderTraitIcon,
 } from "@/lib/about-icons";
+import { AboutData, defaultAboutData } from "@/lib/about-types";
+import { motion, Variants } from "framer-motion";
+import { User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface AboutProps {
   aboutData?: AboutData;
+}
+
+interface ProjectsApiResponse {
+  data?: unknown[];
+  projects?: unknown[];
 }
 
 const rightCardVariants: Variants = {
@@ -31,69 +36,81 @@ const rightCardVariants: Variants = {
   },
 };
 
+function calcExperienceMonths(
+  startDate?: string,
+  referenceDate?: Date,
+): string {
+  if (!startDate || !referenceDate) return "—";
+  const start = new Date(startDate);
+  if (Number.isNaN(start.getTime())) return "—";
+  const months =
+    (referenceDate.getFullYear() - start.getFullYear()) * 12 +
+    (referenceDate.getMonth() - start.getMonth());
+  return `${Math.max(0, months)}+`;
+}
+
 export default function About({ aboutData: propAboutData }: AboutProps) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-  const [data, setData] = useState<AboutData>(propAboutData || defaultAboutData);
+  const [liveData, setLiveData] = useState<AboutData | null>(null);
   const [liveCommitCount, setLiveCommitCount] = useState<string>("1300+");
   const [liveProjectCount, setLiveProjectCount] = useState<string | null>(null);
+  const [now, setNow] = useState<Date | undefined>(undefined);
 
-  // Calculates experience value live from a start date string
-  function calcExperienceValue(startDate?: string): string {
-    if (!startDate) return "—";
-    const start = new Date(startDate);
-    if (isNaN(start.getTime())) return "—";
-    const now = new Date();
-    const months =
-      (now.getFullYear() - start.getFullYear()) * 12 +
-      (now.getMonth() - start.getMonth());
-    return `${Math.max(0, months)}+`;
-  }
+  const data = liveData ?? propAboutData ?? defaultAboutData;
 
-  // Keep state updated if server-passed prop changes
+  // Capture current client date once after mount to keep render pure for React Compiler
   useEffect(() => {
-    if (propAboutData) {
-      setData(propAboutData);
-    }
-  }, [propAboutData]);
+    const frame = requestAnimationFrame(() => {
+      setNow(new Date());
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   // Support instant updates from admin panel across tabs and windows
   useEffect(() => {
     // 1. Same-window custom event
-    const handleUpdate = (e: CustomEvent<AboutData>) => {
-      if (e.detail) {
-        setData(e.detail);
+    const handleUpdate: EventListener = (event) => {
+      const customEvent = event as CustomEvent<AboutData>;
+      if (customEvent.detail) {
+        setLiveData(customEvent.detail);
       }
     };
-    window.addEventListener("portfolio-about-updated" as any, handleUpdate);
+    window.addEventListener("portfolio-about-updated", handleUpdate);
 
     // 2. Cross-tab BroadcastChannel
     let channel: BroadcastChannel | null = null;
     try {
       if (typeof window !== "undefined" && "BroadcastChannel" in window) {
         channel = new BroadcastChannel("portfolio-sync");
-        channel.onmessage = (event) => {
+        channel.onmessage = (
+          event: MessageEvent<{ type?: string; data?: AboutData }>,
+        ) => {
           if (event.data?.type === "ABOUT_UPDATED" && event.data?.data) {
-            setData(event.data.data);
+            setLiveData(event.data.data);
           }
         };
       }
-    } catch (e) { }
+    } catch {
+      // BroadcastChannel unavailable
+    }
 
     // 3. Cross-tab localStorage event fallback
     const handleStorage = (event: StorageEvent) => {
       if (event.key === "portfolio-about-updated" && event.newValue) {
         try {
-          const parsed = JSON.parse(event.newValue);
+          const parsed = JSON.parse(event.newValue) as { data?: AboutData };
           if (parsed?.data) {
-            setData(parsed.data);
+            setLiveData(parsed.data);
           }
-        } catch (err) { }
+        } catch {
+          // Ignore malformed storage payload
+        }
       }
     };
     window.addEventListener("storage", handleStorage);
 
     return () => {
-      window.removeEventListener("portfolio-about-updated" as any, handleUpdate);
+      window.removeEventListener("portfolio-about-updated", handleUpdate);
       window.removeEventListener("storage", handleStorage);
       if (channel) {
         channel.close();
@@ -104,7 +121,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
   // Fetch live GitHub commit count if any stat relies on it
   const username = data.githubUsername || "amitchandradas2004";
   const hasLiveCommits = data.stats?.some(
-    (s) => s.useLiveGithubCommits || s.statType === "github-commits"
+    (s) => s.useLiveGithubCommits || s.statType === "github-commits",
   );
 
   useEffect(() => {
@@ -115,11 +132,15 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
       try {
         const res = await fetch(
           `https://api.github.com/search/commits?q=author:${username}`,
-          { headers: { Accept: "application/vnd.github.v3+json" } }
+          { headers: { Accept: "application/vnd.github.v3+json" } },
         );
         if (res.ok) {
-          const json = await res.json();
-          if (isMounted && json && typeof json.total_count === "number" && json.total_count > 0) {
+          const json = (await res.json()) as { total_count?: number };
+          if (
+            isMounted &&
+            typeof json.total_count === "number" &&
+            json.total_count > 0
+          ) {
             setLiveCommitCount(`${json.total_count.toLocaleString()}+`);
           }
         }
@@ -146,19 +167,23 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
       try {
         const res = await fetch("/api/projects", { cache: "no-store" });
         if (res.ok) {
-          const json = await res.json();
-          const list: any[] = Array.isArray(json)
-            ? json
-            : Array.isArray(json.data)
-              ? json.data
-              : Array.isArray(json.projects)
-                ? json.projects
-                : [];
+          const json: unknown = await res.json();
+          let list: unknown[] = [];
+          if (Array.isArray(json)) {
+            list = json;
+          } else if (json && typeof json === "object") {
+            const payload = json as ProjectsApiResponse;
+            if (Array.isArray(payload.data)) {
+              list = payload.data;
+            } else if (Array.isArray(payload.projects)) {
+              list = payload.projects;
+            }
+          }
           if (isMounted && list.length > 0) {
             setLiveProjectCount(`${list.length}+`);
           }
         }
-      } catch (err) {
+      } catch {
         // Silently fall back to static value
       }
     }
@@ -170,8 +195,12 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
 
   const traits = data.traits?.length ? data.traits : defaultAboutData.traits;
   const stats = data.stats?.length ? data.stats : defaultAboutData.stats;
-  const currentTechs = data.currentTechs?.length ? data.currentTechs : defaultAboutData.currentTechs;
-  const learningFocus = data.learningFocus?.length ? data.learningFocus : defaultAboutData.learningFocus;
+  const currentTechs = data.currentTechs?.length
+    ? data.currentTechs
+    : defaultAboutData.currentTechs;
+  const learningFocus = data.learningFocus?.length
+    ? data.learningFocus
+    : defaultAboutData.learningFocus;
 
   return (
     <section
@@ -180,9 +209,9 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
     >
       {/* Background Liquid Light Orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-10 left-10 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-10 left-10 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-10 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
@@ -210,7 +239,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
               className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-6 leading-tight"
             >
               {data.title}{" "}
-              <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                 {data.highlightedTitle}
               </span>
             </motion.h2>
@@ -223,9 +252,15 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="space-y-4 text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed font-normal mb-8"
             >
-              {data.paragraph1 && <p className="whitespace-pre-line">{data.paragraph1}</p>}
-              {data.paragraph2 && <p className="whitespace-pre-line">{data.paragraph2}</p>}
-              {data.paragraph3 && <p className="whitespace-pre-line">{data.paragraph3}</p>}
+              {data.paragraph1 && (
+                <p className="whitespace-pre-line">{data.paragraph1}</p>
+              )}
+              {data.paragraph2 && (
+                <p className="whitespace-pre-line">{data.paragraph2}</p>
+              )}
+              {data.paragraph3 && (
+                <p className="whitespace-pre-line">{data.paragraph3}</p>
+              )}
             </motion.div>
 
             {/* Trait Highlight Cards */}
@@ -242,11 +277,12 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                     key={trait.id}
                     className="group relative p-4 rounded-xl backdrop-blur-2xl bg-slate-200/40 dark:bg-slate-900/40 border border-slate-300/40 dark:border-slate-800/50 hover:border-sky-400/50 dark:hover:border-sky-400/40 shadow-sm flex items-start gap-3.5 text-left transition-all duration-300 overflow-hidden"
                   >
-                    <div className="absolute -top-16 -left-16 w-32 h-32 bg-gradient-to-br from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
+                    <div className="absolute -top-16 -left-16 w-32 h-32 bg-linear-to-br from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500" />
 
                     <div
-                      className={`relative z-10 p-2.5 rounded-xl shrink-0 backdrop-blur-md shadow-xs ${trait.badgeBg || "bg-slate-300/40 dark:bg-slate-800/60"
-                        } ${trait.iconColor || "text-sky-500"}`}
+                      className={`relative z-10 p-2.5 rounded-xl shrink-0 backdrop-blur-md shadow-xs ${
+                        trait.badgeBg || "bg-slate-300/40 dark:bg-slate-800/60"
+                      } ${trait.iconColor || "text-sky-500"}`}
                     >
                       {renderTraitIcon(trait.iconKey, "w-5 h-5")}
                     </div>
@@ -278,7 +314,7 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
               blurIntensity="xl"
               glowIntensity="lg"
               shadowIntensity="lg"
-              className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60"
+              className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60!"
             >
               {/* Card Inner Wrapper */}
               <div className="p-6 sm:p-7 space-y-6 relative z-10">
@@ -314,14 +350,23 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                   <div className="grid grid-cols-2 gap-3">
                     {stats.map((stat) => {
                       const effectiveType =
-                        stat.statType || (stat.useLiveGithubCommits ? "github-commits" : "manual");
+                        stat.statType ||
+                        (stat.useLiveGithubCommits
+                          ? "github-commits"
+                          : "manual");
 
                       let displayVal: string;
                       if (effectiveType === "github-commits") {
                         displayVal = liveCommitCount;
                       } else if (effectiveType === "experience") {
-                        displayVal = calcExperienceValue(stat.experienceStartDate);
-                      } else if (effectiveType === "projects" && liveProjectCount) {
+                        displayVal = calcExperienceMonths(
+                          stat.experienceStartDate,
+                          now,
+                        );
+                      } else if (
+                        effectiveType === "projects" &&
+                        liveProjectCount
+                      ) {
                         displayVal = liveProjectCount;
                       } else {
                         displayVal = stat.value;
@@ -334,12 +379,12 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                           className="relative group/stat p-4 rounded-xl overflow-hidden bg-slate-200/40 dark:bg-slate-800/40 border border-slate-300/40 dark:border-slate-700/40 hover:border-sky-400/50 dark:hover:border-sky-400/40 backdrop-blur-md shadow-xs transition-all duration-300 cursor-default"
                         >
                           <div
-                            className={`absolute inset-0 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${stat.color}`}
+                            className={`absolute inset-0 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-300 bg-linear-to-br ${stat.color}`}
                             style={{ opacity: 0.08 }}
                           />
                           <div className="flex items-start justify-between mb-2 relative z-10">
                             <span
-                              className={`text-2xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent leading-none`}
+                              className={`text-2xl font-black bg-linear-to-r ${stat.color} bg-clip-text text-transparent leading-none`}
                             >
                               {displayVal}
                             </span>
@@ -376,7 +421,10 @@ export default function About({ aboutData: propAboutData }: AboutProps) {
                             className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-200/40 dark:bg-slate-800/40 border border-slate-300/40 dark:border-slate-700/40 hover:border-sky-400/50 text-[11.5px] font-medium text-slate-700 dark:text-slate-200 backdrop-blur-md shadow-xs transition-all cursor-default"
                           >
                             <span className={tech.color}>
-                              {renderAboutTechIcon(tech.iconKey, "w-3.5 h-3.5 shrink-0")}
+                              {renderAboutTechIcon(
+                                tech.iconKey,
+                                "w-3.5 h-3.5 shrink-0",
+                              )}
                             </span>
                             <span>{tech.name}</span>
                           </motion.span>
