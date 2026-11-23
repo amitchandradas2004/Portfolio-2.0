@@ -1,31 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import { authClient, useSession } from "@/lib/auth-client";
 import { motion } from "framer-motion";
 import {
-  User,
-  Mail,
-  Lock,
+  AlertCircle,
+  CheckCircle2,
+  Compass,
   Eye,
   EyeOff,
-  ArrowRight,
-  Sparkles,
-  Loader2,
-  CheckCircle2,
-  AlertCircle,
-  Compass,
-  UserCheck,
-  LogOut,
   LayoutDashboard,
-  UserPlus,
+  Loader2,
+  Lock,
   LogIn,
-  Send,
+  LogOut,
+  Mail,
   MessageSquare,
+  Send,
+  Sparkles,
+  User,
+  UserCheck,
+  UserPlus,
 } from "lucide-react";
-import { useSession, authClient } from "@/lib/auth-client";
-import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export interface RegisterFormData {
   name: string;
@@ -78,7 +77,9 @@ export default function RegisterPage() {
         role: formData.role || "demo",
       });
       if (error) {
-        setErrorMsg(error.message || "Failed to create account. Please try again.");
+        setErrorMsg(
+          error.message || "Failed to create account. Please try again.",
+        );
       } else if (data) {
         setSuccessMsg("Account created successfully! Redirecting to login...");
         setTimeout(() => {
@@ -110,9 +111,9 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen relative flex items-center justify-center pt-24 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300 w-full">
         <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-          <div className="absolute top-1/4 left-10 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-          <div className="absolute bottom-1/4 right-10 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+          <div className="absolute top-1/4 left-10 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+          <div className="absolute bottom-1/4 right-10 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
         </div>
 
         <motion.div
@@ -126,7 +127,7 @@ export default function RegisterPage() {
             blurIntensity="xl"
             glowIntensity="lg"
             shadowIntensity="lg"
-            className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60"
+            className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60!"
           >
             <div className="p-6 sm:p-8 text-center space-y-6 relative z-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-sky-500/15 dark:bg-sky-400/15 text-sky-600 dark:text-sky-400 border border-sky-400/30 backdrop-blur-md mx-auto shadow-sm">
@@ -139,10 +140,14 @@ export default function RegisterPage() {
                   <span>Already Signed In</span>
                 </span>
                 <h2 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
-                  You're Already Registered!
+                  You&apos;re Already Registered!
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
-                  Signed in as <strong className="text-slate-800 dark:text-slate-100">{user.email}</strong>. You don't need to create another account.
+                  Signed in as{" "}
+                  <strong className="text-slate-800 dark:text-slate-100">
+                    {user.email}
+                  </strong>
+                  . You don&apos;t need to create another account.
                 </p>
               </div>
 
@@ -155,7 +160,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => router.push("/dashboard")}
-                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-sky-300/30 cursor-pointer"
+                  className="w-full py-3.5 px-6 rounded-xl bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-sky-300/30 cursor-pointer"
                 >
                   <LayoutDashboard className="w-4 h-4 shrink-0" />
                   <span>Go to Dashboard Now</span>
@@ -195,9 +200,9 @@ export default function RegisterPage() {
     <div className="min-h-screen relative flex flex-col items-center justify-center pt-24 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300 w-full">
       {/* Background Ambient Glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <motion.div
@@ -211,7 +216,7 @@ export default function RegisterPage() {
           blurIntensity="xl"
           glowIntensity="lg"
           shadowIntensity="lg"
-          className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60"
+          className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60!"
         >
           <div className="p-6 sm:p-8 md:p-10 relative z-10">
             <div className="text-center mb-8">
@@ -251,7 +256,7 @@ export default function RegisterPage() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
                   >
                     <User className="w-3.5 h-3.5 text-sky-500 shrink-0" />
                     <span>Full Name</span>
@@ -276,7 +281,7 @@ export default function RegisterPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
                   >
                     <Mail className="w-3.5 h-3.5 text-sky-500 shrink-0" />
                     <span>Email Address</span>
@@ -302,7 +307,7 @@ export default function RegisterPage() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
                 >
                   <Lock className="w-3.5 h-3.5 text-sky-500 shrink-0" />
                   <span>Password</span>
@@ -324,7 +329,9 @@ export default function RegisterPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer z-10"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? (
                       <EyeOff className="w-4 h-4 text-sky-500 shrink-0" />
@@ -343,7 +350,7 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer border border-sky-300/30 disabled:opacity-60 disabled:cursor-not-allowed group"
+                  className="w-full py-3.5 px-6 rounded-full bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer border border-sky-300/30 disabled:opacity-60 disabled:cursor-not-allowed group"
                 >
                   {loading ? (
                     <>

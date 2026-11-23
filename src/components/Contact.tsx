@@ -190,13 +190,13 @@ export default function Contact() {
          ========================================================================= */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         {/* Neon Cyan Liquid Orb (Top Left) */}
-        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
 
         {/* Vibrant Magenta/Purple Liquid Orb (Bottom Right) */}
-        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
 
         {/* Subtle Grid Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
@@ -221,7 +221,7 @@ export default function Contact() {
             className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
           >
             Contact{" "}
-            <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               &nbsp;Me
             </span>
           </motion.h2>
@@ -237,20 +237,20 @@ export default function Contact() {
           </motion.p>
         </div>
 
-        {/* TWO COLUMN CONTAINER */}
+        {/* TWO COLUMN CONTAINER (Equal height on lg+ via lg:items-stretch) */}
         <motion.div
           variants={containerVariants}
           custom={isDesktop}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start lg:items-stretch"
         >
           {/* LEFT SIDE: CONTACT INFORMATION CARDS */}
           <motion.div
             custom={isDesktop}
             variants={leftColumnVariants}
-            className="lg:col-span-5 space-y-6"
+            className="w-full lg:col-span-5 flex flex-col justify-between gap-6"
           >
             {/* Contact Info Cards */}
             <div className="space-y-4">
@@ -258,12 +258,12 @@ export default function Contact() {
                 const CardWrapper = item.link ? motion.a : motion.div;
                 const linkProps = item.link
                   ? {
-                    href: item.link,
-                    "aria-label": `${item.title}: ${item.value}`,
-                    ...(item.link.startsWith("http")
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {}),
-                  }
+                      href: item.link,
+                      "aria-label": `${item.title}: ${item.value}`,
+                      ...(item.link.startsWith("http")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {}),
+                    }
                   : {};
 
                 return (
@@ -272,11 +272,12 @@ export default function Contact() {
                     {...linkProps}
                     whileHover={{ y: -4, scale: 1.01 }}
                     whileTap={item.link ? { scale: 0.99 } : undefined}
-                    className={`group relative p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:shadow-[0_12px_40px_0_rgba(56,189,248,0.25)] transition-all duration-500 flex items-center gap-4 ${item.link ? "cursor-pointer" : ""
-                      }`}
+                    className={`group relative p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 flex items-center gap-4 ${
+                      item.link ? "cursor-pointer" : ""
+                    }`}
                   >
                     {/* Liquid Specular Light Reflection */}
-                    <div className="absolute -top-20 -left-20 w-40 h-40 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+                    <div className="absolute -top-20 -left-20 w-40 h-40 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
                     <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-xl bg-white/60 dark:bg-slate-800/60 border border-white/50 dark:border-slate-700/60 group-hover:scale-110 transition-transform duration-300 shrink-0 backdrop-blur-md shadow-sm">
                       {item.icon}
@@ -295,10 +296,10 @@ export default function Contact() {
               })}
             </div>
 
-            {/* Social Links Box */}
-            <div className="relative p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+            {/* Social Links Box (Expands on lg+ to fill remaining vertical space cleanly) */}
+            <div className="relative flex-1 flex flex-col justify-center p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)]">
               {/* Liquid Specular Light Reflection */}
-              <div className="absolute -top-20 -left-20 w-40 h-40 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none" />
+              <div className="absolute -top-20 -left-20 w-40 h-40 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none" />
 
               <h3 className="relative z-10 text-sm font-bold text-slate-900 dark:text-white mb-3">
                 Connect on Social Networks
@@ -324,13 +325,13 @@ export default function Contact() {
           <motion.div
             custom={isDesktop}
             variants={rightColumnVariants}
-            className="lg:col-span-7"
+            className="w-full lg:col-span-7 flex"
           >
-            <div className="relative rounded-xl overflow-hidden p-6 sm:p-8 md:p-10 backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+            <div className="relative w-full flex flex-col justify-between rounded-xl overflow-hidden p-6 sm:p-8 md:p-10 backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)]">
               {/* Liquid Specular Light Reflection */}
-              <div className="absolute -top-32 -left-32 w-64 h-64 bg-gradient-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -top-32 -left-32 w-64 h-64 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
 
-              <div className="relative z-10">
+              <div className="relative z-10 flex-1 flex flex-col">
                 <div className="flex items-center gap-2.5 mb-6">
                   <MessageSquare className="w-5 h-5 text-sky-500" />
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">
@@ -366,7 +367,10 @@ export default function Contact() {
                   </motion.div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex-1 flex flex-col justify-between space-y-4 sm:space-y-5"
+                >
                   {/* Web3Forms Honeypot Spam Protection */}
                   <input
                     type="checkbox"
@@ -377,164 +381,171 @@ export default function Contact() {
                     autoComplete="off"
                   />
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                    {/* Name Input */}
-                    {/* Name Input */}
+                  <div className="space-y-4 sm:space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                      {/* Name Input */}
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
+                        >
+                          Your Name *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <User className="w-4 h-4" />
+                          </div>
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="John Doe"
+                            className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/50 dark:bg-slate-950/50 border border-white/60 dark:border-slate-800/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-400/60 dark:focus:border-sky-400/50 transition-all duration-200 backdrop-blur-md shadow-inner"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Email Input */}
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
+                        >
+                          Your Email *
+                        </label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <Mail className="w-4 h-4" />
+                          </div>
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="john@example.com"
+                            className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/50 dark:bg-slate-950/50 border border-white/60 dark:border-slate-800/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-400/60 dark:focus:border-sky-400/50 transition-all duration-200 backdrop-blur-md shadow-inner"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Subject Input */}
                     <div>
                       <label
-                        htmlFor="name"
+                        htmlFor="subject"
                         className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
                       >
-                        Your Name *
+                        Subject
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                          <User className="w-4 h-4" />
+                          <FileText className="w-4 h-4" />
                         </div>
                         <input
                           type="text"
-                          id="name"
-                          name="name"
-                          required
-                          value={formData.name}
+                          id="subject"
+                          name="subject"
+                          value={formData.subject}
                           onChange={handleChange}
-                          placeholder="John Doe"
+                          placeholder="Project Inquiry / Job Opportunity"
                           className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/50 dark:bg-slate-950/50 border border-white/60 dark:border-slate-800/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-400/60 dark:focus:border-sky-400/50 transition-all duration-200 backdrop-blur-md shadow-inner"
                         />
                       </div>
                     </div>
 
-                    {/* Email Input */}
+                    {/* Message Input */}
                     <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
-                      >
-                        Your Email *
-                      </label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label
+                          htmlFor="message"
+                          className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400"
+                        >
+                          Your Message *
+                        </label>
+
+                        {/* Live Character Counter */}
+                        <span
+                          className={`text-xs font-semibold transition-colors duration-200 ${
+                            formData.message.length === 0
+                              ? "text-slate-400 dark:text-slate-500"
+                              : formData.message.length < 10
+                                ? "text-red-600 dark:text-red-400"
+                                : "text-emerald-600 dark:text-emerald-400"
+                          }`}
+                        >
+                          {formData.message.length} chars
+                          {formData.message.length > 0 && formData.message.length < 10 && (
+                            <span className="ml-1 text-[11px] font-medium opacity-90">
+                              (min 10)
+                            </span>
+                          )}
+                        </span>
+                      </div>
+
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                          <Mail className="w-4 h-4" />
-                        </div>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
+                        <textarea
+                          id="message"
+                          name="message"
                           required
-                          value={formData.email}
+                          rows={5}
+                          minLength={10}
+                          value={formData.message}
                           onChange={handleChange}
-                          placeholder="john@example.com"
-                          className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/50 dark:bg-slate-950/50 border border-white/60 dark:border-slate-800/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-400/60 dark:focus:border-sky-400/50 transition-all duration-200 backdrop-blur-md shadow-inner"
+                          placeholder="Tell me about your project or requirements..."
+                          className={`w-full p-4 rounded-xl text-sm bg-white/70 dark:bg-slate-900/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 backdrop-blur-xl border transition-all duration-200 resize-none shadow-xs focus:outline-none focus:ring-2 ${
+                            formData.message.length > 0 && formData.message.length < 10
+                              ? "border-red-400/80 dark:border-red-500/80 focus:ring-red-400/30 focus:border-red-500"
+                              : "border-slate-300/70 dark:border-slate-600/80 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-500/80 dark:focus:border-sky-400/80"
+                          }`}
                         />
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Subject Input */}
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
-                    >
-                      Subject
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                        <FileText className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        placeholder="Project Inquiry / Job Opportunity"
-                        className="w-full pl-10 pr-4 py-3 rounded-xl text-sm bg-white/50 dark:bg-slate-950/50 border border-white/60 dark:border-slate-800/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-400/60 dark:focus:border-sky-400/50 transition-all duration-200 backdrop-blur-md shadow-inner"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Message Input */}
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label
-                        htmlFor="message"
-                        className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400"
-                      >
-                        Your Message *
-                      </label>
-
-                      {/* Live Character Counter */}
-                      <span
-                        className={`text-xs font-semibold transition-colors duration-200 ${formData.message.length === 0
-                          ? "text-slate-400 dark:text-slate-500"
-                          : formData.message.length < 10
-                            ? "text-red-600 dark:text-red-400"
-                            : "text-emerald-600 dark:text-emerald-400"
-                          }`}
-                      >
-                        {formData.message.length} chars
-                        {formData.message.length > 0 && formData.message.length < 10 && (
-                          <span className="ml-1 text-[11px] font-medium opacity-90">
-                            (min 10)
+                      {/* Minimum Length Warning Message */}
+                      {formData.message.length > 0 && formData.message.length < 10 && (
+                        <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
+                          <span>
+                            Please enter at least 10 characters ({10 - formData.message.length} more needed)
                           </span>
-                        )}
-                      </span>
+                        </p>
+                      )}
                     </div>
-
-                    <div className="relative">
-                      <textarea
-                        id="message"
-                        name="message"
-                        required
-                        rows={5}
-                        minLength={10}
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Tell me about your project or requirements..."
-                        className={`w-full p-4 rounded-xl text-sm bg-white/70 dark:bg-slate-900/80 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 backdrop-blur-xl border transition-all duration-200 resize-none shadow-xs focus:outline-none focus:ring-2 ${formData.message.length > 0 && formData.message.length < 10
-                          ? "border-red-400/80 dark:border-red-500/80 focus:ring-red-400/30 focus:border-red-500"
-                          : "border-slate-300/70 dark:border-slate-600/80 focus:ring-sky-400/30 dark:focus:ring-sky-500/30 focus:border-sky-500/80 dark:focus:border-sky-400/80"
-                          }`}
-                      />
-                    </div>
-
-                    {/* Minimum Length Warning Message */}
-                    {formData.message.length > 0 && formData.message.length < 10 && (
-                      <p className="mt-1.5 text-xs font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
-                        <span>Please enter at least 10 characters ({10 - formData.message.length} more needed)</span>
-                      </p>
-                    )}
                   </div>
 
                   {/* Submit button */}
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    disabled={isSubmitting || isSubmitted}
-                    aria-label="Send Message"
-                    className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
-                  >
-                    <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
+                  <div className="pt-1">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      type="submit"
+                      disabled={isSubmitting || isSubmitted}
+                      aria-label="Send Message"
+                      className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
 
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin text-sky-600 dark:text-sky-400 shrink-0" />
-                        <span>Sending...</span>
-                      </>
-                    ) : isSubmitted ? (
-                      <>
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                        <span>Message Sent ✓</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform duration-200" />
-                        <span>Send Message</span>
-                      </>
-                    )}
-                  </motion.button>
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin text-sky-600 dark:text-sky-400 shrink-0" />
+                          <span>Sending...</span>
+                        </>
+                      ) : isSubmitted ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                          <span>Message Sent ✓</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform duration-200" />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </motion.button>
+                  </div>
                 </form>
               </div>
             </div>

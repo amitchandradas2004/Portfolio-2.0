@@ -1,48 +1,54 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import { authClient, useSession } from "@/lib/auth-client";
 import { motion } from "framer-motion";
 import {
-  Mail,
-  Lock,
+  AlertCircle,
+  CheckCircle2,
+  Compass,
   Eye,
   EyeOff,
-  Sparkles,
-  Loader2,
-  CheckCircle2,
-  AlertCircle,
-  Compass,
-  UserCheck,
-  LogOut,
   LayoutDashboard,
+  Loader2,
+  Lock,
   LogIn,
-  UserPlus,
-  Send,
+  LogOut,
+  Mail,
   MessageSquare,
+  Send,
+  Sparkles,
+  UserCheck,
+  UserPlus,
 } from "lucide-react";
-import { useSession, authClient } from "@/lib/auth-client";
-import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { Suspense, useEffect, useState } from "react";
 
 export interface LoginFormData {
   email: string;
   password: string;
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isDemoMode = searchParams.get("demo") === "true";
+
   const { data: session, isPending } = useSession();
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState<LoginFormData>(() =>
+    isDemoMode
+      ? { email: "demouser@gmail.com", password: "DemoUser2026" }
+      : { email: "", password: "" },
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
-  const [demoTourClicked, setDemoTourClicked] = useState(false);
+  const [successMsg, setSuccessMsg] = useState<string | null>(() =>
+    isDemoMode ? "Demo credentials loaded successfully!" : null,
+  );
+  const [demoTourClicked, setDemoTourClicked] = useState(isDemoMode);
 
   // Redirect authenticated user to dashboard
   useEffect(() => {
@@ -64,15 +70,6 @@ export default function LoginPage() {
     setDemoTourClicked(true);
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("demo") === "true") {
-        handleDemoTour();
-      }
-    }
-  }, []);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
@@ -91,15 +88,19 @@ export default function LoginPage() {
       });
 
       if (error) {
-        setErrorMsg(error.message || "Failed to sign in. Please check your credentials.");
+        setErrorMsg(
+          error.message || "Failed to sign in. Please check your credentials.",
+        );
       } else if (data) {
         setSuccessMsg("Logged in successfully! Redirecting...");
         setTimeout(() => {
           router.push("/dashboard");
         }, 1200);
       }
-    } catch (err: any) {
-      setErrorMsg(err?.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred.";
+      setErrorMsg(message);
     } finally {
       setLoading(false);
     }
@@ -124,9 +125,9 @@ export default function LoginPage() {
       <div className="min-h-screen relative flex items-center justify-center pt-24 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300 w-full">
         {/* Ambient Liquid Light Orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-          <div className="absolute top-1/4 left-10 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-          <div className="absolute bottom-1/4 right-10 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+          <div className="absolute top-1/4 left-10 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+          <div className="absolute bottom-1/4 right-10 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
         </div>
 
         <motion.div
@@ -140,7 +141,7 @@ export default function LoginPage() {
             blurIntensity="xl"
             glowIntensity="lg"
             shadowIntensity="lg"
-            className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60"
+            className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60!"
           >
             <div className="p-6 sm:p-8 text-center space-y-6 relative z-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-sky-500/15 dark:bg-sky-400/15 text-sky-600 dark:text-sky-400 border border-sky-400/30 backdrop-blur-md mx-auto shadow-sm">
@@ -156,7 +157,11 @@ export default function LoginPage() {
                   Welcome Back, {user.name || "User"}!
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
-                  You are currently signed in as <strong className="text-slate-800 dark:text-slate-100">{user.email}</strong>.
+                  You are currently signed in as{" "}
+                  <strong className="text-slate-800 dark:text-slate-100">
+                    {user.email}
+                  </strong>
+                  .
                 </p>
               </div>
 
@@ -169,7 +174,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => router.push("/dashboard")}
-                  className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-sky-300/30 cursor-pointer"
+                  className="w-full py-3.5 px-6 rounded-xl bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-sky-300/30 cursor-pointer"
                 >
                   <LayoutDashboard className="w-4 h-4 shrink-0" />
                   <span>Go to Dashboard Now</span>
@@ -209,9 +214,9 @@ export default function LoginPage() {
     <div className="min-h-screen relative flex flex-col items-center justify-center pt-24 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100 overflow-hidden transition-colors duration-300 w-full">
       {/* Background Ambient Glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-10 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[400px] sm:w-[550px] h-[400px] sm:h-[550px] bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <motion.div
@@ -225,7 +230,7 @@ export default function LoginPage() {
           blurIntensity="xl"
           glowIntensity="lg"
           shadowIntensity="lg"
-          className="w-full relative overflow-hidden group !border-slate-300/40 dark:!border-slate-800/60"
+          className="w-full relative overflow-hidden group border-slate-300/40! dark:border-slate-800/60!"
         >
           <div className="p-6 sm:p-8 md:p-10 relative z-10">
             <div className="text-center mb-8">
@@ -263,7 +268,7 @@ export default function LoginPage() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
                 >
                   <Mail className="w-3.5 h-3.5 text-sky-500 shrink-0" />
                   <span>Email Address</span>
@@ -288,7 +293,7 @@ export default function LoginPage() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
                 >
                   <Lock className="w-3.5 h-3.5 text-sky-500 shrink-0" />
                   <span>Password</span>
@@ -310,7 +315,9 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer z-10"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? (
                       <EyeOff className="w-4 h-4 text-sky-500 shrink-0" />
@@ -326,7 +333,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer border border-sky-300/30 disabled:opacity-60 disabled:cursor-not-allowed group"
+                  className="w-full py-3.5 px-6 rounded-full bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer border border-sky-300/30 disabled:opacity-60 disabled:cursor-not-allowed group"
                 >
                   {loading ? (
                     <>
@@ -356,7 +363,7 @@ export default function LoginPage() {
             {/* HORIZONTAL FOOTER WITH MATCHING CONTACT STYLE GLASS BUTTON */}
             <div className="mt-6 pt-5 border-t border-slate-300/40 dark:border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
               <span className="text-slate-600 dark:text-slate-400">
-                Don't have an account yet?
+                Don&apos;t have an account yet?
               </span>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -381,5 +388,24 @@ export default function LoginPage() {
         </LiquidGlassCard>
       </motion.div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen relative flex items-center justify-center bg-slate-100 dark:bg-[#020617] text-slate-900 dark:text-slate-100">
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+              Loading login...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <LoginContent />
+    </Suspense>
   );
 }
