@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useSession } from "@/lib/auth-client";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronRight, Menu, Moon, Sparkles, Sun, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Menu, X, Sparkles, ChevronRight } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
-import { useSession } from "@/lib/auth-client";
 
 interface NavItem {
   name: string;
@@ -17,6 +18,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme, isMounted } = useTheme();
   const { data: session } = useSession();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
   const [activeSection, setActiveSection] = useState<string>("home");
@@ -79,7 +81,7 @@ export default function Navbar() {
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
+    href: string,
   ) => {
     if (!href.includes("#")) return;
 
@@ -136,6 +138,10 @@ export default function Navbar() {
 
   if (pathname?.startsWith("/dashboard")) return null;
 
+  // On small devices (< 1024px), always render the floating rounded-full glass state;
+  // on desktop (>= 1024px), transition from flat to floating on scroll.
+  const isFloating = !isDesktop || isScrolled;
+
   const isNavItemActive = (itemHref: string) => {
     if (itemHref.includes("#")) {
       const targetId = itemHref.split("#")[1];
@@ -151,41 +157,42 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-        isScrolled ? "pt-4 px-4 sm:px-6 lg:px-8 xl:px-12" : "pt-0 px-0"
+        isScrolled
+          ? "pt-4 px-4 sm:px-6 lg:px-8 xl:px-12"
+          : "pt-4 px-4 sm:px-6 lg:pt-0 lg:px-0"
       }`}
     >
       <div className="w-full container mx-auto flex items-center justify-center pointer-events-auto">
         <nav
           aria-label="Main Navigation"
           style={{
-            borderRadius: isScrolled ? "9999px" : "0px",
             backgroundColor: isMounted
-              ? isScrolled
+              ? isFloating
                 ? isDark
                   ? "rgba(15, 23, 42, 0.65)"
                   : "rgba(255, 255, 255, 0.65)"
                 : "transparent"
               : "transparent",
             borderColor: isMounted
-              ? isScrolled
+              ? isFloating
                 ? isDark
                   ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(203, 213, 225, 0.5)"
                 : "transparent"
               : "transparent",
-            backdropFilter: isScrolled ? "blur(20px)" : "blur(0px)",
-            WebkitBackdropFilter: isScrolled ? "blur(20px)" : "blur(0px)",
+            backdropFilter: isFloating ? "blur(20px)" : "blur(0px)",
+            WebkitBackdropFilter: isFloating ? "blur(20px)" : "blur(0px)",
           }}
           className={`relative flex items-center justify-between h-16 w-full transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
             isScrolled
-              ? "px-6 sm:px-8 border shadow-lg shadow-slate-900/5 dark:shadow-black/20"
-              : "px-6 sm:px-10 lg:px-12 border-b border-transparent shadow-none"
+              ? "rounded-full px-6 sm:px-8 border shadow-lg shadow-slate-900/5 dark:shadow-black/20"
+              : "rounded-full lg:rounded-none px-6 sm:px-8 lg:px-12 border lg:border-0 lg:border-b lg:border-transparent shadow-lg shadow-slate-900/5 dark:shadow-black/20 lg:shadow-none"
           }`}
         >
           {/* Top Specular Edge Shine Highlight */}
           <div
             className={`pointer-events-none absolute inset-x-8 top-0 h-[1.5px] bg-linear-to-r from-transparent via-sky-400/40 dark:via-white/20 to-transparent transition-opacity duration-700 ${
-              isScrolled ? "opacity-100" : "opacity-0"
+              isScrolled ? "opacity-100" : "opacity-100 lg:opacity-0"
             }`}
           />
 
