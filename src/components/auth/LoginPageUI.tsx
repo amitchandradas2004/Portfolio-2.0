@@ -1,0 +1,381 @@
+"use client";
+
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
+import { authClient, useSession } from "@/lib/auth-client";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Compass,
+  Eye,
+  EyeOff,
+  LayoutDashboard,
+  Loader2,
+  Lock,
+  LogIn,
+  LogOut,
+  Mail,
+  MessageSquare,
+  Send,
+  Sparkles,
+  UserCheck,
+  UserPlus,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
+export interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+export default function LoginPageUI() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isDemoMode = searchParams.get("demo") === "true";
+
+  const { data: session, isPending } = useSession();
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const [formData, setFormData] = useState<LoginFormData>(() =>
+    isDemoMode
+      ? { email: "demouser@gmail.com", password: "DemoUser2026" }
+      : { email: "", password: "" },
+  );
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(() =>
+    isDemoMode ? "Demo credentials loaded successfully!" : null,
+  );
+  const [demoTourClicked, setDemoTourClicked] = useState(isDemoMode);
+
+  // Redirect authenticated user to dashboard
+  useEffect(() => {
+    if (!isPending && session?.user) {
+      const timer = setTimeout(() => {
+        router.replace("/dashboard");
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isPending, session, router]);
+
+  const handleDemoTour = () => {
+    setFormData({
+      email: "demouser@gmail.com",
+      password: "DemoUser2026",
+    });
+    setErrorMsg(null);
+    setSuccessMsg("Demo credentials loaded successfully!");
+    setDemoTourClicked(true);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    setLoading(true);
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) {
+        setErrorMsg(
+          error.message || "Failed to sign in. Please check your credentials.",
+        );
+      } else if (data) {
+        setSuccessMsg("Logged in successfully! Redirecting...");
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 1200);
+      }
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred.";
+      setErrorMsg(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (isPending) {
+    return (
+      <div className="min-h-screen relative flex items-center justify-center bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            Checking session...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (session?.user) {
+    const user = session.user;
+    return (
+      <main className="min-h-screen relative flex items-center justify-center pt-24 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] overflow-hidden transition-colors duration-300 w-full">
+        {/* Ambient Liquid Light Orbs (Static for GPU performance) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+          <div className="absolute top-1/4 left-10 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full" />
+          <div className="absolute bottom-1/4 right-10 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+        </div>
+
+        <div className="w-full max-w-xl relative z-10">
+          <LiquidGlassCard
+            borderRadius="16px"
+            blurIntensity="xl"
+            glowIntensity="lg"
+            shadowIntensity="lg"
+            className="w-full relative overflow-hidden group border-white/60! dark:border-white/10!"
+          >
+            <div className="p-6 sm:p-8 text-center space-y-6 relative z-10">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-sky-500/15 dark:bg-sky-400/15 text-sky-600 dark:text-sky-400 border border-sky-400/30 backdrop-blur-md mx-auto shadow-sm">
+                <UserCheck className="w-8 h-8 shrink-0 text-sky-500" />
+              </div>
+
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider mb-2 backdrop-blur-md">
+                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                  <span>Already Signed In</span>
+                </span>
+                <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-1">
+                  Welcome Back, {user.name || "User"}!
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+                  You are currently signed in as{" "}
+                  <strong className="text-slate-800 dark:text-slate-100">
+                    {user.email}
+                  </strong>
+                  .
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-slate-700/40 backdrop-blur-md flex items-center justify-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <Loader2 className="w-4 h-4 animate-spin text-sky-500 shrink-0" />
+                <span>Redirecting to your dashboard...</span>
+              </div>
+
+              <div className="flex flex-col gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => router.push("/dashboard")}
+                  className="w-full py-3.5 px-6 rounded-xl bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 scale-100 hover:scale-[1.02] active:scale-[0.96] will-change-transform transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center gap-2 border border-sky-300/30 touch-manipulation cursor-pointer"
+                >
+                  <LayoutDashboard className="w-4 h-4 shrink-0" />
+                  <span>Go to Dashboard Now</span>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isSigningOut}
+                  onClick={async () => {
+                    try {
+                      setIsSigningOut(true);
+                      await authClient.signOut();
+                    } catch (e) {
+                      console.error("Sign out error:", e);
+                    } finally {
+                      setIsSigningOut(false);
+                    }
+                  }}
+                  className="w-full py-2.5 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-700 dark:text-rose-400 text-sm font-semibold border border-rose-500/20 hover:border-rose-500/40 backdrop-blur-md scale-100 hover:scale-[1.01] active:scale-[0.96] will-change-transform transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center gap-2 touch-manipulation cursor-pointer disabled:opacity-50"
+                >
+                  {isSigningOut ? (
+                    <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+                  ) : (
+                    <LogOut className="w-4 h-4 shrink-0" />
+                  )}
+                  <span>Sign Out to Switch Account</span>
+                </button>
+              </div>
+            </div>
+          </LiquidGlassCard>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen relative flex flex-col items-center justify-center pt-24 sm:pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] overflow-hidden transition-colors duration-300 w-full">
+      {/* Background Ambient Glows (Static for GPU performance) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      </div>
+
+      <div className="w-full max-w-xl relative z-10 mt-2 sm:mt-4">
+        <LiquidGlassCard
+          borderRadius="16px"
+          blurIntensity="xl"
+          glowIntensity="lg"
+          shadowIntensity="lg"
+          className="w-full relative overflow-hidden group border-white/60! dark:border-white/10!"
+        >
+          <div className="p-6 sm:p-8 md:p-10 relative z-10">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/40 dark:bg-slate-900/50 border border-white/60 dark:border-white/10 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs font-semibold tracking-wider uppercase mb-3 shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                <span>Dashboard Auth</span>
+              </div>
+
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight mb-2 text-slate-900 dark:text-white flex items-center justify-center gap-2">
+                <LogIn className="w-6 h-6 sm:w-7 sm:h-7 text-sky-500 shrink-0" />
+                <span>Welcome Back</span>
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                Sign in to manage your portfolio settings
+              </p>
+            </div>
+
+            {/* Alert Banners */}
+            {errorMsg && (
+              <div className="mb-4 p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-400 text-xs font-medium flex items-center gap-2.5 backdrop-blur-md">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-500" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
+            {successMsg && (
+              <div className="mb-4 p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium flex items-center gap-2.5 backdrop-blur-md">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
+                <span>{successMsg}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* EMAIL FIELD */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
+                >
+                  <Mail className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                  <span>Email Address</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-500 dark:text-sky-400 z-10">
+                    <Mail className="w-4 h-4 shrink-0" />
+                  </div>
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@example.com"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/50 dark:bg-slate-800/40 border border-white/60 dark:border-slate-700/40 text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 backdrop-blur-md transition-all relative z-0"
+                  />
+                </div>
+              </div>
+
+              {/* PASSWORD FIELD */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5"
+                >
+                  <Lock className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                  <span>Password</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-500 dark:text-sky-400 z-10">
+                    <Lock className="w-4 h-4 shrink-0" />
+                  </div>
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-10 py-2.5 rounded-full bg-white/50 dark:bg-slate-800/40 border border-white/60 dark:border-slate-700/40 text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 backdrop-blur-md transition-all relative z-0"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer z-10"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4 text-sky-500 shrink-0" />
+                    ) : (
+                      <Eye className="w-4 h-4 shrink-0" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* ACTION BUTTONS */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3.5 px-6 rounded-full bg-linear-to-r from-sky-500 via-sky-400 to-sky-600 hover:from-sky-400 hover:to-sky-500 text-white font-bold text-sm shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 scale-100 hover:scale-[1.03] active:scale-[0.94] will-change-transform transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex items-center justify-center gap-2 touch-manipulation cursor-pointer border border-sky-300/30 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 group"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+                      <span>Signing In...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Sign In</span>
+                      <Send className="w-4 h-4 shrink-0 transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDemoTour}
+                  disabled={demoTourClicked || loading}
+                  className="w-full py-3.5 px-6 rounded-full bg-white/40 dark:bg-slate-800/40 hover:bg-white/70 dark:hover:bg-slate-700/60 disabled:opacity-50 disabled:cursor-not-allowed text-slate-800 dark:text-slate-200 text-sm font-semibold border border-white/60 dark:border-slate-700/50 hover:border-sky-400/50 backdrop-blur-md shadow-xs scale-100 hover:scale-[1.03] active:scale-[0.94] will-change-transform transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] disabled:hover:scale-100 flex items-center justify-center gap-2 touch-manipulation cursor-pointer"
+                >
+                  <Compass className="w-4 h-4 text-sky-500 shrink-0" />
+                  <span>{demoTourClicked ? "Demo Loaded" : "Demo Login"}</span>
+                </button>
+              </div>
+            </form>
+
+            {/* HORIZONTAL FOOTER */}
+            <div className="mt-6 pt-5 border-t border-white/60 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <span className="text-slate-600 dark:text-slate-400">
+                Don&apos;t have an account yet?
+              </span>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Link
+                  href="/register"
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full font-bold text-sky-600 dark:text-sky-400 bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/20 backdrop-blur-md scale-100 hover:scale-[1.03] active:scale-[0.94] will-change-transform transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] touch-manipulation"
+                >
+                  <UserPlus className="w-3.5 h-3.5 shrink-0" />
+                  <span>Create Account</span>
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-700 dark:text-slate-300 bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-slate-700/40 hover:border-sky-400/50 backdrop-blur-md scale-100 hover:scale-[1.03] active:scale-[0.94] will-change-transform transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] touch-manipulation"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                  <span>Contact Support</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </LiquidGlassCard>
+      </div>
+    </main>
+  );
+}
