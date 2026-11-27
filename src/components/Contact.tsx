@@ -1,8 +1,6 @@
 "use client";
 
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { sendContactEmail } from "@/lib/email";
-import { motion, Variants } from "framer-motion";
 import {
   AlertCircle,
   CheckCircle2,
@@ -74,47 +72,7 @@ const socialLinks = [
   },
 ];
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const leftColumnVariants: Variants = {
-  hidden: (isDesktop?: boolean) => ({
-    opacity: 0,
-    x: isDesktop ? -35 : 0,
-    y: isDesktop ? 0 : -35,
-  }),
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
-const rightColumnVariants: Variants = {
-  hidden: (isDesktop?: boolean) => ({
-    opacity: 0,
-    x: isDesktop ? 35 : 0,
-    y: isDesktop ? 0 : -35,
-  }),
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-  },
-};
-
 export default function Contact() {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -185,97 +143,46 @@ export default function Contact() {
       id="contact"
       className="scroll-mt-24 relative overflow-hidden bg-slate-100 dark:bg-[#020617] text-[#0F172A] dark:text-[#F8FAFC] py-25 sm:py-24 transition-colors duration-300 w-full"
     >
-      {/* =========================================================================
-         BACKGROUND LIQUID LIGHT SOURCES (Provides Refraction for Glass)
-         ========================================================================= */}
+      {/* BACKGROUND LIQUID LIGHT SOURCES (Static to avoid continuous blur repaint cost) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        {/* Neon Cyan Liquid Orb (Top Left) */}
-        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full animate-pulse" />
-
-        {/* Vibrant Magenta/Purple Liquid Orb (Bottom Right) */}
-        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full animate-pulse" />
-
-        {/* Subtle Grid Overlay */}
+        <div className="absolute top-10 left-1/4 w-87.5 sm:w-125 h-87.5 sm:h-125 bg-sky-400/35 dark:bg-cyan-500/30 blur-[90px] rounded-full" />
+        <div className="absolute bottom-10 right-1/4 w-100 sm:w-137.5 h-100 sm:h-137.5 bg-purple-500/30 dark:bg-indigo-600/30 blur-[100px] rounded-full" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#38bdf818_1px,transparent_1px),linear-gradient(to_bottom,#38bdf818_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 w-full relative z-10">
         {/* SECTION HEADER */}
         <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 border border-white/60 dark:border-white/10 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4 shadow-lg shadow-sky-500/10"
-          >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 border border-white/60 dark:border-white/10 backdrop-blur-xl text-sky-600 dark:text-[#38BDF8] text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4 shadow-lg shadow-sky-500/10">
             <Sparkles className="w-4 h-4 text-sky-500 dark:text-[#38BDF8]" />
             <span>Get In Touch</span>
-          </motion.div>
+          </div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight">
             Contact{" "}
             <span className="bg-linear-to-r from-sky-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
               &nbsp;Me
             </span>
-          </motion.h2>
+          </h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed"
-          >
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 font-normal leading-relaxed">
             Have a project in mind? Let&apos;s build something amazing together.
-          </motion.p>
+          </p>
         </div>
 
         {/* TWO COLUMN CONTAINER (Equal height on lg+ via lg:items-stretch) */}
-        <motion.div
-          variants={containerVariants}
-          custom={isDesktop}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start lg:items-stretch"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-14 items-start lg:items-stretch">
           {/* LEFT SIDE: CONTACT INFORMATION CARDS */}
-          <motion.div
-            custom={isDesktop}
-            variants={leftColumnVariants}
-            className="w-full lg:col-span-5 flex flex-col justify-between gap-6"
-          >
+          <div className="w-full lg:col-span-5 flex flex-col justify-between gap-6">
             {/* Contact Info Cards */}
             <div className="space-y-4">
               {contactInfoList.map((item) => {
-                const CardWrapper = item.link ? motion.a : motion.div;
-                const linkProps = item.link
-                  ? {
-                      href: item.link,
-                      "aria-label": `${item.title}: ${item.value}`,
-                      ...(item.link.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {}),
-                    }
-                  : {};
+                const cardClassName = `group relative p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 hover:-translate-y-1 hover:scale-[1.01] shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-300 ease-out flex items-center gap-4 ${
+                  item.link ? "active:scale-[0.99] cursor-pointer" : ""
+                }`;
 
-                return (
-                  <CardWrapper
-                    key={item.id}
-                    {...linkProps}
-                    whileHover={{ y: -4, scale: 1.01 }}
-                    whileTap={item.link ? { scale: 0.99 } : undefined}
-                    className={`group relative p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 hover:border-sky-400/60 dark:hover:border-sky-400/50 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)] hover:shadow-[0_12px_40px_0_rgb(56_189_248/0.25)] transition-all duration-500 flex items-center gap-4 ${
-                      item.link ? "cursor-pointer" : ""
-                    }`}
-                  >
+                const cardContent = (
+                  <>
                     {/* Liquid Specular Light Reflection */}
                     <div className="absolute -top-20 -left-20 w-40 h-40 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
 
@@ -291,14 +198,35 @@ export default function Contact() {
                         {item.value}
                       </p>
                     </div>
-                  </CardWrapper>
+                  </>
+                );
+
+                if (item.link) {
+                  const isExternal = item.link.startsWith("http");
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.link}
+                      aria-label={`${item.title}: ${item.value}`}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className={cardClassName}
+                    >
+                      {cardContent}
+                    </a>
+                  );
+                }
+
+                return (
+                  <div key={item.id} className={cardClassName}>
+                    {cardContent}
+                  </div>
                 );
               })}
             </div>
 
             {/* Social Links Box (Expands on lg+ to fill remaining vertical space cleanly) */}
             <div className="relative flex-1 flex flex-col justify-center p-5 sm:p-6 rounded-xl overflow-hidden backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)]">
-              {/* Liquid Specular Light Reflection */}
               <div className="absolute -top-20 -left-20 w-40 h-40 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-xl pointer-events-none" />
 
               <h3 className="relative z-10 text-sm font-bold text-slate-900 dark:text-white mb-3">
@@ -319,16 +247,11 @@ export default function Contact() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* RIGHT SIDE: CONTACT FORM */}
-          <motion.div
-            custom={isDesktop}
-            variants={rightColumnVariants}
-            className="w-full lg:col-span-7 flex"
-          >
+          <div className="w-full lg:col-span-7 flex">
             <div className="relative w-full flex flex-col justify-between rounded-xl overflow-hidden p-6 sm:p-8 md:p-10 backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/60 dark:border-white/10 shadow-[0_8px_32px_0_rgb(31_38_135/0.15)] dark:shadow-[0_8px_32px_0_rgb(0_0_0/0.5)]">
-              {/* Liquid Specular Light Reflection */}
               <div className="absolute -top-32 -left-32 w-64 h-64 bg-linear-to-br from-white/40 dark:from-sky-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10 flex-1 flex flex-col">
@@ -341,31 +264,21 @@ export default function Contact() {
 
                 {/* SUCCESS MESSAGE BANNER */}
                 {isSubmitted && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="mb-6 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-sm font-semibold flex items-center gap-2.5 backdrop-blur-md"
-                  >
+                  <div className="mb-6 p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-sm font-semibold flex items-center gap-2.5 backdrop-blur-md">
                     <CheckCircle2 className="w-5 h-5 shrink-0" />
                     <span>
                       Thank you! Your message has been sent successfully. I will
                       get back to you shortly.
                     </span>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* ERROR MESSAGE BANNER */}
                 {errorMessage && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="mb-6 p-4 rounded-xl bg-red-500/15 border border-red-500/30 text-red-600 dark:text-red-400 text-sm font-semibold flex items-center gap-2.5 backdrop-blur-md"
-                  >
+                  <div className="mb-6 p-4 rounded-xl bg-red-500/15 border border-red-500/30 text-red-600 dark:text-red-400 text-sm font-semibold flex items-center gap-2.5 backdrop-blur-md">
                     <AlertCircle className="w-5 h-5 shrink-0" />
                     <span>{errorMessage}</span>
-                  </motion.div>
+                  </div>
                 )}
 
                 <form
@@ -523,13 +436,11 @@ export default function Contact() {
 
                   {/* Submit button */}
                   <div className="pt-1">
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       type="submit"
                       disabled={isSubmitting || isSubmitted}
                       aria-label="Send Message"
-                      className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl transition-all duration-300 cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                      className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold text-sm text-slate-900 dark:text-white bg-slate-200/80 hover:bg-slate-300/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 scale-100 hover:scale-[1.03] active:scale-[0.94] border border-slate-300/70 dark:border-slate-600/80 shadow-md backdrop-blur-xl will-change-transform transition-[transform,background-color,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] touch-manipulation cursor-pointer overflow-hidden w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100"
                     >
                       <span className="pointer-events-none absolute inset-x-4 top-0 h-[1.5px] bg-linear-to-r from-transparent via-slate-400/40 dark:via-white/30 to-transparent" />
 
@@ -549,13 +460,13 @@ export default function Contact() {
                           <span>Send Message</span>
                         </>
                       )}
-                    </motion.button>
+                    </button>
                   </div>
                 </form>
               </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
